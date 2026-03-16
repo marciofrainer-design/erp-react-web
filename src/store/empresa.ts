@@ -1,4 +1,4 @@
-import type { Empresa } from "@/modules/empresa/EmpresaTypes";
+import type { Empresa } from "@/domain/empresa/EmpresaTypes";
 
 const getEmpresa = (): Empresa[] => {
     return [

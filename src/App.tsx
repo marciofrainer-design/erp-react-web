@@ -1,5 +1,5 @@
 import './App.css'
-import { AndarPage } from './modules/andar/AndarPage'
+import { AndarPage } from './domain/andar/AndarPage'
 
 function App() {
   return (

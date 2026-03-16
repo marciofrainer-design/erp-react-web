@@ -1,4 +1,4 @@
-import type { Andar } from "@/modules/andar/AndarTypes";
+import type { Andar } from "@/domain/andar/AndarTypes";
 
 const getAndar = (): Andar[] => {
     return [
