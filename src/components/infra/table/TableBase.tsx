@@ -5,7 +5,7 @@ const TableBase = <T extends object>({ columns, data }: TableProps<T>) => {
   return (
     <table className="w-full border">
 
-      <thead className="bg-gray-200">
+      <thead className="bg-grey-300">
         <tr>
           {columns.map((c) => (
             <th key={String(c.field)} className={`text-left p-2 border ${c.width || ''}`}>
@@ -17,7 +17,7 @@ const TableBase = <T extends object>({ columns, data }: TableProps<T>) => {
 
       <tbody>
         {data.map((row, i) => (
-          <tr key={i} className="hover:bg-gray-100">
+          <tr key={i} className="hover:bg-gray-200">
 
             {columns.map((c) => (
               <td key={String(c.field)} className={`p-2 border ${c.width || ''}`}>

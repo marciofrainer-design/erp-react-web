@@ -13,7 +13,7 @@ export function CrudPageTemplate({
 
       {/* Header */}
       <div className="bg-white border-b px-4 py-2 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold">{title}</h1>
+        <h1 className="text-sky-800 text-3xl font-semibold">{title}</h1>
       </div>
 
       {/* Company Select */}
