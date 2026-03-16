@@ -1,6 +1,6 @@
-import type { PersistentEntity } from "@/comum/types";
+import type { ModelBase } from "@/comum/types";
 
-type Empresa = PersistentEntity & {
+type Empresa = ModelBase & {
     idempresa: number
     fltipo: number
     idempresamatriz?: number

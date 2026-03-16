@@ -1,10 +1,10 @@
-import type { Column, PersistentEntity } from "@/comum/types";
+import type { Column, ModelBase } from "@/comum/types";
 import { WIDTH_INTEGER_COLUMN, 
          WIDTH_STRING_COLUMN, 
          WIDTH_BOOLEAN_COLUMN, 
          WIDTH_SHORTSTRING_COLUMN } from "@/components/consts/ColumnConsts";
 
-type Andar = PersistentEntity & {
+type Andar = ModelBase & {
     idandar: number;
     idempresa: number;
     nmempresa: string;

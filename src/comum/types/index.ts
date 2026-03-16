@@ -4,8 +4,8 @@ type Column<T> = {
   width?: string
 }
 
-type PersistentEntity = {
+type ModelBase = {
   id: number
 }
 
-export type { Column, PersistentEntity }
+export type { Column, ModelBase }
