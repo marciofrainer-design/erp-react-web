@@ -1,15 +1,8 @@
-import React from "react"
-
-type CrudPageTemplateProps = {
-  title: string
-  search?: React.ReactNode
-  table: React.ReactNode
-  footer?: React.ReactNode
-  actions?: React.ReactNode
-}
+import type { CrudPageTemplateProps } from "./CrudTypes"
 
 export function CrudPageTemplate({
   title,
+  company,
   search,
   table,
   footer,
@@ -20,8 +13,15 @@ export function CrudPageTemplate({
 
       {/* Header */}
       <div className="bg-white border-b px-4 py-2 flex items-center justify-between">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-3xl font-semibold">{title}</h1>
       </div>
+
+      {/* Company Select */}
+      {company && (
+       <div className="bg-white border-b px-4 py-2 flex items-center justify-between">
+        {company} 
+        </div>
+      )}
 
       {/* Search */}
       {search && (

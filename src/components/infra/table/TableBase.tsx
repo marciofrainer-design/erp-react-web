@@ -3,12 +3,12 @@ import type { TableProps } from "./TableTypes";
 const TableBase = <T extends object>({ columns, data }: TableProps<T>) => {
 
   return (
-    <table className="w-full border text-sm">
+    <table className="w-full border">
 
       <thead className="bg-gray-200">
         <tr>
           {columns.map((c) => (
-            <th key={String(c.field)} className="text-left p-2 border">
+            <th key={String(c.field)} className={`text-left p-2 border ${c.width || ''}`}>
               {c.label}
             </th>
           ))}
@@ -20,7 +20,7 @@ const TableBase = <T extends object>({ columns, data }: TableProps<T>) => {
           <tr key={i} className="hover:bg-gray-100">
 
             {columns.map((c) => (
-              <td key={String(c.field)} className="p-2 border">
+              <td key={String(c.field)} className={`p-2 border ${c.width || ''}`}>
                 {String(row[c.field])}
               </td>
             ))}

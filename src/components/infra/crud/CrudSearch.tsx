@@ -1,3 +1,5 @@
+import { ButtonBase } from "../button/ButtonBase"
+
 type Props = {
   value: string
   onChange: (v: string) => void
@@ -15,12 +17,11 @@ export function CrudSearch({ value, onChange, onSearch }: Props) {
         onChange={(e) => onChange(e.target.value)}
       />
 
-      <button
+      <ButtonBase
         onClick={onSearch}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
       >
         Pesquisar
-      </button>
+      </ButtonBase>
 
     </div>
   )

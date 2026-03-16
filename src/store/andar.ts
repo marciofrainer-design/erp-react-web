@@ -3,6 +3,7 @@ import type { Andar } from "@/modules/andar/AndarTypes";
 const getAndar = (): Andar[] => {
     return [
         {
+            id: 0,
             idandar: 1,
             idempresa: 1,
             cdandar: "PRI",
@@ -11,66 +12,74 @@ const getAndar = (): Andar[] => {
             nmempresa: "Teste",
         },
         {
+            id: 0,
             idandar: 5,
-            idempresa: 3,
-            cdandar: "01",
-            nmandar: "01",
-            isativo: 1,
-            nmempresa: "Teste",
-        },
-        {
-            idandar: 6,
-            idempresa: 3,
-            cdandar: "02",
-            nmandar: "02",
-            isativo: 1,
-            nmempresa: "Teste"
-        },
-        {
-            idandar: 8,
             idempresa: 1,
             cdandar: "SEG",
             nmandar: "2 - SEGUNDO",
             isativo: 1,
-            nmempresa: "Teste"
+            nmempresa: "Teste",
         },
         {
-            idandar: 10,
+            id: 0,
+            idandar: 6,
             idempresa: 1,
             cdandar: "TER",
-            nmandar: "0 - TERREO",
+            nmandar: "3 - TERCEIRO",
             isativo: 1,
             nmempresa: "Teste"
         },
         {
+            id: 0,
+            idandar: 8,
+            idempresa: 1,
+            cdandar: "QUA",
+            nmandar: "4 - QUARTO",
+            isativo: 1,
+            nmempresa: "Teste"
+        },
+        {
+            id: 0,
+            idandar: 10,
+            idempresa: 1,
+            cdandar: "QUI",
+            nmandar: "5 - QUINTO",
+            isativo: 1,
+            nmempresa: "Teste"
+        },
+        {
+            id: 0,
             idandar: 3,
-            idempresa: 2,
-            cdandar: "00",
-            nmandar: "00",
+            idempresa: 1,
+            cdandar: "SEX",
+            nmandar: "6 - SEXTO",
             isativo: 1,
             nmempresa: "Teste"
         },
         {
+            id: 0,
             idandar: 2,
-            idempresa: 2,
-            cdandar: "01",
-            nmandar: "01",
+            idempresa: 1,
+            cdandar: "SET",
+            nmandar: "7 - SETIMO",
             isativo: 1,
             nmempresa: "Teste"
         },
         {
+            id: 0,
             idandar: 4,
             idempresa: 2,
-            cdandar: "02",
-            nmandar: "02",
+            cdandar: "OIT",
+            nmandar: "8 - OITAVO",
             isativo: 1,
             nmempresa: "Teste"
         },
         {
+            id: 0,
             idandar: 11,
             idempresa: 3,
-            cdandar: "11",
-            nmandar: "TESTE",
+            cdandar: "NON",
+            nmandar: "9 - NONO",
             isativo: 1,
             nmempresa: "Teste"
         }

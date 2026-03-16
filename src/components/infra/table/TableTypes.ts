@@ -1,6 +1,6 @@
 import type { Column } from "@/comum/types"
 
-type TableProps<T> = {
+type TableProps<T extends object> = {
   columns: Column<T>[]
   data: T[]
 }
