@@ -27,7 +27,9 @@
       "@/components/*": ["./src/components/*"],
       "@core/*": ["./src/core/*"],
       "@modules/*": ["./src/modules/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@comum/*": ["./src/comum/*"],
+      "@store/*": ["./src/store/*"] 
     }
   },
   "include": ["src"]
