@@ -1,10 +1,10 @@
-import type { Column, ModelBase } from "@/comum/types";
+import type { Column, ModelBase } from "@/shared/types";
 import { WIDTH_INTEGER_COLUMN, 
          WIDTH_STRING_COLUMN, 
          WIDTH_BOOLEAN_COLUMN, 
-         WIDTH_SHORTSTRING_COLUMN } from "@/components/consts/ColumnConsts";
+         WIDTH_SHORTSTRING_COLUMN } from "@/shared/consts";
 
-type Andar = ModelBase & {
+type AndarModel = ModelBase & {
     idandar: number;
     idempresa: number;
     nmempresa: string;
@@ -13,7 +13,7 @@ type Andar = ModelBase & {
     isativo: number;
 }
 
-const AndarColumns: Column<Andar>[] = [
+const AndarColumns: Column<AndarModel>[] = [
     { label: "Chave", field: "idandar", width: WIDTH_INTEGER_COLUMN},
     { label: "Nome", field: "nmandar", width: WIDTH_STRING_COLUMN },
     { label: "Sit.", field: "isativo", width: WIDTH_BOOLEAN_COLUMN },
@@ -22,4 +22,4 @@ const AndarColumns: Column<Andar>[] = [
 ];
 
 export { AndarColumns };
-export type { Andar };
+export type { AndarModel };

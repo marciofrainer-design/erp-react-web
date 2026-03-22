@@ -24,9 +24,11 @@
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
+      "@/app/*": ["./src/app/*"],
       "@assets/*": ["./src/assets/*"],
-      "@comum/*": ["./src/comum/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@infra/*": ["./src/infra/*"],
       "@store/*": ["./src/store/*"] 
     }
   },

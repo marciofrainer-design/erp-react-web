@@ -1,9 +1,9 @@
-import type { CrudPageProps } from "./CrudTypes"
+import type { CrudPageProps } from "./types"
 import { CrudPageTemplate } from "./CrudPageTemplate"
 import { CrudSearch } from "./CrudSearch"
 import { CrudTable } from "./CrudTable"
 import { CrudToolbar } from "./CrudToolbar"
-import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa"
+import SelectEmpresa from "@/shared/ui/domain/selectEmpresa/SelectEmpresa"
 import { getEmpresa } from "@/store/empresa"
 
 function CrudPage<T extends object>({title, tableColumns, tableData}: CrudPageProps<T>) {

@@ -1,4 +1,4 @@
-import type { ModelBase } from "@/comum/types";
+import type { ModelBase } from "@/shared/types";
 
 type Empresa = ModelBase & {
     idempresa: number

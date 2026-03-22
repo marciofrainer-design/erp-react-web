@@ -1,4 +1,4 @@
-import type { Column } from "@/comum/types"
+import type { Column } from "@/shared/types"
 
 type TableProps<T extends object> = {
   columns: Column<T>[]

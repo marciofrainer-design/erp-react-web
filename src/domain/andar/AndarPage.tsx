@@ -1,6 +1,6 @@
 import { getAndar } from "@/store/andar"
-import { AndarColumns } from "@/domain/andar/AndarTypes"
-import { CrudPage } from "@/components/infra/crud/CrudPage"
+import { AndarColumns } from "@/domain/andar/types"
+import { CrudPage } from "@/shared/ui/crud/CrudPage"
 
 export function AndarPage() {
 
