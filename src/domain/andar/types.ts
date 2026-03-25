@@ -1,9 +1,9 @@
 import type { Column, ModelBase } from "@/shared/types";
+import { FieldType } from "@/shared/types";
 import { WIDTH_INTEGER_COLUMN, 
          WIDTH_STRING_COLUMN, 
          WIDTH_BOOLEAN_COLUMN, 
          WIDTH_SHORTSTRING_COLUMN } from "@/shared/consts";
-import { FieldType } from "@/shared/types";         
 
 type Andar = ModelBase & {
     idandar: number;

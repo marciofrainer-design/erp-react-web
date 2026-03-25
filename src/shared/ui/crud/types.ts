@@ -5,6 +5,7 @@ type CrudPageTemplateProps = {
   company?: React.ReactNode
   search?: React.ReactNode
   table: React.ReactNode
+  registerForm?: React.ReactNode
   footer?: React.ReactNode
   actions?: React.ReactNode
 }

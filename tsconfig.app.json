@@ -25,11 +25,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/app/*": ["./src/app/*"],
+      "@pages/*": ["./src/pages/*"],
       "@assets/*": ["./src/assets/*"],
       "@shared/*": ["./src/shared/*"],
       "@domain/*": ["./src/domain/*"],
-      "@infra/*": ["./src/infra/*"],
-      "@store/*": ["./src/store/*"] 
+      "@infra/*": ["./src/infra/*"] 
     }
   },
   "include": ["src"]

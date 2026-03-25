@@ -7,6 +7,13 @@ const FieldType = {
 
 type FieldType = typeof FieldType[keyof typeof FieldType]
 
+const RegisterType = {
+  CREATE: "create",
+  UPDATE: "update"
+} as const;
+
+type RegisterType = typeof RegisterType[keyof typeof RegisterType]
+
 type Column<T> = {
   label: string
   field: keyof T
@@ -19,4 +26,4 @@ type ModelBase = {
 }
 
 export type { Column, ModelBase }
-export { FieldType}
+export { FieldType, RegisterType }

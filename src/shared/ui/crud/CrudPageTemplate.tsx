@@ -8,8 +8,10 @@ export function CrudPageTemplate({
   footer,
   actions
 }: CrudPageTemplateProps) {
+  // const [registerState, setRegisterState] = React.useState<RegisterType>(RegisterType.CREATE);
+
   return (
-    <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 flex-none shadow-md">
+    <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 shadow-md flex flex-col gap-4 h-182 mx-auto max-w-4xl">
 
       {/* Header */}
       <div className="border-b px-4 py-2 flex items-center justify-between">
@@ -37,14 +39,14 @@ export function CrudPageTemplate({
 
       {/* Footer */}
       {footer && (
-        <div className="border-t  p-2">
+        <div className="border-t p-2">
           {footer}
         </div>
       )}
 
       {/* Actions */}
       {actions && (
-        <div className="border-t  p-3">
+        <div className="border-t p-3">
           {actions}
         </div>
       )}

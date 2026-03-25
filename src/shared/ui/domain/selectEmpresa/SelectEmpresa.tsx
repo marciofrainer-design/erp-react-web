@@ -42,7 +42,7 @@ const SelectEmpresa = () => {
       <label className="text-xs font-semibold text-slate-200">
         Estabelecimento
       </label>
-      <select className="text-sm bg-slate-800 border-slate-700 text-slate-200 rounded shadow-sm focus:ring-slate-600 focus:border-slate-600 min-w-250 py-1 px-2">
+      <select className="text-sm bg-slate-800 border-slate-700 text-slate-200 rounded shadow-sm focus:ring-slate-600 focus:border-slate-600 w-full py-1 px-2">
         {empresaData &&
           empresaData.map((e) => (
             <option key={e.idempresa} value={e.idempresa} className="bg-slate-800 text-slate-200">
