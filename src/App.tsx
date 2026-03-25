@@ -1,12 +1,13 @@
-import './App.css'
-import { AndarPage } from './domain/andar/AndarPage'
+import { AndarDependenciesFactory } from "./domain/andar/AndarDependenciesFactory";
+import { AndarPage } from "./domain/andar/pages/AndarPage";
 
 function App() {
+  const andarDeps = AndarDependenciesFactory.create();
   return (
     <div className="flex flex-col h-screen font-sans text-slate-300">
-      <AndarPage />
+      <AndarPage dependencies={andarDeps} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

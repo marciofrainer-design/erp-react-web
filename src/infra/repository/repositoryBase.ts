@@ -1,6 +1,6 @@
 import { DataSnapAdapter } from "../api/service";
 
-export abstract class BaseRepository<T> {
+export abstract class RepositoryBase<T> {
   protected api: DataSnapAdapter;
   protected controller: string;
 
@@ -13,18 +13,18 @@ export abstract class BaseRepository<T> {
   }
 
   getAll(): Promise<T[]> {
-    return this.api.call<T[]>(this.controller, 'GetAll');
+    return this.api.get<T[]>(this.controller, 'GetAll');
   }
 
   getById(id: number): Promise<T> {
-    return this.api.call<T>(this.controller, 'GetById', { id });
+    return this.api.get<T>(this.controller, 'GetById', { id });
   }
 
   save(data: T): Promise<void> {
-    return this.api.call<void>(this.controller, 'Save', data);
+    return this.api.post<void>(this.controller, 'Save', data);
   }
 
   delete(id: number): Promise<void> {
-    return this.api.call<void>(this.controller, 'Delete', { id });
+    return this.api.delete<void>(this.controller, 'Delete', { id });
   }
 }

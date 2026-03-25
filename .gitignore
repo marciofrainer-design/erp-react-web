@@ -18,6 +18,11 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
+
+# Test coverage
+coverage
+*.lcov
+.nyc_output
 *.ntvs*
 *.njsproj
 *.sln

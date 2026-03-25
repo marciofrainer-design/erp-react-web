@@ -1,25 +1,55 @@
 // datasnap.adapter.ts
-import { apiClient } from './client';
+import type { ApiAdapter, ApiCallOptions } from "../interface";
+import { apiClient } from "./client";
 
-export class DataSnapAdapter {
-  async call<T>(
-    controller: string,
-    method: string,
-    params?: unknown
-  ): Promise<T> {
-    const url = `/${controller}/${method}`;
+export class DataSnapAdapter implements ApiAdapter {
+  get<T>(controller: string, method: string, params?: unknown): Promise<T> {
+    return this.call<T>({ controller, method, params, verb: "GET" });
+  }
+
+  post<T>(controller: string, method: string, body: unknown): Promise<T> {
+    return this.call<T>({ controller, method, body, verb: "POST" });
+  }
+
+  put<T>(controller: string, method: string, body: unknown): Promise<T> {
+    return this.call<T>({ controller, method, body, verb: "PUT" });
+  }
+
+  delete<T>(controller: string, method: string, params?: unknown): Promise<T> {
+    return this.call<T>({ controller, method, params, verb: "DELETE" });
+  }
+  async call<T>(options: ApiCallOptions): Promise<T> {
+    const serverUrl = import.meta.env.VITE_DATASNAP_URL || "http://localhost:3000";
+    const url = `${serverUrl}/${options.controller}/${options.method}`;
 
     try {
-      const isGet = !params;
+      let response;
+      switch (options?.verb) {
+        case "POST":
+          response = await apiClient.post(url, options.body);
+          break;
+        case "PUT":
+          response = await apiClient.put(url, options.body);
+          break;
+        case "DELETE":
+          response = await apiClient.delete(url, { data: options.params });
+          break;
+        case "PATCH":
+          response = await apiClient.patch(url, options.body, {
+            params: options.params,
+          });
+          break;
+        default:
+          response = await apiClient.get(url, { params: options.params });
+          break;
+      }
 
-      const response = isGet
-        ? await apiClient.get<T>(url)
-        : await apiClient.post<T>(url, params);
-
-      return response.data;
+      return response.data as T;
     } catch (error: unknown) {
-      // ponto único de log
-      console.error(`[DataSnap] ${controller}.${method}`, error);
+      console.error(
+        `[DataSnap] ${options.controller}.${options.method} - Error:`,
+        error,
+      );
 
       throw error;
     }

@@ -1,6 +1,6 @@
-import type { AndarModel } from "@/domain/andar/types";
+import type { Andar } from "@/domain/andar/types";
 
-const getAndar = (): AndarModel[] => {
+const getAndar = (): Andar[] => {
     return [
         {
             id: 0,
