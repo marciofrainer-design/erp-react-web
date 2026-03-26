@@ -39,13 +39,18 @@ const SelectEmpresa = () => {
     
   return (
     <div className="flex flex-row w-full gap-4 items-center">
-      <label className="text-xs font-semibold text-slate-200">
+      <label className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
         Estabelecimento
       </label>
-      <select className="text-sm bg-slate-800 border-slate-700 text-slate-200 rounded shadow-sm focus:ring-slate-600 focus:border-slate-600 w-full py-1 px-2">
+      <select className="text-sm rounded shadow-sm w-full py-1 px-2 outline-none"
+        style={{
+          backgroundColor: 'var(--color-select-bg)',
+          color: 'var(--color-select-text)',
+          border: '1px solid var(--color-select-border)',
+        }}>
         {empresaData &&
           empresaData.map((e) => (
-            <option key={e.idempresa} value={e.idempresa} className="bg-slate-800 text-slate-200">
+            <option key={e.idempresa} value={e.idempresa}>
               {e.nmfantasia}
             </option>
           ))}

@@ -1,56 +1,80 @@
-import type { CrudPageTemplateProps } from "./types"
+import type { CrudPageTemplateProps } from "./types";
 
 export function CrudPageTemplate({
   title,
   company,
   search,
   table,
+  register,
   footer,
-  actions
+  actions,
+  showTable = true,
 }: CrudPageTemplateProps) {
-  // const [registerState, setRegisterState] = React.useState<RegisterType>(RegisterType.CREATE);
-
   return (
-    <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 shadow-md flex flex-col gap-4 h-182 mx-auto max-w-4xl">
-
+    <div
+      className="px-6 py-3 shadow-md flex flex-col gap-4 h-182 mx-auto max-w-4xl rounded-lg"
+      style={{
+        backgroundColor: "var(--color-bg-secondary)",
+        borderBottom: "1px solid var(--color-border-primary)",
+      }}
+    >
       {/* Header */}
-      <div className="border-b px-4 py-2 flex items-center justify-between">
-        <h1 className="text-slate-300 text-3xl font-semibold">{title}</h1>
+      <div
+        className="px-4 py-2 flex items-center justify-between"
+        style={{ borderBottom: "1px solid var(--color-border-primary)" }}
+      >
+        <h1
+          className="text-3xl font-semibold"
+          style={{ color: "var(--color-text-secondary)" }}
+        >
+          {title}
+        </h1>
       </div>
 
       {/* Company Select */}
       {company && (
-       <div className="border-b px-4 py-2 flex items-center justify-between">
-        {company} 
+        <div
+          className="px-4 py-2 flex items-center justify-between"
+          style={{ borderBottom: "1px solid var(--color-border-primary)" }}
+        >
+          {company}
         </div>
       )}
 
       {/* Search */}
       {search && (
-        <div className="border-b p-3">
+        <div
+          className="p-3"
+          style={{ borderBottom: "1px solid var(--color-border-primary)" }}
+        >
           {search}
         </div>
       )}
 
-      {/* Table */}
+      {/* Main Content */}
       <div className="flex-1 overflow-auto p-3">
-        {table}
+        {showTable ? table : register}
       </div>
 
       {/* Footer */}
       {footer && (
-        <div className="border-t p-2">
+        <div
+          className="p-2"
+          style={{ borderTop: "1px solid var(--color-border-primary)" }}
+        >
           {footer}
         </div>
       )}
 
       {/* Actions */}
       {actions && (
-        <div className="border-t p-3">
+        <div
+          className="p-3"
+          style={{ borderTop: "1px solid var(--color-border-primary)" }}
+        >
           {actions}
         </div>
       )}
-
     </div>
-  )
+  );
 }

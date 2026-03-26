@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Light Mode (default) */
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+  
+  --color-button-bg: #3b82f6;
+  --color-button-bg-hover: #2563eb;
+  --color-button-text: #ffffff;
+  
+  --color-input-bg: #ffffff;
+  --color-input-border: #d1d5db;
+  --color-input-text: #111827;
+  --color-input-placeholder: #9ca3af;
+  
+  --color-table-header-bg: #f3f4f6;
+  --color-table-row-bg: #f9fafb;
+  --color-table-row-hover-bg: #f3f4f6;
+  --color-table-text: #111827;
+  --color-table-border: #e5e7eb;
+  
+  --color-select-bg: #ffffff;
+  --color-select-border: #d1d5db;
+  --color-select-text: #111827;
+}
+
+/* Dark Mode */
+html.dark {
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  
+  --color-border-primary: #1e293b;
+  --color-border-secondary: #0f172a;
+  
+  --color-button-bg: #64748b;
+  --color-button-bg-hover: #475569;
+  --color-button-text: #ffffff;
+  
+  --color-input-bg: #1e293b;
+  --color-input-border: #475569;
+  --color-input-text: #f1f5f9;
+  --color-input-placeholder: #64748b;
+  
+  --color-table-header-bg: #1e293b;
+  --color-table-row-bg: rgba(15, 23, 42, 0.3);
+  --color-table-row-hover-bg: rgba(15, 23, 42, 0.5);
+  --color-table-text: #cbd5e1;
+  --color-table-border: #1e293b;
+  
+  --color-select-bg: #1e293b;
+  --color-select-border: #475569;
+  --color-select-text: #f1f5f9;
+}
