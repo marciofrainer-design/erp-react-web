@@ -1,5 +1,5 @@
 import { AndarColumns, type Andar } from "@/domain/andar/types"
-import { CrudPage } from "@/shared/ui/crud/CrudPage"
+import { CrudPage } from "@/components/crud/CrudPage"
 import { AndarDependenciesFactory, type AndarDependencies } from "@/domain/andar/AndarDependenciesFactory"
 import { useEffect, useState } from "react"
 

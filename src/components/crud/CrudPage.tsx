@@ -4,7 +4,7 @@ import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
-import SelectEmpresa from "@/shared/ui/domain/selectEmpresa/SelectEmpresa";
+import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
 
 type CrudMode = "table" | "view" | "new" | "clone";
 

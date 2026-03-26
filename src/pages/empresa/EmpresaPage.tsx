@@ -1,5 +1,5 @@
 import { EmpresaColumns, type Empresa } from '@/domain/empresa/types';
-import { CrudPage } from '@/shared/ui/crud/CrudPage';
+import { CrudPage } from '@/components/crud/CrudPage';
 import { EmpresaDependenciesFactory, type EmpresaDependencies } from '@/domain/empresa/EmpresaDependenciesFactory';
 import { useEffect, useState } from 'react';
 
