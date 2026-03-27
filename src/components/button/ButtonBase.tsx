@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button";
-
-type ButtonBaseProps = {
-  children: React.ReactNode;
-  disabled?: boolean;
-  onClick?: () => void;
-};
+import type { ButtonBaseProps } from "./types";
 
 const ButtonBase = ({ children, disabled, onClick }: ButtonBaseProps) => {
   return (

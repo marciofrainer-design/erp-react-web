@@ -1,9 +1,7 @@
 import { type AndarDependencies } from "@/domain/andar/AndarDependenciesFactory";
 import { FileText, Link, Monitor, Calendar, Settings } from "lucide-react";
 import { AndarPage } from "@/pages/andar/AndarPage";
-import { EmpresaPage } from "@/pages/empresa/EmpresaPage";
 import { ToolPlaceholder } from "./ToolPlaceholder";
-import type { EmpresaDependencies } from "@/domain/empresa/EmpresaDependenciesFactory";
 
 export type ToolKey = "app45" | "reservas" | "config" | "relatorios" | "integracoes";
 
@@ -35,20 +33,17 @@ export function formLabels(value: FormOption) {
 type GetToolComponentParams = {
   tool: ToolKey;
   andarDeps: AndarDependencies;
-  empresaDeps: EmpresaDependencies;
   selectedForm: FormOption;
 };
 export function getToolComponent(
     params: GetToolComponentParams
 ) {
-  const { tool, andarDeps, empresaDeps, selectedForm } = params;
+  const { tool, andarDeps, selectedForm } = params;
 
   if (tool === "app45") {
     switch (selectedForm) {
       case "andar":
         return <AndarPage dependencies={andarDeps} />;
-      case "empresa":
-        return <EmpresaPage dependencies={empresaDeps}/>;
       default:
         return <AndarPage dependencies={andarDeps} />;
     }

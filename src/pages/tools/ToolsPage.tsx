@@ -1,24 +1,31 @@
 import { useMemo, useState, useCallback } from "react";
-import { AndarDependenciesFactory } from "@/domain/andar/AndarDependenciesFactory";
 import { getToolComponent, type ToolKey, type FormOption } from "./toolConfig";
 import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
-import { EmpresaDependenciesFactory } from "@/domain/empresa/EmpresaDependenciesFactory";
+import { DependenciesFactoryBase } from "@/infra/factories/dependenciesFactory";
+import { DataSnapAdapter } from "@/infra/api/service";
+import { AndarRepository } from "@/domain/andar/AndarRepository";
 
 export function ToolsPage() {
   const [selectedTool, setSelectedTool] = useState<ToolKey>("app45");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const andarDeps = useMemo(() => AndarDependenciesFactory.create(), []);
-  const empresaDeps = useMemo(() => EmpresaDependenciesFactory.create(), []); 
+  const adapter = useMemo(() => new DataSnapAdapter(), []);
+
+  const andarDeps = useMemo(() => {
+    return new DependenciesFactoryBase(
+      adapter,
+      new AndarRepository(adapter),
+    );
+  }, [adapter]);
 
   const renderedComponent = useMemo(() => {
-    const params = { tool: selectedTool, andarDeps, empresaDeps, selectedForm };
+    const params = { tool: selectedTool, andarDeps, selectedForm };
     return getToolComponent(params);
-  }, [selectedTool, andarDeps, empresaDeps, selectedForm]);
+  }, [selectedTool, andarDeps, selectedForm]);
 
   const handleSelectForm = useCallback((value: FormOption) => {
     setSelectedForm(value);
@@ -45,13 +52,19 @@ export function ToolsPage() {
       />
 
       <div className="max-w-7xl mx-auto p-4">
-        <div className="flex items-center justify-between mb-6">
+        <div
+          className="flex items-center justify-between mb-6 border border-indigo-300 rounded-lg p-3"
+          style={{ backgroundColor: "var(--color-bg-secondary)" }}
+        >
           <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
-          <h1 className="text-3xl font-bold">Centro de Ferramentas</h1>
-          <ToolButtonToggleTheme/>
+          <h1 className="text-3xl font-bold">Desbravador Software</h1>
+          <ToolButtonToggleTheme />
         </div>
 
-        <div className="grid grid-cols-12 gap-4" style={{ minHeight: "78vh" }}>
+        <div
+          className="grid grid-cols-12 gap-4 border border-indigo-300 rounded-lg"
+          style={{ minHeight: "78vh" }}
+        >
           <main
             className="col-span-12 rounded-lg p-2"
             style={{

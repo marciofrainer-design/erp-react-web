@@ -1,18 +1,19 @@
 import type { TableProps } from "./types";
 import { Check, CircleX } from "lucide-react";
 import { FieldType } from "@/shared/types";
+import { Table, TableBody, TableCell, TableHead, TableRow, TableHeader  } from "../ui/table";
 
 const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick }: TableProps<T>) => {
   return (
     <div className="flex-1 overflow-auto custom-scrollbar">
-      <table className="w-full text-sm text-left border-collapse" id="table-base">
-        <thead
+      <Table className="w-full text-sm text-left border-collapse" id="table-base">
+        <TableHeader
           className="sticky top-0 shadow-[inset_0_-1px_0_rgba(255,255,255,0.05)] z-10"
           style={{ backgroundColor: "var(--color-table-header-bg)" }}
         >
-          <tr>
+          <TableRow>
             {columns.map((c) => (
-              <th
+              <TableHead
                 key={String(c.field)}
                 className={`text-left px-6 py-3 font-semibold ${c.width || ""}`}
                 style={{
@@ -21,16 +22,16 @@ const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick 
                 }}
               >
                 {c.label}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
+          </TableRow>
+        </TableHeader>
 
-        <tbody>
+        <TableBody>
           {data.map((row, i) => {
             const isSelected = i === selectedIndex;
             return (
-              <tr
+              <TableRow
                 key={i}
                 className="cursor-pointer transition-colors group"
                 style={{
@@ -46,7 +47,7 @@ const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick 
                 }}
               >
                 {columns.map((c) => (
-                  <td
+                  <TableCell
                     key={String(c.field)}
                     className={`px-6 py-2.5 font-medium ${c.width || ""}`}
                     style={{ color: "var(--color-table-text)" }}
@@ -60,13 +61,13 @@ const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick 
                     ) : (
                       String(row[c.field])
                     )}
-                  </td>
+                  </TableCell>
                 ))}
-              </tr>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };

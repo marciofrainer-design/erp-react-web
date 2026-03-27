@@ -1,11 +1,11 @@
-import { DataSnapAdapter } from "../api/service";
+import type { ApiAdapter, Repository } from "../interface";
 
-export abstract class RepositoryBase<T> {
-  protected api: DataSnapAdapter;
+export class RepositoryBase<T> implements Repository<T> {
+  protected api: ApiAdapter;
   protected controller: string;
 
   constructor(
-    api: DataSnapAdapter,
+    api: ApiAdapter,
     controller: string
   ) {
     this.api = api;

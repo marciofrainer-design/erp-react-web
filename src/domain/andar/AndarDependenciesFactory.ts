@@ -1,39 +1,16 @@
-import { DataSnapAdapter } from '@/infra/api/service';
-import { AndarRepository } from '@/domain/andar/AndarRepository';
+import { DataSnapAdapter } from "@/infra/api/service";
+import { AndarRepository } from "./AndarRepository";
+import type { Repository } from "@/infra/interface";
+import type { Andar } from "./types";
 
-export interface AndarDependencies {
-  andarRepository: AndarRepository;
-}
+export type AndarDependencies = {
+  andarRepository: Repository<Andar>;
+};
 
 export class AndarDependenciesFactory {
   static create(): AndarDependencies {
-    const apiAdapter = new DataSnapAdapter();
-    const andarRepository = new AndarRepository(apiAdapter);
-
-    return {
-      andarRepository,
-    };
-  }
-
-  static createForTesting(overrides: Partial<AndarDependencies> = {}): AndarDependencies {
-    const defaultDeps = AndarDependenciesFactory.create();
-    return {
-      ...defaultDeps,
-      ...overrides,
-    };
-  }
-
-  static createWithAdapter(apiAdapter: DataSnapAdapter): AndarDependencies {
-    const andarRepository = new AndarRepository(apiAdapter);
-
-    return {
-      andarRepository,
-    };
-  }
-
-  static createWithRepository(andarRepository: AndarRepository): AndarDependencies {
-    return {
-      andarRepository,
-    };
+    const api = new DataSnapAdapter();
+    const andarRepository = new AndarRepository(api);
+    return { andarRepository };
   }
 }

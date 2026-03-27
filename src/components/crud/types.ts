@@ -12,10 +12,27 @@ type CrudPageTemplateProps = {
 }
 
 type CrudPageProps<T extends object> = {
-    title: string
-    tableColumns: Column<T>[]
-    tableData: T[]
-    register?: React.ReactNode
+  title: string
+  tableColumns: Column<T>[]
+  tableData: T[]
+  register?: React.ReactNode
 }
 
-export type { CrudPageTemplateProps, CrudPageProps };
+export type CrudRepository<T> = {
+  getAll: () => Promise<T[]>
+  save: (item: T) => Promise<void>
+  delete?: (id: number | string) => Promise<void>
+}
+
+export type CrudRegisterDependencies<T> = {
+  repository: CrudRepository<T>
+}
+
+type CrudRegisterProps<T extends object> = {
+  children: React.ReactNode
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onCancel?: () => void
+  dependencies?: CrudRegisterDependencies<T>
+}
+
+export type { CrudPageTemplateProps, CrudPageProps, CrudRegisterProps };

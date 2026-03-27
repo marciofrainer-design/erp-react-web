@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from "react";
-import type { CrudPageProps } from "./types";
+import type { CrudPageProps } from "@/components/crud/types";
 import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
@@ -63,10 +63,12 @@ function CrudPage<T extends object>({
     setMode("table");
   }, []);
 
+  const showTable = mode === "table";
+
+  const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
+
   return (
     <>
-      {" "}
-      <div>{JSON.stringify(formData)}</div>
       <CrudPageTemplate
         title={title}
         company={<SelectEmpresa />}
@@ -80,6 +82,7 @@ function CrudPage<T extends object>({
           />
         }
         register={register}
+        showTable={showTable}
         actions={
           <CrudToolbar
             onView={handleView}
@@ -92,6 +95,9 @@ function CrudPage<T extends object>({
           />
         }
       />
+      <div className="sr-only" aria-hidden="true">
+        {hiddenFormData}
+      </div>
     </>
   );
 }
