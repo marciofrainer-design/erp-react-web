@@ -1,4 +1,6 @@
-import { formLabels, formOptions, type FormOption } from "./toolConfig";
+import { formOptions } from "./consts";
+import { formLabels } from "./toolConfig";
+import type { FormOption } from "./types";
 
 type ToolFormSelectProps = {
   selectedForm: FormOption;

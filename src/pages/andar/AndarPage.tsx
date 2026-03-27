@@ -3,7 +3,7 @@ import type { Andar } from "@/domain/andar/types";
 import { AndarColumns } from "@/domain/andar/types";
 import { CrudPage } from "@/components/crud/CrudPage";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
-import type { AndarDependencies } from "@/domain/andar/AndarDependenciesFactory";
+import type { AndarDependencies } from "@/domain/andar/types";
 
 type AndarPageProps = {
   dependencies: AndarDependencies;

@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
-import { toolIcons, toolLabels, type ToolKey } from "./toolConfig";
+import { toolIcons, toolLabels } from "./consts";
+import type { ToolKey } from "./types";
 
 type ToolMenuModalProps = {
   isOpen: boolean;

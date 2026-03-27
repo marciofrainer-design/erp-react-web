@@ -1,5 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
-import { getToolComponent, type ToolKey, type FormOption } from "./toolConfig";
+import { getToolComponent } from "./toolConfig";
+import type { FormOption, ToolKey } from "./types";
 import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";

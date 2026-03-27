@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import type { Andar } from "../../domain/andar/types";
 import CrudRegister from "@/components/crud/CrudRegister";
 import type { CrudRegisterDependencies } from "@/components/crud/types";
-import type { AndarDependencies } from "@/domain/andar/AndarDependenciesFactory";
+import type { AndarDependencies } from "@/domain/andar/types";
 import { InputStringBase } from "@/components/inputs/string/InputStringBase";
 
 type AndarRegisterProps = {
