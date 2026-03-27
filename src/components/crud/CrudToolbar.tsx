@@ -1,45 +1,72 @@
 import { ButtonBase } from "../button/ButtonBase";
-import { CircleX, Printer, Trash2, Copy, CirclePlus, Eye } from 'lucide-react'
+import {
+  CircleX,
+  Printer,
+  Trash2,
+  Copy,
+  CirclePlus,
+  Eye,
+  Info,
+} from "lucide-react";
+import type { CrudToolbarProps } from "./types";
 
-type CrudToolbarProps = {
-  onView: () => void
-  onNew: () => void
-  onClone: () => void
-  onDelete: () => void
-  onPrint: () => void
-  onClose: () => void
-  hasSelected: boolean
-}
-
-export function CrudToolbar({ onView, onNew, onClone, onDelete, onPrint, onClose, hasSelected }: CrudToolbarProps) {
-  const iconSize = 'w-6 h-6';
+export function CrudToolbar({
+  onView,
+  onNew,
+  onClone,
+  onDelete,
+  onPrint,
+  onClose,
+  onCancel,
+  onSave,
+  hasSelected,
+  showTable = true,
+}: CrudToolbarProps) {
   return (
-    <div className="flex gap-1">
-      <ButtonBase onClick={onView} disabled={!hasSelected}>
-        <Eye className={iconSize} />
-        Visualizar
-      </ButtonBase>
-      <ButtonBase onClick={onNew}>
-        <CirclePlus className={iconSize} />
-        Novo
-      </ButtonBase>
-      <ButtonBase onClick={onClone} disabled={!hasSelected}>
-        <Copy className={iconSize} />
-        Clonar
-      </ButtonBase>
-      <ButtonBase onClick={onDelete} disabled={!hasSelected}>
-        <Trash2 className={iconSize} />
-        Excluir
-      </ButtonBase>
-      <ButtonBase onClick={onPrint}>
-        <Printer className={iconSize} />
-        Imprimir
-      </ButtonBase>
-      <div className="flex-1" />
-      <ButtonBase onClick={onClose}>
-        <CircleX className={iconSize} />
-        Fechar
-      </ButtonBase>
-    </div>
-  )
+    <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/10 px-8 py-4 flex items-center justify-between shadow-[0_-4px_20px_rgba(27,27,36,0.03)] z-50">
+      <div className="flex items-center gap-3">
+        {showTable ? (
+          <>
+            <ButtonBase onClick={onNew} Icon={CirclePlus} label="Novo" />
+            <ButtonBase
+              onClick={onView}
+              disabled={!hasSelected}
+              Icon={Eye}
+              label="Visualizar"
+            />
+            <ButtonBase
+              onClick={onClone}
+              disabled={!hasSelected}
+              Icon={Copy}
+              label="Clonar"
+            />
+            <ButtonBase
+              onClick={onDelete}
+              disabled={!hasSelected}
+              Icon={Trash2}
+              label="Excluir"
+            />
+          </>
+        ) : (
+          <div className="flex items-center gap-4 text-sm text-on-surface-variant">
+            <Info className="w-5 h-5 text-primary" />
+            <span className="font-medium">Formulário validado com sucesso</span>
+          </div>
+        )}
+      </div>
+      <div className="flex items-center gap-3">
+        {showTable ? (
+          <>
+            <ButtonBase onClick={onPrint} Icon={Printer} label="Imprimir" />
+            <ButtonBase onClick={onClose} Icon={CircleX} label="Fechar" />
+          </>
+        ) : (
+          <>
+            <ButtonBase onClick={onCancel} Icon={CircleX} label="Cancelar" />
+            <ButtonBase onClick={onSave} Icon={CirclePlus} label="Salvar" />
+          </>
+        )}
+      </div>
+    </footer>
+  );
 }

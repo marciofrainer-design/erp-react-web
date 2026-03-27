@@ -7,7 +7,7 @@ const InputGroupBase = ({
 }: InputGroupBaseProps) => {
   return (
     <InputGroup
-      className="gap-2 flex flex-col"
+      className="md:col-span-3"
       style={{ width: width || "100%" }}
     >
       {children}

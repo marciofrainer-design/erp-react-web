@@ -1,4 +1,5 @@
-import type { ApiAdapter, Repository } from "../interface";
+import type { ApiAdapter } from "../interface";
+import type { Repository } from "../interface/types";
 
 export class RepositoryBase<T> implements Repository<T> {
   protected api: ApiAdapter;

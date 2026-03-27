@@ -15,7 +15,9 @@ export function AndarPage({ dependencies }: AndarPageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isRegisterOpen, setIsRegisterOpen] = useState(true);
-  const [editingAndar, setEditingAndar] = useState<Andar | undefined>(undefined);
+  const [editingAndar, setEditingAndar] = useState<Andar | undefined>(
+    undefined,
+  );
 
   const fetchAndarData = useCallback(async () => {
     try {
@@ -34,28 +36,6 @@ export function AndarPage({ dependencies }: AndarPageProps) {
     fetchAndarData();
   }, [fetchAndarData]);
 
-  const handleSave = async (andar: Andar) => {
-    try {
-      await andarRepository.save(andar);
-      setIsRegisterOpen(false);
-      setEditingAndar(undefined);
-      await fetchAndarData();
-    } catch (err) {
-      console.error("Erro ao salvar andar:", err);
-      alert("Falha ao salvar o registro.");
-    }
-  };
-
-  const handleNew = () => {
-    setEditingAndar(undefined);
-    setIsRegisterOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsRegisterOpen(false);
-    setEditingAndar(undefined);
-  };
-
   if (loading) {
     return <div>Carregando...</div>;
   }
@@ -65,28 +45,17 @@ export function AndarPage({ dependencies }: AndarPageProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Cadastro de Andar</h1>
-        <button onClick={handleNew} className="btn btn-primary">
-          Novo Andar
-        </button>
-      </div>
-      <CrudPage
-        title="Cadastro de Andar"
-        tableColumns={AndarColumns}
-        tableData={andarData}
-        register={
-          isRegisterOpen ? (
-            <AndarRegister
-              dependencies={{ andarRepository }}
-              initialData={editingAndar}
-              onSubmit={handleSave}
-              onCancel={handleCancel}
-            />
-          ) : undefined
-        }
-      />
-    </div>
+    <CrudPage
+      title="Cadastro de Andar"
+      pageDescription="Gerencie os andares do seu estabelecimento"
+      tableColumns={AndarColumns}
+      tableData={andarData}
+      dependencies={{ andarRepository, primaryKeyName: "idandar" }}
+      register={
+        isRegisterOpen ? (
+          <AndarRegister initialData={editingAndar} />
+        ) : undefined
+      }
+    />
   );
 }
