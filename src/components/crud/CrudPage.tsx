@@ -5,7 +5,7 @@ import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
-import { useNotify } from "@/shared/hooks";
+import { useNotify } from "@/hooks";
 
 const normalizeSearchText = (value: string) =>
   value
@@ -219,6 +219,7 @@ function CrudPage<T extends object>({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{duration: 2}}
     >
       <CrudPageTemplate
         title={mode === "table" ? title : ""}

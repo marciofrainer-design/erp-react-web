@@ -1,4 +1,4 @@
-import { useTheme } from "@/shared/context";
+import { useTheme } from "@/context";
 
 const ToolButtonToggleTheme: React.FC = () => {
   const { mode, toggleTheme } = useTheme();

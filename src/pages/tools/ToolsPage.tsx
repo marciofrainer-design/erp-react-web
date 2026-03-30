@@ -5,6 +5,7 @@ import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
+import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
 
 export function ToolsPage() {
   const [selectedTool, setSelectedTool] = useState<ToolKey>("app45");
@@ -65,6 +66,7 @@ export function ToolsPage() {
               className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
               style={{ border: "1px solid var(--color-border-primary)" }}
             >
+              <SelectEmpresa onSelect={(value) => console.log(`Selected company: ${value}`)} />
               {selectedTool === "app45" && (
                 <ToolFormSelect
                   selectedForm={selectedForm}

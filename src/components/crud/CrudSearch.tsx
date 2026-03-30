@@ -25,6 +25,14 @@ export function CrudSearch({ value, onChange, onSearch, onClear }: Props) {
           onChange={(e) => {
             onChange(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSearch();
+            }
+            if (e.key === "Escape") {
+              onClear();
+            }
+          }}
         />
         <button
           type="button"

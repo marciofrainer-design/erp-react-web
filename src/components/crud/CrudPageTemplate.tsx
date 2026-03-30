@@ -1,7 +1,6 @@
 import CrudContainer from "./CrudContainer";
 import type { CrudPageTemplateProps } from "./types";
 import { motion } from "motion/react";
-import SelectEmpresa from "../domain/selectEmpresa/SelectEmpresa";
 
 export function CrudPageTemplate({
   title,
@@ -32,8 +31,6 @@ export function CrudPageTemplate({
                 {pageDescription || ""}
               </p>
             </div>
-            {/* todo implementar contexto para guardar a empresa selecionada */}
-            <SelectEmpresa onSelect={(value) => console.log(`Selected company: ${value}`)}  />
           </CrudContainer>
 
           {search && <CrudContainer>{search}</CrudContainer>}

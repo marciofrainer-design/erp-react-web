@@ -1,5 +1,5 @@
 import type { Repository } from "@/infra/interface/types";
-import type { Column } from "@/shared/types";
+import type { Column } from "@/types";
 
 export type CrudPageTemplateProps = {
   title: string;

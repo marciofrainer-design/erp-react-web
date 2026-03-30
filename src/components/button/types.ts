@@ -6,6 +6,7 @@ export type ButtonBaseProps = {
   onClick?: () => void;
   Icon?: LucideIcon;
   label?: string;
+  hidden?: boolean;
 };
 
 export type ButtonSearchBaseProps = {

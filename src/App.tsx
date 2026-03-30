@@ -1,5 +1,5 @@
 import { ToolsPage } from "./pages/tools/ToolsPage";
-import { ThemeProvider } from "./shared/context/ThemeProvider";
+import { ThemeProvider } from "./context/theme/ThemeProvider";
 import { Toaster } from "sonner";
 
 function App() {
