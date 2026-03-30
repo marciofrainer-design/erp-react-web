@@ -1,3 +1,5 @@
+import { Grid } from "lucide-react";
+
 const ToolButtonMenuOpen: React.FC<{ setIsMenuOpen: (open: boolean) => void }> = ({ setIsMenuOpen }) => {
   return (
     <button
@@ -11,7 +13,7 @@ const ToolButtonMenuOpen: React.FC<{ setIsMenuOpen: (open: boolean) => void }> =
             title="Abrir menu de ferramentas"
           >
             <span className="sr-only">Menu</span>
-            <span role="img" aria-label="Menu">☰</span>
+            <Grid className="w-5 h-5" />
           </button>
   )};
 

@@ -1,4 +1,5 @@
 import { useTheme } from "@/context";
+import { Sun, Moon } from "lucide-react";
 
 const ToolButtonToggleTheme: React.FC = () => {
   const { mode, toggleTheme } = useTheme();
@@ -20,7 +21,7 @@ const ToolButtonToggleTheme: React.FC = () => {
       }}
       title={`Mudar para modo ${mode === "light" ? "escuro" : "claro"}`}
     >
-      {mode === "light" ? "🌙" : "☀️"}
+      {mode === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
     </button>
   );
 };

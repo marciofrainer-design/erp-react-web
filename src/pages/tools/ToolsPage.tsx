@@ -3,10 +3,10 @@ import { getToolComponent } from "./toolConfig";
 import type { FormOption, ToolKey } from "./types";
 import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
-import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
-import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
 import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
 import { useEmpresa } from "@/context/empresa/useEmpresa";
+import { motion } from "motion/react";
+import ToolHeader from "./ToolHeader";
 
 export function ToolsPage() {
   const { setEmpresaId } = useEmpresa();
@@ -29,8 +29,10 @@ export function ToolsPage() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen"
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="flex flex-col overflow-hidden w-full"
       style={{
         backgroundColor: "var(--color-bg-primary)",
         color: "var(--color-text-primary)",
@@ -43,18 +45,11 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="max-w-7xl mx-auto p-4" >
-        <div
-          className="flex items-center justify-between mb-6 border border-indigo-300 rounded-lg p-3"
-          style={{ backgroundColor: "var(--color-bg-secondary)" }}
-        >
-          <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
-          <h1 className="text-3xl font-bold">Desbravador Software</h1>
-          <ToolButtonToggleTheme />
-        </div>
+      <div className="p-4">
+        <ToolHeader title="Desbravador Software" setIsMenuOpen={setIsMenuOpen} />
 
         <div
-          className="grid grid-cols-12 gap-4 border border-indigo-300 rounded-lg "
+          className="grid grid-cols-12 gap-4 mt-4"
           style={{ minHeight: "78vh" }}
         >
           <main
@@ -80,6 +75,6 @@ export function ToolsPage() {
           </main>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

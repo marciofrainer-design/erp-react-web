@@ -18,7 +18,7 @@ const TableBase = <T extends object>({
   indexSelected,
 }: TableProps<T>) => {
   return (
-    <div className="overflow-auto flex-1 max-h-112">
+    <div className="overflow-auto flex-1 max-h-97">
       <Table className="w-full text-left border-collapse" id="table-base">
         <TableHeader
           className="sticky top-0 bg-surface-container-low/95 backdrop-blur-md z-10"
