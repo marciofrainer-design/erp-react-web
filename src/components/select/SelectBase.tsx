@@ -17,9 +17,9 @@ const SelectBase = ({
      }, [value, onChange]);
     
   return (
-    <div className="flex items-center gap-4 mt-4">
+    <div className="flex items-center gap-4 mt-4 ml-8">
       <div className="flex flex-col">
-        <label className="text-[10px] uppercase font-bold text-outline tracking-wider mb-1 px-1">
+        <label className="text-[10px] uppercase font-bold text-outline tracking-wider mb-2 ml-2 px-1">
           {label}
         </label>
         <div className="flex items-center bg-surface-container-lowest shadow-sm rounded-xl px-4 py-2 gap-3 min-w-70 cursor-pointer hover:bg-surface-container transition-colors border border-outline-variant/20">

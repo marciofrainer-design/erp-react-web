@@ -11,7 +11,7 @@ import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 
 export function ToolsPage() {
-  const { setEmpresaId } = useEmpresa();
+  const { setEmpresaId, empresaId } = useEmpresa();
   const { login } = useAuth();
   const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
@@ -102,10 +102,8 @@ export function ToolsPage() {
           >
             {selectedTool === "login" ? (
               <ToolLogin onLoginClick={handleOnLoginClick} />
-            ) : (
-              <div
-                className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
-              >
+            ) : empresaId ? (
+              <div className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md">
                 {selectedTool === "app45" && (
                   <ToolFormSelect
                     selectedForm={selectedForm}
@@ -114,7 +112,7 @@ export function ToolsPage() {
                 )}
                 {renderedComponent}
               </div>
-            )}
+            ) : null}
           </main>
         </div>
       </div>
