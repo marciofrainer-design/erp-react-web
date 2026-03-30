@@ -14,7 +14,7 @@ export function CrudSearch({ value, onChange, onSearch, onClear }: Props) {
     <div className="flex w-full gap-2 items-center">
       <div className="relative w-full">
         <Input
-          className="w-full bg-surface-container-lowest shadow-sm rounded-md pl-12 pr-12 py-3 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-outline/60 outline-none h-14 border-none"
+          className="w-full bg-surface-container-lowest shadow-sm rounded-md pl-8 pr-12 py-3 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-outline/60 outline-none h-11 border-none"
           style={{
             backgroundColor: "var(--color-input-bg)",
             color: "var(--color-input-text)",
