@@ -21,6 +21,7 @@ export function CrudToolbar({
   onSave,
   hasSelected,
   showTable = true,
+  isFormValid = true,
 }: CrudToolbarProps) {
   return (
     <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/10 px-8 py-4 flex items-center justify-between shadow-[0_-4px_20px_rgba(27,27,36,0.03)] z-50">
@@ -49,8 +50,12 @@ export function CrudToolbar({
           </>
         ) : (
           <div className="flex items-center gap-4 text-sm text-on-surface-variant">
-            <Info className="w-5 h-5 text-primary" />
-            <span className="font-medium">Formulário validado com sucesso</span>
+            <Info className={`w-5 h-5 ${isFormValid ? "text-primary" : "text-destructive"}`} />
+            <span className="font-medium">
+              {isFormValid
+                ? "Formulário validado com sucesso"
+                : "Formulário com erros de validação"}
+            </span>
           </div>
         )}
       </div>
@@ -63,7 +68,12 @@ export function CrudToolbar({
         ) : (
           <>
             <ButtonBase onClick={onCancel} Icon={CircleX} label="Cancelar" />
-            <ButtonBase onClick={onSave} Icon={CirclePlus} label="Salvar" />
+            <ButtonBase
+              onClick={onSave}
+              disabled={!isFormValid}
+              Icon={CirclePlus}
+              label="Salvar"
+            />
           </>
         )}
       </div>

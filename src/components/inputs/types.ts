@@ -1,13 +1,13 @@
 export type InputProps = {
-  label: string;
+  type?: string;
   value: string;
+  ref?: React.Ref<HTMLInputElement>;
+  label?: string;
   width?: string;
   error?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
+  ariaInvalid?: boolean;
+  ariaDescribedBy?: string;
 };
 
-export type InputBaseProps = {
-  type: string;
-  value: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+

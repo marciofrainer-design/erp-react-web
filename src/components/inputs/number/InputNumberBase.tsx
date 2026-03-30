@@ -15,7 +15,12 @@ const InputNumberBase = ({ label, value, onChange, width }: InputProps) => {
       >
         {label}
       </Label>
-      <InputBase type="number" value={value} onChange={(e) => onChange(e.target.value)} />
+      <InputBase
+        label={label}
+        type="number"
+        value={value}
+        onChange={onChange}
+      />
     </InputGroupBase>
   );
 };

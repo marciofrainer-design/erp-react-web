@@ -1,4 +1,3 @@
-import { Building2 } from "lucide-react";
 import type { CrudRegisterProps } from "./types";
 import { motion } from "framer-motion";
 
@@ -12,7 +11,7 @@ const CrudRegister = ({
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="flex-1 flex flex-col overflow-hidden max-w-5xl mx-auto w-full"
+      className="flex-1 flex flex-col overflow-hidden max-w-5xl mx-auto w-full h-auto"
     >
       <div className="mb-8">
         <div className="flex items-center justify-between">
@@ -23,12 +22,6 @@ const CrudRegister = ({
             <p className="text-on-surface-variant">
               {description && <span>{description}</span>}
             </p>
-          </div>
-          <div className="bg-primary-fixed/30 px-4 py-2 rounded-xl flex items-center gap-3">
-            <Building2 className="text-primary w-5 h-5" />
-            <span className="text-sm font-semibold text-primary">
-              Unidade: Matriz Central
-            </span>
           </div>
         </div>
       </div>

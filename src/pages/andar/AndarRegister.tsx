@@ -2,10 +2,18 @@ import CrudRegister from "@/components/crud/CrudRegister";
 import { InputStringBase } from "@/components/inputs/string/InputStringBase";
 import { andarRegisterSchema } from "@/domain/andar/validation";
 import type { AndarRegisterProps } from "./types";
+import { useEffect, useRef } from "react";
 
 export function AndarRegister({ data, onChange }: AndarRegisterProps) {
   const validation = andarRegisterSchema.safeParse(data);
   const errors = validation.success ? {} : validation.error.flatten().fieldErrors;
+  const firstCmpFocus = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (firstCmpFocus.current) {
+      firstCmpFocus.current.focus();
+    }
+  }, []);
 
   return (
     <CrudRegister
@@ -14,6 +22,7 @@ export function AndarRegister({ data, onChange }: AndarRegisterProps) {
     >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputStringBase
+            ref={firstCmpFocus}
             label="Nome"
             value={data.nmandar}
             error={errors.nmandar?.[0]}

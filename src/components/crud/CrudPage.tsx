@@ -1,12 +1,10 @@
 import { useMemo, useState, useCallback } from "react";
-import type { CrudPageProps } from "@/components/crud/types";
+import type { CrudMode, CrudPageProps } from "@/components/crud/types";
 import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
-
-type CrudMode = "table" | "view" | "new" | "clone";
 
 function CrudPage<T extends object>({
   title,
@@ -17,6 +15,7 @@ function CrudPage<T extends object>({
   createNewItem,
   onSaved,
   dependencies,
+  validate,
 }: CrudPageProps<T>) {
   const [mode, setMode] = useState<CrudMode>("table");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -68,7 +67,9 @@ function CrudPage<T extends object>({
 
   const handleDelete = useCallback(() => {
     if (selectedIndex === null) return;
-    repository?.delete?.(tableData[selectedIndex]?.[primaryKeyName as keyof T] as number);
+    repository?.delete?.(
+      tableData[selectedIndex]?.[primaryKeyName as keyof T] as number,
+    );
   }, [selectedIndex, repository, tableData, primaryKeyName]);
 
   const handlePrint = useCallback(() => {
@@ -85,10 +86,20 @@ function CrudPage<T extends object>({
 
   const handleSave = useCallback(async () => {
     if (!repository) return;
-    await repository.save(formData);
+
+    if (validate && !validate(formData)) {
+      return;
+    }
+
+    if (mode === "view") {
+      await repository.update(formData);
+    }
+    if ((mode as string) === "new" || (mode as string) === "clone") {
+      await repository.save(formData);
+    }
     await onSaved?.();
     setMode("table");
-  }, [formData, repository, onSaved]);
+  }, [formData, repository, onSaved, mode, validate]);
 
   const handleRegisterChange = useCallback(
     <K extends keyof T>(field: K, value: T[K]) => {
@@ -98,6 +109,7 @@ function CrudPage<T extends object>({
   );
 
   const showTable = mode === "table";
+  const isFormValid = validate ? validate(formData) : true;
 
   const registerContent =
     !showTable && register
@@ -127,6 +139,7 @@ function CrudPage<T extends object>({
             data={tableData}
             onRowClick={handleRowClick}
             onRowDblClick={handleRowDblClick}
+            indexSelected={selectedIndex}
           />
         }
         register={registerContent}
@@ -143,6 +156,7 @@ function CrudPage<T extends object>({
             onSave={handleSave}
             hasSelected={selectedIndex !== null}
             showTable={showTable}
+            isFormValid={isFormValid}
           />
         }
       />

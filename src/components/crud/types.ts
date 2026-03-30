@@ -1,3 +1,4 @@
+import type { Repository } from "@/infra/interface/types";
 import type { Column } from "@/shared/types";
 
 export type CrudPageTemplateProps = {
@@ -19,6 +20,7 @@ export type CrudPageProps<T extends object> = {
   createNewItem?: () => T;
   onSaved?: () => Promise<void> | void;
   dependencies?: CrudRegisterDependencies<T>;
+  validate?: (data: T) => boolean;
 };
 
 export type CrudRegisterRenderProps<T extends object> = {
@@ -27,14 +29,15 @@ export type CrudRegisterRenderProps<T extends object> = {
   onChange: <K extends keyof T>(field: K, value: T[K]) => void;
 };
 
-export type CrudRepository<T> = {
-  getAll: () => Promise<T[]>;
-  save: (item: T) => Promise<void>;
-  delete?: (id: number) => Promise<void>;
-};
+// export type CrudRepository<T> = {
+//   getAll: () => Promise<T[]>;
+//   save: (item: T) => Promise<void>;
+//   update: (item: T) => Promise<void>;
+//   delete?: (id: number) => Promise<void>;
+// };
 
 export type CrudRegisterDependencies<T> = {
-  repository: CrudRepository<T>;
+  repository: Repository<T>;
   primaryKeyName?: string;
 };
 
@@ -57,4 +60,7 @@ export type CrudToolbarProps = {
   onSave?: () => void;
   hasSelected: boolean;
   showTable?: boolean;
+  isFormValid?: boolean;
 };
+
+export type CrudMode = "table" | "view" | "new" | "clone";

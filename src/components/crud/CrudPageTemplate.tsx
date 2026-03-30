@@ -32,7 +32,8 @@ export function CrudPageTemplate({
                 {pageDescription || ""}
               </p>
             </div>
-            <SelectEmpresa onSelect={(value) => console.log(`Selected value: ${value}`)}  />
+            {/* todo implementar contexto para guardar a empresa selecionada */}
+            <SelectEmpresa onSelect={(value) => console.log(`Selected company: ${value}`)}  />
           </CrudContainer>
 
           {search && <CrudContainer>{search}</CrudContainer>}

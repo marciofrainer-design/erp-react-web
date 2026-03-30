@@ -38,11 +38,6 @@ export class DataSnapAdapter implements ApiAdapter {
         case "DELETE":
           response = await apiClient.delete(url, { data: options.params });
           break;
-        case "PATCH":
-          response = await apiClient.patch(url, options.body, {
-            params: options.params,
-          });
-          break;
         default:
           response = await apiClient.get(url, { params: options.params });
           break;

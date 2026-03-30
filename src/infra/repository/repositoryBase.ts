@@ -25,6 +25,10 @@ export class RepositoryBase<T> implements Repository<T> {
     return this.api.post<void>(this.controller, '', data);
   }
 
+  update(data: T): Promise<void> {
+    return this.api.put<void>(this.controller, '', data);
+  }
+
   delete(id: number): Promise<void> {
     return this.api.delete<void>(this.controller, 'Delete', { id });
   }

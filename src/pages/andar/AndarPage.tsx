@@ -4,6 +4,7 @@ import { AndarColumns } from "@/domain/andar/types";
 import { CrudPage } from "@/components/crud/CrudPage";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
 import AndarFactory from "@/domain/andar/andarFactory";
+import { andarRegisterSchema } from "@/domain/andar/validation";
 
 export function AndarPage() {
   const [andarData, setAndarData] = useState<Andar[]>([]);
@@ -48,6 +49,7 @@ export function AndarPage() {
       createNewItem={AndarFactory.createBlankAndar}
       onSaved={fetchAndarData}
       dependencies={dependencies}
+      validate={(data) => andarRegisterSchema.safeParse(data).success}
       register={({ mode, data, onChange }) => (
         <AndarRegister mode={mode} data={data} onChange={onChange} />
       )}
