@@ -84,42 +84,105 @@
   --sidebar-ring: var(--color-indigo-300);
   --table-row-hover: var(--color-indigo-100);
   --border-primary: var(--color-indigo-500);
+
+  /* App semantic tokens */
+  --color-bg-primary: #eaf2ff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #dbe8ff;
+
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+
+  --color-border-primary: #93a8d8;
+  --color-border-secondary: #c7d2fe;
+
+  --color-button-bg: #4f46e5;
+  --color-button-bg-hover: #4338ca;
+  --color-button-text: #ffffff;
+
+  --color-input-bg: #f8fafc;
+  --color-input-border: #c7d2fe;
+  --color-input-text: #1e293b;
+  --color-input-placeholder: #64748b;
+
+  --color-table-header-bg: #dbe8ff;
+  --color-table-row-bg: #ffffff;
+  --color-table-row-hover-bg: #e5edff;
+  --color-table-text: #1f2a44;
+  --color-table-border: #c7d2fe;
+
+  --color-select-bg: #f8fafc;
+  --color-select-border: #c7d2fe;
+  --color-select-text: #1e293b;
 }
 
 .dark {
-  --background: var(--color-indigo-900); /* indigo-900 */
-  --foreground: var(--color-indigo-100); /* indigo-100 */
-  --card: var(--color-indigo-900); /* indigo-900 */
-  --card-foreground: var(--color-indigo-100);
-  --popover: var(--color-indigo-800);
-  --popover-foreground: var(--color-indigo-200);
-  --primary: var(--color-indigo-400); /* indigo-400 */
-  --primary-foreground: #1e293b;
-  --secondary: var(--color-indigo-300); /* indigo-300 */
-  --secondary-foreground: #1e293b;
-  --muted: var(--color-indigo-700); /* indigo-700 */
-  --muted-foreground: #e0e7ff;
-  --accent: var(--color-indigo-500); /* indigo-500 */
-  --accent-foreground: #ffffff;
+  --background: #0b1220;
+  --foreground: #e8eef9;
+  --card: #111a2e;
+  --card-foreground: #e8eef9;
+  --popover: #111a2e;
+  --popover-foreground: #d5e0f3;
+  --primary: #f08a24;
+  --primary-foreground: #1a1208;
+  --secondary: #ff9b3d;
+  --secondary-foreground: #1a1208;
+  --muted: #1a2742;
+  --muted-foreground: #9fb0cc;
+  --accent: #f08a24;
+  --accent-foreground: #1a1208;
   --destructive: #f87171;
-  --border: var(--color-indigo-300); /* borda mais clara no dark */
-  --input: #312e81;
-  --ring: #818cf8;
-  --chart-1: #a5b4fc;
-  --chart-2: #6366f1;
-  --chart-3: #4f46e5;
-  --chart-4: #4338ca;
-  --chart-5: #3730a3;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #e0e7ff;
-  --sidebar-primary: #818cf8;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #6366f1;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #4f46e5;
-  --sidebar-ring: #a5b4fc;
-  --table-row-hover: var(--color-indigo-700); 
-  --border-primary: var(--color-indigo-400);
+  --border: #2a3a5f;
+  --input: #111a2e;
+  --ring: #f08a24;
+  --chart-1: #ffb86b;
+  --chart-2: #f08a24;
+  --chart-3: #2f4a7a;
+  --chart-4: #1e2f50;
+  --chart-5: #16233d;
+  --sidebar: #0f1729;
+  --sidebar-foreground: #d5e0f3;
+  --sidebar-primary: #f08a24;
+  --sidebar-primary-foreground: #1a1208;
+  --sidebar-accent: #1a2742;
+  --sidebar-accent-foreground: #d5e0f3;
+  --sidebar-border: #2a3a5f;
+  --sidebar-ring: #f08a24;
+
+  --table-row-hover: #1a2742;
+  --border-primary: #c96c14;
+
+  /* App semantic tokens */
+  --color-bg-primary: #0b1220;
+  --color-bg-secondary: #111a2e;
+  --color-bg-tertiary: #18233d;
+
+  --color-text-primary: #e8eef9;
+  --color-text-secondary: #9fb0cc;
+  --color-text-tertiary: #7f92b3;
+
+  --color-border-primary: #2a3a5f;
+  --color-border-secondary: #1e2a45;
+
+  --color-button-bg: #f08a24;
+  --color-button-bg-hover: #ff9b3d;
+  --color-button-text: #1a1208;
+
+  --color-input-bg: #111a2e;
+  --color-input-border: #2a3a5f;
+  --color-input-text: #e8eef9;
+  --color-input-placeholder: #9fb0cc;
+
+  --color-table-header-bg: #111a2e;
+  --color-table-row-bg: #0f1729;
+  --color-table-row-hover-bg: #1a2742;
+  --color-table-text: #dfe8f7;
+  --color-table-border: #2a3a5f;
+
+  --color-select-bg: #111a2e;
+  --color-select-border: #2a3a5f;
+  --color-select-text: #e8eef9;
 }
 
 @layer base {

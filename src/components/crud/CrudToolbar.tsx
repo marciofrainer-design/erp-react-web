@@ -24,7 +24,7 @@ export function CrudToolbar({
   isFormValid = true,
 }: CrudToolbarProps) {
   return (
-    <footer className="w-full bg-surface-container-lowest border-t border-b border-outline-variant/10 px-8 py-4 flex items-center justify-between shadow-[0_-4px_20px_rgba(27,27,36,0.03)] z-50">
+    <footer className="w-full bg-surface-container-lowest px-8 py-4 flex items-center justify-between shadow-[0_-4px_20px_rgba(27,27,36,0.03)] z-50">
       <div className="flex items-center gap-3">
         {showTable ? (
           <>

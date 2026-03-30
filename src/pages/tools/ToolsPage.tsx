@@ -98,7 +98,6 @@ export function ToolsPage() {
             className="col-span-12 rounded-lg p-2"
             style={{
               backgroundColor: "var(--color-bg-secondary)",
-              border: "1px solid var(--color-border-primary)",
             }}
           >
             {selectedTool === "login" ? (
@@ -106,7 +105,6 @@ export function ToolsPage() {
             ) : (
               <div
                 className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
-                style={{ border: "1px solid var(--color-border-primary)" }}
               >
                 {selectedTool === "app45" && (
                   <ToolFormSelect
