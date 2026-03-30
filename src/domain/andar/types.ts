@@ -1,11 +1,11 @@
-import type { Column, ModelBase } from "@/shared/types";
-import { FieldType } from "@/shared/types";
+import type { Column, ModelBase } from "@/types";
+import { FieldType } from "@/types";
 import {
   WIDTH_INTEGER_COLUMN,
   WIDTH_STRING_COLUMN,
   WIDTH_BOOLEAN_COLUMN,
   WIDTH_SHORTSTRING_COLUMN,
-} from "@/shared/consts";
+} from "@/consts";
 import type { Repository } from "@/infra/interface/types";
 
 export type Andar = ModelBase & {

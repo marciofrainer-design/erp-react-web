@@ -11,7 +11,7 @@ export const andarRegisterSchema = z.object({
     .trim()
     .min(1, "Identificador e obrigatorio")
     .max(20, "Identificador deve ter no maximo 20 caracteres")
-    .regex(/^[A-Za-z0-9_-]+$/, "Use apenas letras, numeros, _ ou -"),
+    .regex(/^[A-Za-z0-9_-\s]+$/, "Use apenas letras, numeros, _ ou -"),
 });
 
 export type AndarRegisterFormData = z.infer<typeof andarRegisterSchema>;

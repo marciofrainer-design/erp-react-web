@@ -3,6 +3,7 @@ import type { ApiAdapter } from "../interface";
 import type { ApiCallOptions } from "../api/types";
 
 import { apiClient } from "./client";
+import { getSelectedEmpresaId } from "@/context/empresa/empresaSelection";
 
 export class DataSnapAdapter implements ApiAdapter {
   get<T>(controller: string, method: string, params?: unknown): Promise<T> {
@@ -25,26 +26,32 @@ export class DataSnapAdapter implements ApiAdapter {
       import.meta.env.VITE_DATASNAP_URL || "http://localhost:3000";
 
     const url = `${serverUrl}/${options.controller}/${options.method}`;
+    const empresaId = getSelectedEmpresaId();
+    const headers = empresaId
+      ? {
+          "empresas": empresaId,
+        }
+      : undefined;
 
     try {
       let response;
       switch (options?.verb) {
         case "POST":
-          response = await apiClient.post(url, options.body);
+          response = await apiClient.post(url, options.body, { headers });
           break;
         case "PUT":
-          response = await apiClient.put(url, options.body);
+          response = await apiClient.put(url, options.body, { headers });
           break;
         case "DELETE":
-          response = await apiClient.delete(url, { data: options.params });
-          break;
-        case "PATCH":
-          response = await apiClient.patch(url, options.body, {
-            params: options.params,
+          response = await apiClient.delete(`${url}${options.params}`, {
+            headers,
           });
           break;
         default:
-          response = await apiClient.get(url, { params: options.params });
+          response = await apiClient.get(url, {
+            params: options.params,
+            headers,
+          });
           break;
       }
 

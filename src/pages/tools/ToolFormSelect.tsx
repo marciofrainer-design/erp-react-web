@@ -2,11 +2,15 @@ import { formOptions } from "./consts";
 import { formLabels } from "./toolConfig";
 import type { FormOption, ToolFormSelectProps } from "./types";
 
-export function ToolFormSelect({ selectedForm, onSelectForm }: ToolFormSelectProps) {
+export function ToolFormSelect({
+  selectedForm,
+  onSelectForm,
+}: ToolFormSelectProps) {
   const currentValue = selectedForm;
 
   return (
     <div
+      hidden
       className="pb-3 mb-3"
       style={{ borderBottom: "1px solid var(--color-border-primary)" }}
     >

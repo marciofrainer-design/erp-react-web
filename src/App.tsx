@@ -1,10 +1,18 @@
 import { ToolsPage } from "./pages/tools/ToolsPage";
-import { ThemeProvider } from "./shared/context/ThemeProvider";
+import { ThemeProvider } from "./context/theme/ThemeProvider";
+import { EmpresaProvider } from "./context/empresa/EmpresaProvider";
+import { AuthProvider } from "./context/auth/AuthProvider";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <ThemeProvider>
-      <ToolsPage />
+      <AuthProvider>
+        <EmpresaProvider>
+          <ToolsPage />
+          <Toaster position="top-right" richColors closeButton />
+        </EmpresaProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

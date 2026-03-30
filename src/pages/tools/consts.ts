@@ -3,6 +3,7 @@ import type { ToolKey } from "./types";
 
 export const formOptions = ["andar"] as const;
 export const toolLabels: Record<ToolKey, string> = {
+  login: "Login",
   app45: "Aplicação 4.5",
   reservas: "Reservas Online",
   config: "Configurações do Usuário",
@@ -11,6 +12,7 @@ export const toolLabels: Record<ToolKey, string> = {
 };
 
 export const toolIcons: Record<ToolKey, React.ComponentType<{ className?: string }>> = {
+  login: Monitor,
   app45: Monitor,
   reservas: Calendar,
   config: Settings,

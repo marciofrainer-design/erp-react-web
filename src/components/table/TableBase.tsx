@@ -1,6 +1,6 @@
 import type { TableProps } from "./types";
 import { ArrowDown, Check } from "lucide-react";
-import { FieldType } from "@/shared/types";
+import { FieldType } from "@/types";
 import {
   Table,
   TableBody,
@@ -15,9 +15,10 @@ const TableBase = <T extends object>({
   data,
   onRowClick,
   onRowDblClick,
+  indexSelected,
 }: TableProps<T>) => {
   return (
-    <div className="overflow-auto flex-1 max-h-112">
+    <div className="overflow-auto flex-1 max-h-97">
       <Table className="w-full text-left border-collapse" id="table-base">
         <TableHeader
           className="sticky top-0 bg-surface-container-low/95 backdrop-blur-md z-10"
@@ -40,18 +41,30 @@ const TableBase = <T extends object>({
 
         <TableBody className="divide-y divide-outline-variant/5">
           {data.map((row, i) => {
+            const isSelected = indexSelected === i;
+
             return (
               <TableRow
                 key={i}
-                className={`hover:bg-(--table-row-hover) transition-colors group cursor-pointer bg-surface-container-low`}
+                className={`transition-colors group cursor-pointer ${
+                  isSelected
+                    ? "bg-primary/15 hover:bg-primary/20"
+                    : "bg-surface-container-low hover:bg-(--table-row-hover)"
+                }`}
                 onClick={() => onRowClick?.(row, i)}
                 onDoubleClick={() => onRowDblClick?.(row, i)}
               >
                 {columns.map((c) => (
                   <TableCell
                     key={String(c.field)}
-                    className={`px-6 py-4 text-sm font-medium text-outline${c.width || ""}`}
-                    style={{ color: "var(--color-table-text)" }}
+                    className={`px-6 py-4 text-sm font-medium ${
+                      isSelected ? "font-semibold" : "text-outline"
+                    } ${c.width || ""}`}
+                    style={{
+                      color: isSelected
+                        ? "var(--color-primary)"
+                        : "var(--color-table-text)",
+                    }}
                   >
                     {c.type === FieldType.BOOLEAN ? (
                       row[c.field] ? (

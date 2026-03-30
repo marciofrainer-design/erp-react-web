@@ -1,7 +1,7 @@
 import { RepositoryBase } from '@/infra/repository/repositoryBase';
 import { DataSnapAdapter } from '@/infra/api/service';
 import type { Empresa } from './types';
-import { ControllerPrefix, ControllerSuffix } from '@/shared/consts';
+import { ControllerPrefix, ControllerSuffix } from '@/consts';
 
 const typeName = 'Empresa';
 export class EmpresaRepository extends RepositoryBase<Empresa> {

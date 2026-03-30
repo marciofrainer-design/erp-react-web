@@ -3,30 +3,24 @@ import { getToolComponent } from "./toolConfig";
 import type { FormOption, ToolKey } from "./types";
 import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
-import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
-import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
-import { DependenciesFactoryBase } from "@/infra/factories/dependenciesFactory";
-import { DataSnapAdapter } from "@/infra/api/service";
-import { AndarRepository } from "@/domain/andar/AndarRepository";
+import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
+import { useEmpresa } from "@/context/empresa/useEmpresa";
+import { useAuth } from "@/context/auth/useAuth";
+import { motion } from "motion/react";
+import ToolHeader from "./ToolHeader";
+import ToolLogin from "./ToolLogin";
 
 export function ToolsPage() {
-  const [selectedTool, setSelectedTool] = useState<ToolKey>("app45");
+  const { setEmpresaId } = useEmpresa();
+  const { login } = useAuth();
+  const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const adapter = useMemo(() => new DataSnapAdapter(), []);
-
-  const andarDeps = useMemo(() => {
-    return new DependenciesFactoryBase(
-      adapter,
-      new AndarRepository(adapter),
-    );
-  }, [adapter]);
-
   const renderedComponent = useMemo(() => {
-    const params = { tool: selectedTool, andarDeps, selectedForm };
+    const params = { tool: selectedTool, selectedForm };
     return getToolComponent(params);
-  }, [selectedTool, andarDeps, selectedForm]);
+  }, [selectedTool, selectedForm]);
 
   const handleSelectForm = useCallback((value: FormOption) => {
     setSelectedForm(value);
@@ -37,9 +31,30 @@ export function ToolsPage() {
     setIsMenuOpen(false);
   }, []);
 
+  const handleOnLoginClick = useCallback(
+    (email: string) => {
+      login(email);
+      setSelectedTool("app45");
+    },
+    [login],
+  );
+
+  const getToolTitle = () => {
+    switch (selectedTool) {
+      case "login":
+        return "Login";
+      case "app45":
+        return "FrontWeb 4.5";
+      default:
+        return "Desbravador Web System";
+    }
+  };
+
   return (
-    <div
-      className="min-h-screen"
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="flex flex-col overflow-hidden w-full"
       style={{
         backgroundColor: "var(--color-bg-primary)",
         color: "var(--color-text-primary)",
@@ -52,18 +67,31 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="max-w-7xl mx-auto p-4" >
-        <div
-          className="flex items-center justify-between mb-6 border border-indigo-300 rounded-lg p-3"
-          style={{ backgroundColor: "var(--color-bg-secondary)" }}
-        >
-          <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
-          <h1 className="text-3xl font-bold">Desbravador Software</h1>
-          <ToolButtonToggleTheme />
-        </div>
+      <div className="p-4">
+        <ToolHeader
+          title="Desbravador Web System"
+          setIsMenuOpen={setIsMenuOpen}
+        />
+        {selectedTool !== "login" && (
+          <div className="flex justify-between">
+            <SelectEmpresa onSelect={setEmpresaId} />
+            <div className="md:flex items-center gap-6 font-headline font-bold  text-xl">
+              <a
+                className="text-primary mr-10 mt-2"
+                href="#"
+                style={{
+                  backgroundColor: "var(--color-bg-primary)",
+                  color: "var(--color-text-primary)",
+                }}
+              >
+                {getToolTitle()}
+              </a>
+            </div>
+          </div>
+        )}
 
         <div
-          className="grid grid-cols-12 gap-4 border border-indigo-300 rounded-lg "
+          className="grid grid-cols-12 gap-4 mt-4"
           style={{ minHeight: "78vh" }}
         >
           <main
@@ -73,21 +101,25 @@ export function ToolsPage() {
               border: "1px solid var(--color-border-primary)",
             }}
           >
-            <div
-              className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
-              style={{ border: "1px solid var(--color-border-primary)" }}
-            >
-              {selectedTool === "app45" && (
-                <ToolFormSelect
-                  selectedForm={selectedForm}
-                  onSelectForm={handleSelectForm}
-                />
-              )}
-              {renderedComponent}
-            </div>
+            {selectedTool === "login" ? (
+              <ToolLogin onLoginClick={handleOnLoginClick} />
+            ) : (
+              <div
+                className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
+                style={{ border: "1px solid var(--color-border-primary)" }}
+              >
+                {selectedTool === "app45" && (
+                  <ToolFormSelect
+                    selectedForm={selectedForm}
+                    onSelectForm={handleSelectForm}
+                  />
+                )}
+                {renderedComponent}
+              </div>
+            )}
           </main>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
