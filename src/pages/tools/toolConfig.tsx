@@ -11,14 +11,14 @@ export function formLabels(value: FormOption) {
 export function getToolComponent(
     params: ToolComponentParams
 ) {
-  const { tool, andarDeps, selectedForm } = params;
+  const { tool, selectedForm } = params;
 
   if (tool === "app45") {
     switch (selectedForm) {
       case "andar":
-        return <AndarPage dependencies={andarDeps} />;
+        return <AndarPage />;
       default:
-        return <AndarPage dependencies={andarDeps} />;
+        return <div>Not implemented</div>;
     }
   }
 

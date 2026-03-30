@@ -6,9 +6,9 @@ import {
   WIDTH_BOOLEAN_COLUMN,
   WIDTH_SHORTSTRING_COLUMN,
 } from "@/shared/consts";
-import type { Repository } from "@/infra/interface";
+import type { Repository } from "@/infra/interface/types";
 
-type Andar = ModelBase & {
+export type Andar = ModelBase & {
   idandar: number;
   idempresa: number;
   nmempresa: string;
@@ -17,7 +17,7 @@ type Andar = ModelBase & {
   isativo: number;
 };
 
-const AndarColumns: Column<Andar>[] = [
+export const AndarColumns: Column<Andar>[] = [
   {
     label: "Chave",
     field: "idandar",
@@ -50,10 +50,7 @@ const AndarColumns: Column<Andar>[] = [
   },
 ];
 
-type AndarDependencies = {
+export type AndarDependencies = {
   andarRepository: Repository<Andar>;
 };
 
-
-export { AndarColumns };
-export type { Andar, AndarDependencies };

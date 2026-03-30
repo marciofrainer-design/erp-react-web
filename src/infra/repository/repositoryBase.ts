@@ -1,4 +1,5 @@
-import type { ApiAdapter, Repository } from "../interface";
+import type { ApiAdapter } from "../interface";
+import type { Repository } from "../interface/types";
 
 export class RepositoryBase<T> implements Repository<T> {
   protected api: ApiAdapter;
@@ -21,7 +22,7 @@ export class RepositoryBase<T> implements Repository<T> {
   }
 
   save(data: T): Promise<void> {
-    return this.api.post<void>(this.controller, 'Save', data);
+    return this.api.post<void>(this.controller, '', data);
   }
 
   delete(id: number): Promise<void> {

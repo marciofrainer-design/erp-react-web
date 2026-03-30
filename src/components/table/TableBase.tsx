@@ -1,24 +1,35 @@
 import type { TableProps } from "./types";
-import { Check, CircleX } from "lucide-react";
+import { ArrowDown, Check } from "lucide-react";
 import { FieldType } from "@/shared/types";
-import { Table, TableBody, TableCell, TableHead, TableRow, TableHeader  } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableHeader,
+} from "../ui/table";
 
-const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick }: TableProps<T>) => {
+const TableBase = <T extends object>({
+  columns,
+  data,
+  onRowClick,
+  onRowDblClick,
+}: TableProps<T>) => {
   return (
-    <div className="flex-1 overflow-auto custom-scrollbar">
-      <Table className="w-full text-sm text-left border-collapse" id="table-base">
+    <div className="overflow-auto flex-1 max-h-112">
+      <Table className="w-full text-left border-collapse" id="table-base">
         <TableHeader
-          className="sticky top-0 shadow-[inset_0_-1px_0_rgba(255,255,255,0.05)] z-10"
+          className="sticky top-0 bg-surface-container-low/95 backdrop-blur-md z-10"
           style={{ backgroundColor: "var(--color-table-header-bg)" }}
         >
           <TableRow>
             {columns.map((c) => (
               <TableHead
                 key={String(c.field)}
-                className={`text-left px-6 py-3 font-semibold ${c.width || ""}`}
+                className={`px-6 py-4 text-[12px] font-extrabold text-outline uppercase tracking-widest border-b border-outline-variant/10 ${c.width || ""}`}
                 style={{
                   color: "var(--color-table-text)",
-                  borderBottom: "1px solid var(--color-table-border)",
                 }}
               >
                 {c.label}
@@ -27,36 +38,26 @@ const TableBase = <T extends object>({ columns, data, selectedIndex, onRowClick 
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        <TableBody className="divide-y divide-outline-variant/5">
           {data.map((row, i) => {
-            const isSelected = i === selectedIndex;
             return (
               <TableRow
                 key={i}
-                className="cursor-pointer transition-colors group"
-                style={{
-                  borderBottom: "1px solid var(--color-table-border)",
-                  backgroundColor: isSelected ? "var(--color-table-row-selected-bg)" : "var(--color-table-row-bg)",
-                }}
+                className={`hover:bg-(--table-row-hover) transition-colors group cursor-pointer bg-surface-container-low`}
                 onClick={() => onRowClick?.(row, i)}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLTableRowElement).style.backgroundColor = "var(--color-table-row-hover-bg)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLTableRowElement).style.backgroundColor = isSelected ? "var(--color-table-row-selected-bg)" : "var(--color-table-row-bg)";
-                }}
+                onDoubleClick={() => onRowDblClick?.(row, i)}
               >
                 {columns.map((c) => (
                   <TableCell
                     key={String(c.field)}
-                    className={`px-6 py-2.5 font-medium ${c.width || ""}`}
+                    className={`px-6 py-4 text-sm font-medium text-outline${c.width || ""}`}
                     style={{ color: "var(--color-table-text)" }}
                   >
                     {c.type === FieldType.BOOLEAN ? (
                       row[c.field] ? (
                         <Check className="w-6 h-6" />
                       ) : (
-                        <CircleX className="w-6 h-6" />
+                        <ArrowDown className="w-6 h-6" />
                       )
                     ) : (
                       String(row[c.field])

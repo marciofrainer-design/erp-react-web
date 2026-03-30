@@ -1,27 +1,43 @@
-import { Button } from "../ui/button";
+import { Building2 } from "lucide-react";
 import type { CrudRegisterProps } from "./types";
+import { motion } from "framer-motion";
 
-const CrudRegister = <T extends object>({
+const CrudRegister = ({
   children,
-  onSubmit,
-  onCancel,
-}: CrudRegisterProps<T>) => {
+  title,
+  description,
+}: CrudRegisterProps) => {
+
   return (
-    <div className="p-4 bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
-      <form onSubmit={onSubmit} className="space-y-4">
-        {children}
-        <div className="flex gap-2 pt-2">
-          <Button type="submit" className="mt-2">
-            Salvar
-          </Button>
-          {onCancel && (
-            <Button type="button" onClick={onCancel} className="mt-2">
-              Cancelar
-            </Button>
-          )}
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="flex-1 flex flex-col overflow-hidden max-w-5xl mx-auto w-full"
+    >
+      <div className="mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-black font-headline tracking-tighter text-on-surface">
+              {title}
+            </h1>
+            <p className="text-on-surface-variant">
+              {description && <span>{description}</span>}
+            </p>
+          </div>
+          <div className="bg-primary-fixed/30 px-4 py-2 rounded-xl flex items-center gap-3">
+            <Building2 className="text-primary w-5 h-5" />
+            <span className="text-sm font-semibold text-primary">
+              Unidade: Matriz Central
+            </span>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+      <div className="bg-surface-container-lowest rounded-xl shadow-ambient p-8 border border-outline-variant/20">
+        <form className="space-y-8">
+          {children}
+        </form>
+      </div>
+    </motion.div>
   );
 };
 

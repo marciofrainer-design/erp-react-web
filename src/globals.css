@@ -82,6 +82,8 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: var(--color-indigo-200);
   --sidebar-ring: var(--color-indigo-300);
+  --table-row-hover: var(--color-indigo-100);
+  --border-primary: var(--color-indigo-500);
 }
 
 .dark {
@@ -116,6 +118,8 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #4f46e5;
   --sidebar-ring: #a5b4fc;
+  --table-row-hover: var(--color-indigo-700); 
+  --border-primary: var(--color-indigo-400);
 }
 
 @layer base {

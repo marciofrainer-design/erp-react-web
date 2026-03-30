@@ -1,4 +1,5 @@
-import type { ApiAdapter, DependenciesFactory, Repository } from "../interface";
+import type { ApiAdapter } from "../interface";
+import type { DependenciesFactory, Repository } from "../interface/types";
 
 export class DependenciesFactoryBase<T> implements DependenciesFactory<T> {
   apiAdapter: ApiAdapter;

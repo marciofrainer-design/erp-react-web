@@ -52,7 +52,7 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="max-w-7xl mx-auto p-4">
+      <div className="max-w-7xl mx-auto p-4" >
         <div
           className="flex items-center justify-between mb-6 border border-indigo-300 rounded-lg p-3"
           style={{ backgroundColor: "var(--color-bg-secondary)" }}
@@ -63,7 +63,7 @@ export function ToolsPage() {
         </div>
 
         <div
-          className="grid grid-cols-12 gap-4 border border-indigo-300 rounded-lg"
+          className="grid grid-cols-12 gap-4 border border-indigo-300 rounded-lg "
           style={{ minHeight: "78vh" }}
         >
           <main
@@ -74,7 +74,7 @@ export function ToolsPage() {
             }}
           >
             <div
-              className="p-2 h-full min-h-[58vh] rounded-md overflow-auto"
+              className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
               style={{ border: "1px solid var(--color-border-primary)" }}
             >
               {selectedTool === "app45" && (

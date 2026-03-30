@@ -1,24 +1,29 @@
 import { Button } from "@/components/ui/button";
 import type { ButtonBaseProps } from "./types";
 
-const ButtonBase = ({ children, disabled, onClick }: ButtonBaseProps) => {
+const ButtonBase = ({ disabled, onClick, Icon, label }: ButtonBaseProps) => {
   return (
-    <Button onClick={onClick} 
+    <Button
+      onClick={onClick}
       disabled={disabled}
-      className="flex items-center gap-2 px-5 py-2.5 rounded font-semibold text-sm transition-all shadow-sm active:transform active:scale-95"
+      className="flex items-center gap-2 px-6 py-2.5 indigo-gradient text-white font-bold text-sm rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95 cursor-pointer"
       style={{
-        backgroundColor: 'var(--color-button-bg)',
-        color: 'var(--color-button-text)',
+        backgroundColor: "var(--color-button-bg)",
+        color: "var(--color-button-text)",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--color-button-bg-hover)';
+        (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+          "var(--color-button-bg-hover)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--color-button-bg)';
-      }}>
-      {children}
+        (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+          "var(--color-button-bg)";
+      }}
+    >
+      {Icon && <Icon className="w-6 h-6" />}
+      <span className="text-md">{label}</span>
     </Button>
   );
-}
+};
 
 export { ButtonBase };

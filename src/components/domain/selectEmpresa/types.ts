@@ -1,7 +1,6 @@
-import type { Empresa } from "@/domain/empresa/types";
 
 type SelectEmpresaProps = {
-    onSelect?: (empresa: Empresa) => void
+    onSelect: (id: string) => void
 }
 
 export type { SelectEmpresaProps };
