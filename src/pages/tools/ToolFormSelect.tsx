@@ -1,11 +1,6 @@
 import { formOptions } from "./consts";
 import { formLabels } from "./toolConfig";
-import type { FormOption } from "./types";
-
-type ToolFormSelectProps = {
-  selectedForm: FormOption;
-  onSelectForm: (value: FormOption) => void;
-};
+import type { FormOption, ToolFormSelectProps } from "./types";
 
 export function ToolFormSelect({ selectedForm, onSelectForm }: ToolFormSelectProps) {
   const currentValue = selectedForm;

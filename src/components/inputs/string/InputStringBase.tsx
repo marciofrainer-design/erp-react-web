@@ -1,19 +1,29 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "../../ui/label";
+import { Label } from "@components/ui/label";
 import type { InputProps } from "../types";
 import { InputGroupBase } from "../group/InputGroupBase";
+import InputBase from "@components/inputs/InputBase";
 
-const InputStringBase = ({ label, value, onChange, width }: InputProps) => {
+const InputStringBase = ({
+  label,
+  value,
+  onChange,
+  width,
+  error,
+}: InputProps) => {
   return (
     <InputGroupBase width={width}>
-      <Label className="block text-sm font-semibold text-on-surface-variant mb-2">
-        {label}
+      <Label className="pl-4 w-full block text text-sm font-semibold text-on-surface-variant mb-2">
+        {label}        
       </Label>
-      <Input
-        className="w-full bg-surface-container-low border-none rounded-lg text-on-surface/50 font-mono text-sm px-4 py-3 outline-none"
+      <InputBase
+        type="text"
         value={value}
+        aria-invalid={Boolean(error) || undefined}
         onChange={(e) => onChange(e.target.value)}
       />
+      {error ? (
+        <span className="mt-1 block text-xs text-destructive">{error}</span>
+      ) : null}
     </InputGroupBase>
   );
 };

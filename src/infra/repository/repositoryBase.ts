@@ -22,7 +22,7 @@ export class RepositoryBase<T> implements Repository<T> {
   }
 
   save(data: T): Promise<void> {
-    return this.api.post<void>(this.controller, 'Save', data);
+    return this.api.post<void>(this.controller, '', data);
   }
 
   delete(id: number): Promise<void> {

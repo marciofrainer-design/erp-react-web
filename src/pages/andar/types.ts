@@ -1,6 +1,7 @@
 import type { Andar } from "@/domain/andar/types";
 
 export type AndarRegisterProps = {
-  initialData?: Andar;
-  onSubmit?: (andar: Andar) => void;
+  data: Andar;
+  mode?: "view" | "new" | "clone";
+  onChange: <K extends keyof Andar>(field: K, value: Andar[K]) => void;
 };

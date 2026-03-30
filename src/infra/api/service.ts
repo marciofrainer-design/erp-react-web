@@ -21,8 +21,8 @@ export class DataSnapAdapter implements ApiAdapter {
     return this.call<T>({ controller, method, params, verb: "DELETE" });
   }
   async call<T>(options: ApiCallOptions): Promise<T> {
-
-    const serverUrl = import.meta.env.VITE_DATASNAP_URL || "http://localhost:3000";
+    const serverUrl =
+      import.meta.env.VITE_DATASNAP_URL || "http://localhost:3000";
 
     const url = `${serverUrl}/${options.controller}/${options.method}`;
 

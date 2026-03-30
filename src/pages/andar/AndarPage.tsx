@@ -1,27 +1,22 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import type { Andar } from "@/domain/andar/types";
 import { AndarColumns } from "@/domain/andar/types";
 import { CrudPage } from "@/components/crud/CrudPage";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
-import type { AndarDependencies } from "@/domain/andar/types";
+import AndarFactory from "@/domain/andar/andarFactory";
 
-type AndarPageProps = {
-  dependencies: AndarDependencies;
-};
-
-export function AndarPage({ dependencies }: AndarPageProps) {
-  const andarRepository = dependencies.andarRepository;
+export function AndarPage() {
   const [andarData, setAndarData] = useState<Andar[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(true);
-  const [editingAndar, setEditingAndar] = useState<Andar | undefined>(
-    undefined,
-  );
+
+  const dependencies = useMemo(() => AndarFactory.dependencies(), []);
+  const andarRepository = dependencies.repository;
 
   const fetchAndarData = useCallback(async () => {
     try {
       setLoading(true);
+      setError(null);
       const data = await andarRepository.getAll();
       setAndarData(data);
     } catch (err) {
@@ -50,12 +45,12 @@ export function AndarPage({ dependencies }: AndarPageProps) {
       pageDescription="Gerencie os andares do seu estabelecimento"
       tableColumns={AndarColumns}
       tableData={andarData}
-      dependencies={{ andarRepository, primaryKeyName: "idandar" }}
-      register={
-        isRegisterOpen ? (
-          <AndarRegister initialData={editingAndar} />
-        ) : undefined
-      }
+      createNewItem={AndarFactory.createBlankAndar}
+      onSaved={fetchAndarData}
+      dependencies={dependencies}
+      register={({ mode, data, onChange }) => (
+        <AndarRegister mode={mode} data={data} onChange={onChange} />
+      )}
     />
   );
 }

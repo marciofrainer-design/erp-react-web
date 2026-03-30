@@ -14,11 +14,15 @@ function CrudPage<T extends object>({
   tableColumns,
   tableData,
   register,
+  createNewItem,
+  onSaved,
   dependencies,
 }: CrudPageProps<T>) {
   const [mode, setMode] = useState<CrudMode>("table");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [formData, setFormData] = useState<Partial<T>>({});
+  const [formData, setFormData] = useState<T>(
+    () => createNewItem?.() ?? ({} as T),
+  );
   const { repository, primaryKeyName } = dependencies || {};
 
   const selectedItem = useMemo(() => {
@@ -38,9 +42,10 @@ function CrudPage<T extends object>({
   const handleRowDblClick = useCallback(
     (_: T, index: number) => {
       setSelectedIndex(index);
+      setFormData({ ...tableData[index] });
       setMode("view");
     },
-    [],
+    [tableData],
   );
 
   const handleView = useCallback(() => {
@@ -51,9 +56,9 @@ function CrudPage<T extends object>({
 
   const handleNew = useCallback(() => {
     setSelectedIndex(null);
-    setFormData({});
+    setFormData(createNewItem?.() ?? ({} as T));
     setMode("new");
-  }, []);
+  }, [createNewItem]);
 
   const handleClone = useCallback(() => {
     if (!selectedItem) return;
@@ -63,7 +68,7 @@ function CrudPage<T extends object>({
 
   const handleDelete = useCallback(() => {
     if (selectedIndex === null) return;
-    repository?.delete?.(tableData[selectedIndex]?.[primaryKeyName as keyof T] as number | string);
+    repository?.delete?.(tableData[selectedIndex]?.[primaryKeyName as keyof T] as number);
   }, [selectedIndex, repository, tableData, primaryKeyName]);
 
   const handlePrint = useCallback(() => {
@@ -78,12 +83,30 @@ function CrudPage<T extends object>({
     setMode("table");
   }, []);
 
-  const handleSave = useCallback(() => {
-    repository?.save(formData as T);
+  const handleSave = useCallback(async () => {
+    if (!repository) return;
+    await repository.save(formData);
+    await onSaved?.();
     setMode("table");
-  }, [formData, repository]);
+  }, [formData, repository, onSaved]);
+
+  const handleRegisterChange = useCallback(
+    <K extends keyof T>(field: K, value: T[K]) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [],
+  );
 
   const showTable = mode === "table";
+
+  const registerContent =
+    !showTable && register
+      ? register({
+          mode,
+          data: formData,
+          onChange: handleRegisterChange,
+        })
+      : undefined;
 
   const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
 
@@ -106,7 +129,7 @@ function CrudPage<T extends object>({
             onRowDblClick={handleRowDblClick}
           />
         }
-        register={register}
+        register={registerContent}
         showTable={showTable}
         footer={
           <CrudToolbar

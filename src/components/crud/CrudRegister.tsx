@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 const CrudRegister = ({
   children,
   title,
-  description
+  description,
 }: CrudRegisterProps) => {
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}

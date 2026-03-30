@@ -15,14 +15,22 @@ export type CrudPageProps<T extends object> = {
   pageDescription?: string;
   tableColumns: Column<T>[];
   tableData: T[];
-  register?: React.ReactNode;
+  register?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
+  createNewItem?: () => T;
+  onSaved?: () => Promise<void> | void;
   dependencies?: CrudRegisterDependencies<T>;
+};
+
+export type CrudRegisterRenderProps<T extends object> = {
+  mode: "view" | "new" | "clone";
+  data: T;
+  onChange: <K extends keyof T>(field: K, value: T[K]) => void;
 };
 
 export type CrudRepository<T> = {
   getAll: () => Promise<T[]>;
   save: (item: T) => Promise<void>;
-  delete?: (id: number | string) => Promise<void>;
+  delete?: (id: number) => Promise<void>;
 };
 
 export type CrudRegisterDependencies<T> = {
