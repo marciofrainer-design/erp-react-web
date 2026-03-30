@@ -5,28 +5,16 @@ import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
-import { DependenciesFactoryBase } from "@/infra/factories/dependenciesFactory";
-import { DataSnapAdapter } from "@/infra/api/service";
-import { AndarRepository } from "@/domain/andar/AndarRepository";
 
 export function ToolsPage() {
   const [selectedTool, setSelectedTool] = useState<ToolKey>("app45");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const adapter = useMemo(() => new DataSnapAdapter(), []);
-
-  const andarDeps = useMemo(() => {
-    return new DependenciesFactoryBase(
-      adapter,
-      new AndarRepository(adapter),
-    );
-  }, [adapter]);
-
   const renderedComponent = useMemo(() => {
-    const params = { tool: selectedTool, andarDeps, selectedForm };
+    const params = { tool: selectedTool, selectedForm };
     return getToolComponent(params);
-  }, [selectedTool, andarDeps, selectedForm]);
+  }, [selectedTool, selectedForm]);
 
   const handleSelectForm = useCallback((value: FormOption) => {
     setSelectedForm(value);

@@ -30,6 +30,6 @@ export class RepositoryBase<T> implements Repository<T> {
   }
 
   delete(id: number): Promise<void> {
-    return this.api.delete<void>(this.controller, 'Delete', { id });
+    return this.api.delete<void>(this.controller, '', id);
   }
 }
