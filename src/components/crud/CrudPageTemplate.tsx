@@ -14,7 +14,7 @@ export function CrudPageTemplate({
 
   return (
     <div
-      className="flex-1 flex flex-col overflow-hidden px-8 pt-8 pb-4 max-w-480 mx-auto w-full"
+      className="flex flex-col overflow-hidden px-8 pb-4 max-w-480 mx-auto w-full"
       style={{
         backgroundColor: "var(--color-bg-secondary)",
         borderBottom: "1px solid var(--color-border-primary)",

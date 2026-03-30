@@ -4,12 +4,16 @@ import InputBase from "@components/inputs/InputBase";
 import { useId } from "react";
 
 const InputStringBase = ({
+  id,
+  name,
   label,
   value,
   onChange,
   width,
   ref,
-  error
+  error,
+  placeholder,
+  Icon
 }: InputProps) => {
   const errorId = useId();
 
@@ -22,12 +26,16 @@ const InputStringBase = ({
         {label}
       </Label>
       <InputBase
+        id={id}
+        name={name}
         type="text"
         value={value}
         ariaInvalid={Boolean(error)}
         ariaDescribedBy={error ? error : undefined}
         onChange={onChange}
         ref={ref}
+        placeholder={placeholder}
+        Icon={Icon}
       />
       {error ? (
         <span id={errorId} className="mt-1 block text-xs text-destructive">

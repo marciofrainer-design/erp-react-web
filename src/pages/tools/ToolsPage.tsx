@@ -5,12 +5,15 @@ import { ToolMenuModal } from "./ToolMenuModal";
 import { ToolFormSelect } from "./ToolFormSelect";
 import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
 import { useEmpresa } from "@/context/empresa/useEmpresa";
+import { useAuth } from "@/context/auth/useAuth";
 import { motion } from "motion/react";
 import ToolHeader from "./ToolHeader";
+import ToolLogin from "./ToolLogin";
 
 export function ToolsPage() {
   const { setEmpresaId } = useEmpresa();
-  const [selectedTool, setSelectedTool] = useState<ToolKey>("app45");
+  const { login } = useAuth();
+  const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,6 +30,25 @@ export function ToolsPage() {
     setSelectedTool(tool);
     setIsMenuOpen(false);
   }, []);
+
+  const handleOnLoginClick = useCallback(
+    (email: string) => {
+      login(email);
+      setSelectedTool("app45");
+    },
+    [login],
+  );
+
+  const getToolTitle = () => {
+    switch (selectedTool) {
+      case "login":
+        return "Login";
+      case "app45":
+        return "FrontWeb 4.5";
+      default:
+        return "Desbravador Web System";
+    }
+  };
 
   return (
     <motion.div
@@ -46,7 +68,27 @@ export function ToolsPage() {
       />
 
       <div className="p-4">
-        <ToolHeader title="Desbravador Software" setIsMenuOpen={setIsMenuOpen} />
+        <ToolHeader
+          title="Desbravador Web System"
+          setIsMenuOpen={setIsMenuOpen}
+        />
+        {selectedTool !== "login" && (
+          <div className="flex justify-between">
+            <SelectEmpresa onSelect={setEmpresaId} />
+            <div className="md:flex items-center gap-6 font-headline font-bold  text-xl">
+              <a
+                className="text-primary mr-10 mt-2"
+                href="#"
+                style={{
+                  backgroundColor: "var(--color-bg-primary)",
+                  color: "var(--color-text-primary)",
+                }}
+              >
+                {getToolTitle()}
+              </a>
+            </div>
+          </div>
+        )}
 
         <div
           className="grid grid-cols-12 gap-4 mt-4"
@@ -59,19 +101,22 @@ export function ToolsPage() {
               border: "1px solid var(--color-border-primary)",
             }}
           >
-            <div
-              className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
-              style={{ border: "1px solid var(--color-border-primary)" }}
-            >
-              <SelectEmpresa onSelect={setEmpresaId} />
-              {selectedTool === "app45" && (
-                <ToolFormSelect
-                  selectedForm={selectedForm}
-                  onSelectForm={handleSelectForm}
-                />
-              )}
-              {renderedComponent}
-            </div>
+            {selectedTool === "login" ? (
+              <ToolLogin onLoginClick={handleOnLoginClick} />
+            ) : (
+              <div
+                className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md"
+                style={{ border: "1px solid var(--color-border-primary)" }}
+              >
+                {selectedTool === "app45" && (
+                  <ToolFormSelect
+                    selectedForm={selectedForm}
+                    onSelectForm={handleSelectForm}
+                  />
+                )}
+                {renderedComponent}
+              </div>
+            )}
           </main>
         </div>
       </div>

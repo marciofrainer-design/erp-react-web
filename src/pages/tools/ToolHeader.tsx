@@ -1,11 +1,7 @@
 import { Bell, Search, Settings } from "lucide-react";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
-
-type ToolHeaderProps = {
-  title: string;
-  setIsMenuOpen: (open: boolean) => void;
-};
+import type { ToolHeaderProps } from "./types";
 
 const ToolHeader = ({ title, setIsMenuOpen }: ToolHeaderProps) => {
   return (
@@ -13,7 +9,7 @@ const ToolHeader = ({ title, setIsMenuOpen }: ToolHeaderProps) => {
       <nav className="flex justify-between items-center w-full px-6 h-16 max-w-480 mx-auto">
         <div className="flex items-center gap-8">
           <span
-            className="text-xl font-black text-primary tracking-tighter font-headline"
+            className="text-2xl font-extrabold text-primary tracking-tighter font-headline"
             style={{
               backgroundColor: "var(--color-bg-primary)",
               color: "var(--color-text-primary)",
@@ -21,22 +17,6 @@ const ToolHeader = ({ title, setIsMenuOpen }: ToolHeaderProps) => {
           >
             {title}
           </span>
-          <div className="hidden md:flex items-center gap-6 font-headline font-bold tracking-tight text-sm">
-            <a
-              className="text-primary border-b-2 border-primary pb-1 cursor-pointer"
-              href="#"
-              style={{
-                backgroundColor: "var(--color-bg-primary)",
-                color: "var(--color-text-primary)",
-              }}
-            >
-              Aplicação 4.5
-            </a>
-            {/* <a className="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container transition-all rounded-lg px-2 py-1" href="#">Reservas Online</a>
-              <a className="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container transition-all rounded-lg px-2 py-1" href="#">Configurações</a>
-              <a className="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container transition-all rounded-lg px-2 py-1" href="#">Relatórios</a>
-              <a className="text-on-surface-variant font-medium hover:text-primary hover:bg-surface-container transition-all rounded-lg px-2 py-1" href="#">Integrações</a> */}
-          </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="relative hidden sm:block">

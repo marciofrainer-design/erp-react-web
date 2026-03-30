@@ -17,7 +17,7 @@ const SelectBase = ({
      }, [value, onChange]);
     
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 mt-4">
       <div className="flex flex-col">
         <label className="text-[10px] uppercase font-bold text-outline tracking-wider mb-1 px-1">
           {label}
