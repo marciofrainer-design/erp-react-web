@@ -26,7 +26,7 @@ const SelectBase = ({
           {Icon && <Icon className="text-primary w-5 h-5" />}
           <Select value={value} onValueChange={(value) => setValue(value || "")}>
             <SelectTrigger>
-              <SelectValue placeholder={`Selecione ${label.toLowerCase()}`} >
+              <SelectValue className="text-base" placeholder={`Selecione ${label.toLowerCase()}`} >
                 {selectedLabel}
                 </SelectValue>
             </SelectTrigger>

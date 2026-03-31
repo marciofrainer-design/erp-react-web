@@ -8,7 +8,11 @@ import {
   WifiOff,
   X,
 } from "lucide-react";
-import type { FooterMessage, FooterMessageType, ToolFooterProps } from "./types";
+import type {
+  FooterMessage,
+  FooterMessageType,
+  ToolFooterProps,
+} from "./types";
 
 const MESSAGE_ICONS: Record<FooterMessageType, React.ReactNode> = {
   info: <Info className="w-3.5 h-3.5 shrink-0 text-blue-400" />,
@@ -16,6 +20,13 @@ const MESSAGE_ICONS: Record<FooterMessageType, React.ReactNode> = {
   warning: <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-yellow-400" />,
   error: <AlertCircle className="w-3.5 h-3.5 shrink-0 text-red-400" />,
 };
+
+const textSize = "text-sm";
+const iconSize = "h-4 w-4";
+const MAX_VISIBLE = 4;
+
+const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
+  const visible = messages.slice(-MAX_VISIBLE);
 
 function MessageChip({
   message,
@@ -38,7 +49,7 @@ function MessageChip({
       {MESSAGE_ICONS[message.type]}
       <span
         className="truncate"
-        style={{ color: "var(--color-text-primary)" }}
+        style={{ color: "var(--color-text-primary)", fontSize: textSize }}
         title={message.text}
       >
         {message.text}
@@ -53,11 +64,6 @@ function MessageChip({
     </motion.div>
   );
 }
-
-const MAX_VISIBLE = 4;
-
-const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
-  const visible = messages.slice(-MAX_VISIBLE);
 
   return (
     <footer
@@ -75,12 +81,15 @@ const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
             transition={{ duration: 0.4 }}
           >
             {isConnected ? (
-              <Wifi className="w-3.5 h-3.5 text-green-400" />
+              <Wifi className={`w-3.5 h-3.5 text-green-400 ${iconSize}`} />
             ) : (
-              <WifiOff className="w-3.5 h-3.5 text-red-400" />
+              <WifiOff className={`w-3.5 h-3.5 text-red-400 ${iconSize}`} />
             )}
           </motion.div>
-          <span className="text-xs">
+          <span
+            className={`${textSize}`}
+            style={{ color: "var(--color-text-secondary)" }}
+          >
             {isConnected ? "Conectado" : "Sem conexão"}
           </span>
         </div>
@@ -102,8 +111,8 @@ const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-xs"
-                style={{ opacity: 0.35 }}
+                className={textSize}
+                style={{ color: "var(--color-text-secondary)" }}
               >
                 Nenhuma notificação
               </motion.span>
