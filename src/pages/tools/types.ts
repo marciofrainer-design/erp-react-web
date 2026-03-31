@@ -19,3 +19,19 @@ export type ToolHeaderProps = {
   showTitle?: boolean;
   setIsMenuOpen: (open: boolean) => void;
 };
+
+export type FooterMessageType = "info" | "success" | "warning" | "error";
+
+export type FooterMessage = {
+  id: string;
+  type: FooterMessageType;
+  text: string;
+  timestamp: Date;
+  autoDismiss?: boolean;
+};
+
+export type ToolFooterProps = {
+  messages: FooterMessage[];
+  isConnected: boolean;
+  onDismiss: (id: string) => void;
+};

@@ -19,3 +19,4 @@ export const toolIcons: Record<ToolKey, React.ComponentType<{ className?: string
   relatorios: FileText,
   integracoes: Link,
 };
+

@@ -9,6 +9,8 @@ import { useAuth } from "@/context/auth/useAuth";
 import { motion } from "motion/react";
 import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
+import ToolFooter from "./ToolFooter";
+import { useFooterMessages } from "./useFooterMessages";
 
 export function ToolsPage() {
   const { setEmpresaId, empresaId } = useEmpresa();
@@ -17,6 +19,7 @@ export function ToolsPage() {
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
+  const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
 
   const renderedComponent = useMemo(() => {
     const params = { tool: selectedTool, selectedForm };
@@ -36,8 +39,9 @@ export function ToolsPage() {
     (email: string) => {
       login(email);
       setSelectedTool("app45");
+      addMessage("success", `Bem-vindo, ${email}!`);
     },
-    [login],
+    [login, addMessage],
   );
 
   useEffect(() => {
@@ -84,7 +88,7 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="p-1">
+      <div className="p-1 flex flex-col flex-1">
         <ToolHeader
           title="Desbravador Web System"
           setIsMenuOpen={setIsMenuOpen}
@@ -113,7 +117,7 @@ export function ToolsPage() {
           style={{ minHeight: "78vh" }}
         >
           <main
-            className="col-span-12 rounded-lg p-2"
+            className="col-span-12 rounded-lg p-1 h-full min-h-[58vh] max-h-[88vh] "
             style={{
               backgroundColor: "var(--color-bg-secondary)",
             }}
@@ -133,6 +137,13 @@ export function ToolsPage() {
             ) : null}
           </main>
         </div>
+        {selectedTool === "app45" ? (
+          <ToolFooter
+            messages={messages}
+            isConnected={isConnected}
+            onDismiss={dismiss}
+          />
+        ) : null}
       </div>
     </motion.div>
   );
