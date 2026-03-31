@@ -16,5 +16,6 @@ export type ToolFormSelectProps = {
 
 export type ToolHeaderProps = {
   title: string;
+  showTitle?: boolean;
   setIsMenuOpen: (open: boolean) => void;
 };

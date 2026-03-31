@@ -10,7 +10,7 @@ function App() {
       <AuthProvider>
         <EmpresaProvider>
           <ToolsPage />
-          <Toaster position="top-right" richColors closeButton />
+          <Toaster position="top-center" richColors closeButton />
         </EmpresaProvider>
       </AuthProvider>
     </ThemeProvider>

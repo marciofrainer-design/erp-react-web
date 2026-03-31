@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { getToolComponent } from "./toolConfig";
 import type { FormOption, ToolKey } from "./types";
 import { ToolMenuModal } from "./ToolMenuModal";
@@ -16,6 +16,7 @@ export function ToolsPage() {
   const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
   const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
 
   const renderedComponent = useMemo(() => {
     const params = { tool: selectedTool, selectedForm };
@@ -39,12 +40,28 @@ export function ToolsPage() {
     [login],
   );
 
+  useEffect(() => {
+    if (selectedTool !== "login") {
+      setShowTitle(true);
+    } else {
+      setShowTitle(false);
+    }
+  }, [selectedTool]);
+
   const getToolTitle = () => {
     switch (selectedTool) {
       case "login":
         return "Login";
       case "app45":
         return "FrontWeb 4.5";
+      case "config":
+        return "Configurações do Usuário";
+      case "relatorios":
+        return "Gerenciador de Relatórios";
+      case "integracoes":
+        return "Integrações";
+      case "reservas":
+        return "Reservas Online";
       default:
         return "Desbravador Web System";
     }
@@ -67,10 +84,11 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="p-4">
+      <div className="p-1">
         <ToolHeader
           title="Desbravador Web System"
           setIsMenuOpen={setIsMenuOpen}
+          showTitle={showTitle}
         />
         {selectedTool !== "login" && (
           <div className="flex justify-between">

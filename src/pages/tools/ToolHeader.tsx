@@ -1,23 +1,38 @@
 import { Bell, Search, Settings } from "lucide-react";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
+import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
 
-const ToolHeader = ({ title, setIsMenuOpen }: ToolHeaderProps) => {
+const ToolHeader = ({
+  title,
+  setIsMenuOpen,
+  showTitle = false,
+}: ToolHeaderProps) => {
   return (
     <header className="glass sticky top-0 z-50 shadow-ambient border-b border-outline-variant/10">
       <nav className="flex justify-between items-center w-full px-6 h-16 max-w-480 mx-auto">
-        <div className="flex items-center gap-8">
-          <span
-            className="text-2xl font-extrabold text-primary tracking-tighter font-headline"
-            style={{
-              backgroundColor: "var(--color-bg-primary)",
-              color: "var(--color-text-primary)",
-            }}
-          >
-            {title}
-          </span>
-        </div>
+        <motion.div
+          animate={{ opacity: showTitle ? 1 : 0 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.5,
+            ease: "easeInOut",
+          }}
+          className="flex items-center gap-8"
+        >
+          {showTitle && (
+            <span
+              className="text-2xl font-extrabold text-primary tracking-tighter font-headline"
+              style={{
+                backgroundColor: "var(--color-bg-primary)",
+                color: "var(--color-text-primary)",
+              }}
+            >
+              {title}
+            </span>
+          )}
+        </motion.div>
         <div className="flex items-center gap-4">
           <div className="relative hidden sm:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
