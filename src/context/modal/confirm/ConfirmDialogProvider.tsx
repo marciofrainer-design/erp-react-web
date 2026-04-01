@@ -1,32 +1,16 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-
 import { Button } from "@/components/ui/button";
-import {
-  ConfirmDialogContext,
-  type ConfirmDialogContextType,
-  type ConfirmDialogOptions,
-} from "./ConfirmDialogContext";
+import type {
+  ConfirmDialogContextType,
+  ConfirmDialogProviderProps,
+  PendingConfirmState,
+} from "./types";
+import { ConfirmDialogContext, defaultOptions } from "./consts";
 
-type ConfirmDialogProviderProps = {
-  children: ReactNode;
-};
-
-type PendingConfirmState = {
-  isOpen: boolean;
-  options: Required<ConfirmDialogOptions>;
-  resolver: ((result: boolean) => void) | null;
-};
-
-const defaultOptions: Required<ConfirmDialogOptions> = {
-  title: "Confirmar operação",
-  description: "Deseja realmente continuar com esta ação?",
-  confirmText: "Confirmar",
-  cancelText: "Cancelar",
-  variant: "default",
-};
-
-export function ConfirmDialogProvider({ children }: ConfirmDialogProviderProps) {
+export function ConfirmDialogProvider({
+  children,
+}: ConfirmDialogProviderProps) {
   const [state, setState] = useState<PendingConfirmState>({
     isOpen: false,
     options: defaultOptions,
@@ -45,18 +29,21 @@ export function ConfirmDialogProvider({ children }: ConfirmDialogProviderProps) 
     });
   }, []);
 
-  const confirm = useCallback<ConfirmDialogContextType["confirm"]>((options = {}) => {
-    return new Promise<boolean>((resolve) => {
-      setState({
-        isOpen: true,
-        options: {
-          ...defaultOptions,
-          ...options,
-        },
-        resolver: resolve,
+  const confirm = useCallback<ConfirmDialogContextType["confirm"]>(
+    (options = {}) => {
+      return new Promise<boolean>((resolve) => {
+        setState({
+          isOpen: true,
+          options: {
+            ...defaultOptions,
+            ...options,
+          },
+          resolver: resolve,
+        });
       });
-    });
-  }, []);
+    },
+    [],
+  );
 
   const contextValue = useMemo<ConfirmDialogContextType>(
     () => ({
@@ -99,20 +86,33 @@ export function ConfirmDialogProvider({ children }: ConfirmDialogProviderProps) 
 
               <div className="relative space-y-5">
                 <div className="space-y-2">
-                  <h2 id="confirm-dialog-title" className="text-lg font-semibold text-foreground">
+                  <h2
+                    id="confirm-dialog-title"
+                    className="text-lg font-semibold text-foreground"
+                  >
                     {state.options.title}
                   </h2>
-                  <p id="confirm-dialog-description" className="text-sm text-muted-foreground">
+                  <p
+                    id="confirm-dialog-description"
+                    className="text-sm text-muted-foreground"
+                  >
                     {state.options.description}
                   </p>
                 </div>
 
                 <div className="flex items-center justify-end gap-3">
-                  <Button variant="outline" onClick={() => closeWithResult(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => closeWithResult(false)}
+                  >
                     {state.options.cancelText}
                   </Button>
                   <Button
-                    variant={state.options.variant === "destructive" ? "destructive" : "default"}
+                    variant={
+                      state.options.variant === "destructive"
+                        ? "destructive"
+                        : "default"
+                    }
                     onClick={() => closeWithResult(true)}
                   >
                     {state.options.confirmText}

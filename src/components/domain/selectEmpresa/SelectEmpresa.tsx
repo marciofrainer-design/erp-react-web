@@ -5,7 +5,7 @@ import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
 import { Building2 } from "lucide-react";
 import type { SelectEmpresaProps } from "./types";
-import { Loading } from "@/components/ui/loading";
+import { Loading } from "@/components/loading/Loading";
 
 const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
   const [empresaData, setEmpresaData] = useState<Empresa[]>([]);

@@ -6,31 +6,8 @@ import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
 import { useConfirm, useNotify } from "@/hooks";
-import { Loading } from "@/components/ui/loading";
-
-const normalizeSearchText = (value: string) =>
-  value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-const stringifyForSearch = (value: unknown): string => {
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  if (Array.isArray(value)) {
-    return value.map((item) => stringifyForSearch(item)).join(" ");
-  }
-
-  if (typeof value === "object") {
-    return Object.values(value as Record<string, unknown>)
-      .map((item) => stringifyForSearch(item))
-      .join(" ");
-  }
-
-  return String(value);
-};
+import { Loading } from "@/components/loading/Loading";
+import { normalizeSearchText, stringifyForSearch } from "@/utils";
 
 function CrudPage<T extends object>({
   title,
@@ -70,22 +47,21 @@ function CrudPage<T extends object>({
     return selectedIndex !== null ? filteredTableData[selectedIndex] : null;
   }, [selectedIndex, filteredTableData]);
 
-
-  const fetchAndarData = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const data = await repository.getAll();
       setData(data);
     } catch (err) {
-      notify.error(`Erro ao carregar dados de Andar: ${err}`);
+      notify.error(`Erro ao carregar dados: ${err}`);
     } finally {
       setLoading(false);
     }
   }, [repository, notify]);
 
   useEffect(() => {
-    fetchAndarData();
-  }, [fetchAndarData]);
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (
@@ -179,12 +155,12 @@ function CrudPage<T extends object>({
     try {
       await repository.delete(valueToDelete as number);
       notify.success("Registro excluído com sucesso.");
-      await fetchAndarData();
+      await fetchData();
       setSelectedIndex(null);
     } catch {
       notify.error("Não foi possível excluir o registro.");
     }
-  }, [selectedItem, repository, primaryKeyName, notify, fetchAndarData, confirm]);
+  }, [selectedItem, repository, primaryKeyName, notify, fetchData, confirm]);
 
   const handlePrint = useCallback(() => {
     notify.info("Imprimir relatório");
@@ -238,13 +214,13 @@ function CrudPage<T extends object>({
       if ((mode as string) === "new" || (mode as string) === "clone") {
         await repository.save(formData);
       }
-      await fetchAndarData();
+      await fetchData();
       notify.success("Registro salvo com sucesso.");
       setMode("table");
     } catch {
       notify.error("Não foi possível salvar o registro.");
     }
-  }, [formData, repository, fetchAndarData, mode, validate, notify, confirm]);
+  }, [formData, repository, fetchData, mode, validate, notify, confirm]);
 
   const handleRegisterChange = useCallback(
     <K extends keyof T>(field: K, value: T[K]) => {

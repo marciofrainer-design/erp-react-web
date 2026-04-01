@@ -1,1 +1,1 @@
-export { useConfirm } from "@/context/modal/useConfirm";
+export { useConfirm } from "@/context/modal/confirm/useConfirm";

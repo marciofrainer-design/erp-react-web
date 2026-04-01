@@ -7,11 +7,11 @@ export { EmpresaContext, type EmpresaContextType } from './empresa/EmpresaContex
 export { AuthProvider } from './auth/AuthProvider';
 export { useAuth } from './auth/useAuth';
 export { AuthContext, type AuthContextType, type AuthUser } from './auth/AuthContext';
-export { ConfirmDialogProvider } from './modal/ConfirmDialogProvider';
-export { useConfirm } from './modal/useConfirm';
+export { ConfirmDialogProvider } from './modal/confirm/ConfirmDialogProvider';
+export { useConfirm } from './modal/confirm/useConfirm';
 export {
-	ConfirmDialogContext,
 	type ConfirmDialogContextType,
 	type ConfirmDialogOptions,
 	type ConfirmDialogVariant,
-} from './modal/ConfirmDialogContext';
+} from './modal/confirm/types';
+export { ConfirmDialogContext } from './modal/confirm/consts';

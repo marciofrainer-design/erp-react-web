@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { type ReactNode } from "react";
 
 export type ConfirmDialogVariant = "default" | "destructive";
 
@@ -14,5 +14,12 @@ export type ConfirmDialogContextType = {
   confirm: (options?: ConfirmDialogOptions) => Promise<boolean>;
 };
 
-export const ConfirmDialogContext =
-  createContext<ConfirmDialogContextType | null>(null);
+export type ConfirmDialogProviderProps = {
+  children: ReactNode;
+};
+
+export type PendingConfirmState = {
+  isOpen: boolean;
+  options: Required<ConfirmDialogOptions>;
+  resolver: ((result: boolean) => void) | null;
+};
