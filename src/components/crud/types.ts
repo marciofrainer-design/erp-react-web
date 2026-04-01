@@ -15,11 +15,10 @@ export type CrudPageProps<T extends object> = {
   title: string;
   pageDescription?: string;
   tableColumns: Column<T>[];
-  tableData: T[];
   register?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
   createNewItem?: () => T;
   onSaved?: () => Promise<void> | void;
-  dependencies?: CrudRegisterDependencies<T>;
+  dependencies: CrudRegisterDependencies<T>;
   validate?: (data: T) => boolean;
 };
 

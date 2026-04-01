@@ -5,11 +5,9 @@ import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
 import { Building2 } from "lucide-react";
 import type { SelectEmpresaProps } from "./types";
+import { Loading } from "@/components/ui/loading";
 
 const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
-  const apiAdapter = new DataSnapAdapter();
-  const empresaRepository = new EmpresaRepository(apiAdapter);
-
   const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
   
   const [loading, setLoading] = useState(false);
@@ -19,6 +17,8 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
     const fetchEmpresaData = async () => {
       setLoading(true);
       try {
+        const apiAdapter = new DataSnapAdapter();
+        const empresaRepository = new EmpresaRepository(apiAdapter);
         const data = await empresaRepository.getAll();
         setEmpresaData(data);
       } catch (err) {
@@ -30,10 +30,18 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
     };
 
     fetchEmpresaData();
-  }, [empresaData.length]); // Evita loop infinito, só refaz a busca se o número de empresas mudar
+  }, []); // Evita loop infinito, só refaz a busca se o número de empresas mudar
 
   if (loading) {
-    return <div>Carregando empresas...</div>;
+    return (
+      <Loading
+        variant="inline"
+        size="sm"
+        title="Carregando empresas"
+        description="Buscando estabelecimentos disponiveis"
+        className="min-h-16"
+      />
+    );
   }
 
   if (error) {

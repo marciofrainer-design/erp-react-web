@@ -5,7 +5,8 @@ import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
-import { useNotify } from "@/hooks";
+import { useConfirm, useNotify } from "@/hooks";
+import { Loading } from "@/components/ui/loading";
 
 const normalizeSearchText = (value: string) =>
   value
@@ -35,14 +36,13 @@ function CrudPage<T extends object>({
   title,
   pageDescription,
   tableColumns,
-  tableData,
   register,
   createNewItem,
-  onSaved,
   dependencies,
   validate,
 }: CrudPageProps<T>) {
   const notify = useNotify();
+  const confirm = useConfirm();
   const [mode, setMode] = useState<CrudMode>("table");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [searchValue, setSearchValue] = useState("");
@@ -51,22 +51,41 @@ function CrudPage<T extends object>({
     () => createNewItem?.() ?? ({} as T),
   );
   const { repository, primaryKeyName } = dependencies || {};
+  const [data, setData] = useState<T[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const filteredTableData = useMemo(() => {
     const term = normalizeSearchText(searchTerm.trim());
 
     if (!term) {
-      return tableData;
+      return data;
     }
 
-    return tableData.filter((row) =>
+    return data.filter((row) =>
       normalizeSearchText(stringifyForSearch(row)).includes(term),
     );
-  }, [searchTerm, tableData]);
+  }, [searchTerm, data]);
 
   const selectedItem = useMemo(() => {
     return selectedIndex !== null ? filteredTableData[selectedIndex] : null;
   }, [selectedIndex, filteredTableData]);
+
+
+  const fetchAndarData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await repository.getAll();
+      setData(data);
+    } catch (err) {
+      notify.error(`Erro ao carregar dados de Andar: ${err}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [repository, notify]);
+
+  useEffect(() => {
+    fetchAndarData();
+  }, [fetchAndarData]);
 
   useEffect(() => {
     if (
@@ -144,15 +163,28 @@ function CrudPage<T extends object>({
       return;
     }
 
+    const shouldDelete = await confirm({
+      title: "Confirmar exclusão",
+      description: "Essa ação removerá o registro selecionado de forma permanente.",
+      confirmText: "Excluir registro",
+      cancelText: "Cancelar",
+      variant: "destructive",
+    });
+
+    if (!shouldDelete) {
+      notify.info("Exclusão cancelada pelo usuário.");
+      return;
+    }
+
     try {
       await repository.delete(valueToDelete as number);
       notify.success("Registro excluído com sucesso.");
-      await onSaved?.();
+      await fetchAndarData();
       setSelectedIndex(null);
     } catch {
       notify.error("Não foi possível excluir o registro.");
     }
-  }, [selectedItem, repository, primaryKeyName, notify, onSaved]);
+  }, [selectedItem, repository, primaryKeyName, notify, fetchAndarData, confirm]);
 
   const handlePrint = useCallback(() => {
     notify.info("Imprimir relatório");
@@ -162,9 +194,19 @@ function CrudPage<T extends object>({
     setMode("table");
   }, []);
 
-  const handleCancel = useCallback(() => {
-    setMode("table");
-  }, []);
+  const handleCancel = useCallback(async () => {
+    const shouldCancel = await confirm({
+      title: "Confirmar cancelamento",
+      description: "Essa ação cancelará as alterações feitas no registro.",
+      confirmText: "Cancelar alterações",
+      cancelText: "Continuar editando",
+      variant: "destructive",
+    });
+
+    if (shouldCancel) {
+      setMode("table");
+    }
+  }, [confirm]);
 
   const handleSave = useCallback(async () => {
     if (!repository) {
@@ -177,6 +219,18 @@ function CrudPage<T extends object>({
       return;
     }
 
+    const shouldSave = await confirm({
+      title: "Confirmar salvamento",
+      description: "Essa ação salvará as alterações feitas no registro.",
+      confirmText: "Salvar alterações",
+      cancelText: "Continuar editando",
+      variant: "default",
+    });
+
+    if (!shouldSave) {
+      return;
+    }
+
     try {
       if (mode === "view") {
         await repository.update(formData);
@@ -184,13 +238,13 @@ function CrudPage<T extends object>({
       if ((mode as string) === "new" || (mode as string) === "clone") {
         await repository.save(formData);
       }
-      await onSaved?.();
+      await fetchAndarData();
       notify.success("Registro salvo com sucesso.");
       setMode("table");
     } catch {
       notify.error("Não foi possível salvar o registro.");
     }
-  }, [formData, repository, onSaved, mode, validate, notify]);
+  }, [formData, repository, fetchAndarData, mode, validate, notify]);
 
   const handleRegisterChange = useCallback(
     <K extends keyof T>(field: K, value: T[K]) => {
@@ -212,6 +266,17 @@ function CrudPage<T extends object>({
       : undefined;
 
   const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
+
+  if (loading) {
+    return (
+      <Loading
+        variant="page"
+        size="lg"
+        title="Carregando dados"
+        description="Estamos preparando os dados para você continuar."
+      />
+    );
+  }
 
   return (
     <motion.div
@@ -240,7 +305,7 @@ function CrudPage<T extends object>({
             onRowDblClick={handleRowDblClick}
             indexSelected={selectedIndex}
             rowsCount={filteredTableData.length}
-            totalRowsCount={tableData.length}
+            totalRowsCount={data.length}
           />
         }
         register={registerContent}
