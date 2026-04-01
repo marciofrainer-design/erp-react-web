@@ -35,7 +35,7 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
                 <InputStringBase
                   label="Email"
                   value={email}
-                  onChange={setEmail}
+                  onChange={(e) => setEmail(e.target.value)}
                   id="email"
                   name="email"
                   placeholder="nome@empresa.com"
@@ -50,10 +50,11 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
                   label="Senha"
                   id="password"
                   value={password}
-                  onChange={setPassword}
-                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  isPassword={!showPassword}
                   name="password"
                   placeholder="••••••••"
+                  onClickIcon={() => setShowPassword(!showPassword)}
                   Icon={showPassword ? Eye : EyeOff}
                 />
                 <a
@@ -62,13 +63,7 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
                 >
                   Esqueceu a senha?
                 </a>
-                <button
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-on-surface transition-colors"
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                </button>
-              </div>
+                </div>
             </div>
             <div className="flex items-center gap-3 ml-1">
               <input

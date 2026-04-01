@@ -26,13 +26,13 @@ export function AndarRegister({ data, onChange }: AndarRegisterProps) {
             label="Nome"
             value={data.nmandar}
             error={errors.nmandar?.[0]}
-            onChange={(value) => onChange("nmandar", value)}
+            onChange={(e) => onChange("nmandar", e.target.value)}
           />
           <InputStringBase
             label="Identificador"
             value={data.cdandar}
             error={errors.cdandar?.[0]}
-            onChange={(value) => onChange("cdandar", value)}
+            onChange={(e) => onChange("cdandar", e.target.value)}
           />
         </div>
     </CrudRegister>

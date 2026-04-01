@@ -1,17 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 
-export type InputProps = {
-  type?: string;
-  value?: string;
-  ref?: React.Ref<HTMLInputElement>;
+export type InputProps = React.ComponentProps<"input"> & {
   label?: string;
-  width?: string;
+  width?: string | number;
   error?: string;
-  onChange?: (value: string) => void;
-  ariaInvalid?: boolean;
-  ariaDescribedBy?: string;
-  id?: string;
-  name?: string;
-  placeholder?: string;
   Icon?: LucideIcon;
+  onClickIcon?: (() => void) | undefined;
+  isPassword?: boolean;
 };

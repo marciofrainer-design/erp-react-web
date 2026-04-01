@@ -7,6 +7,7 @@ export type ButtonBaseProps = {
   Icon?: LucideIcon;
   label?: string;
   hidden?: boolean;
+  className?: string;
 };
 
 export type ButtonSearchBaseProps = {

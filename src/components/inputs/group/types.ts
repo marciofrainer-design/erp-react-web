@@ -1,4 +1,5 @@
 export type InputGroupBaseProps = {
-  width?: string;
+  width?: string | number;
+  height?: string | number;
   children: React.ReactNode;
 };
