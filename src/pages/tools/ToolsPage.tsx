@@ -88,7 +88,7 @@ export function ToolsPage() {
         onClose={() => setIsMenuOpen(false)}
       />
 
-      <div className="p-1 flex flex-col flex-1">
+      <div className="p-1 flex flex-col">
         <ToolHeader
           title="Desbravador Web System"
           setIsMenuOpen={setIsMenuOpen}

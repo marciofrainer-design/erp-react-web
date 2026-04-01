@@ -244,7 +244,7 @@ function CrudPage<T extends object>({
     } catch {
       notify.error("Não foi possível salvar o registro.");
     }
-  }, [formData, repository, fetchAndarData, mode, validate, notify]);
+  }, [formData, repository, fetchAndarData, mode, validate, notify, confirm]);
 
   const handleRegisterChange = useCallback(
     <K extends keyof T>(field: K, value: T[K]) => {

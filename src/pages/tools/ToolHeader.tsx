@@ -11,7 +11,7 @@ const ToolHeader = ({
 }: ToolHeaderProps) => {
   return (
     <header className="glass sticky top-0 z-50 shadow-ambient border-b border-outline-variant/10">
-      <nav className="flex justify-between items-center w-full px-6 h-16 max-w-480 mx-auto">
+      <nav className="flex justify-between items-center w-full px-8 h-16">
         <motion.div
           animate={{ opacity: showTitle ? 1 : 0 }}
           transition={{

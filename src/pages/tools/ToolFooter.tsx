@@ -73,7 +73,7 @@ function MessageChip({
         color: "var(--color-text-secondary)",
       }}
     >
-      <div className="flex items-center gap-3 px-6 h-9 max-w-480 mx-auto">
+      <div className="flex items-center gap-3 px-8 h-9">
         {/* Connection status */}
         <div className="flex items-center gap-1.5 shrink-0">
           <motion.div
