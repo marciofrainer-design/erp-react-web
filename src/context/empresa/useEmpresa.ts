@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { EmpresaContext, type EmpresaContextType } from "./EmpresaContext";
+import { type EmpresaContextType } from "./types";
+import { EmpresaContext } from "./empresaContext";
 
 export function useEmpresa(): EmpresaContextType {
   const context = useContext(EmpresaContext);

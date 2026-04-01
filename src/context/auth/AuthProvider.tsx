@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { AuthContext, type AuthUser, type AuthContextType } from "./AuthContext";
+import { AuthContext } from "./AuthContext";
+import type { AuthUser, AuthContextType } from "./types";
 
 const AUTH_STORAGE_KEY = "auth-user-email";
 

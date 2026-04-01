@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ConfirmDialogContext } from "./consts";
+import { ConfirmDialogContext } from "./confirmDialogContext";
 
 export function useConfirm() {
   const context = useContext(ConfirmDialogContext);

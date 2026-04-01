@@ -6,7 +6,8 @@ import type {
   ConfirmDialogProviderProps,
   PendingConfirmState,
 } from "./types";
-import { ConfirmDialogContext, defaultOptions } from "./consts";
+import { defaultOptions } from "./consts";
+import { ConfirmDialogContext } from "./confirmDialogContext";
 
 export function ConfirmDialogProvider({
   children,

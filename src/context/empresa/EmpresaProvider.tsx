@@ -1,13 +1,10 @@
 import { useMemo, useState } from "react";
-import { EmpresaContext, type EmpresaContextType } from "./EmpresaContext";
+import type { EmpresaContextType, EmpresaProviderProps } from "./types";
 import {
   getSelectedEmpresaId,
   setSelectedEmpresaId,
 } from "./empresaSelection";
-
-interface EmpresaProviderProps {
-  children: React.ReactNode;
-}
+import { EmpresaContext } from "./empresaContext";
 
 export function EmpresaProvider({ children }: EmpresaProviderProps) {
   const [empresaId, setEmpresaIdState] = useState<string | null>(() =>
