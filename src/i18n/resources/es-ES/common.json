@@ -1,0 +1,23 @@
+{
+  "app": {
+    "name": ""
+  },
+  "cancel": "",
+  "clone": "",
+  "close": "",
+  "delete": "",
+  "formInvalid": "",
+  "formValid": "",
+  "new": "",
+  "notifications": {
+    "dismiss": "",
+    "empty": ""
+  },
+  "print": "",
+  "save": "",
+  "status": {
+    "connected": "",
+    "disconnected": ""
+  },
+  "view": ""
+}

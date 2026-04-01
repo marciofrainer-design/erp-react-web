@@ -1,14 +1,18 @@
 import { Bell, Search, Settings } from "lucide-react";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 const ToolHeader = ({
   title,
   setIsMenuOpen,
   showTitle = false,
 }: ToolHeaderProps) => {
+  const { t } = useAppTranslation(["tools", "common"]);
+
   return (
     <header className="glass sticky top-0 z-50 shadow-ambient border-b border-outline-variant/10">
       <nav className="flex justify-between items-center w-full px-8 h-16">
@@ -38,11 +42,12 @@ const ToolHeader = ({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
             <input
               className="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/40 w-64 transition-all outline-none"
-              placeholder="Pesquisar..."
+              placeholder={t("header.searchPlaceholder", { ns: "tools" })}
               type="text"
             />
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
             <ToolButtonToggleTheme />
             <button className="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer active:scale-95 relative">

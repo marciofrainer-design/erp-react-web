@@ -17,6 +17,7 @@ const TableBase = <T extends object>({
   onRowDblClick,
   indexSelected,
 }: TableProps<T>) => {
+
   return (
     <div className="overflow-auto flex-1 max-h-97 no-scrollbar">
       <Table className="w-full text-left border-collapse" id="table-base">

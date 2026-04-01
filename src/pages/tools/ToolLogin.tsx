@@ -1,13 +1,15 @@
 import { ButtonBase } from "@/components/button/ButtonBase";
 import { InputStringBase } from "@/components/inputs/string/InputStringBase";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { Mail, Building2, EyeOff, Eye } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
 type ToolLoginProps = {
-  onLoginClick: (email: string, password: string) => void;
+  onLoginClick: (email: string) => void;
 };
 const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
+  const { t } = useAppTranslation("login");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,22 +25,22 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
         <div className="max-w-md w-full mx-auto lg:mx-0 p-8 lg:p-12 rounded-3xl bg-surface-container-lowest glass-effect shadow-[0_12px_40px_rgba(27,27,36,0.06)]">
           <div className="mb-10">
             <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-3 font-headline">
-              Bem-vindo
+              {t("title", { ns: "login" })}
             </h1>
             <p className="text-on-surface-variant font-body">
-              Acesse sua conta na plataforma Desbravador Web System para gerenciar suas soluções em hotelaria de forma eficiente e inovadora.
+              {t("subtitle", { ns: "login" })}
             </p>
           </div>
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             <div className="space-y-1.5">
               <div className="relative group">
                 <InputStringBase
-                  label="Email"
+                  label={t("fields.emailLabel", { ns: "login" })}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   id="email"
                   name="email"
-                  placeholder="nome@empresa.com"
+                  placeholder={t("fields.emailPlaceholder", { ns: "login" })}
                   type="email"
                   Icon={Mail}
                 />
@@ -47,21 +49,21 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
             <div className="space-y-1.5">
               <div className="relative group">
                 <InputStringBase
-                  label="Senha"
+                  label={t("fields.passwordLabel", { ns: "login" })}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   isPassword={!showPassword}
                   name="password"
-                  placeholder="••••••••"
+                  placeholder={t("fields.passwordPlaceholder", { ns: "login" })}
                   onClickIcon={() => setShowPassword(!showPassword)}
                   Icon={showPassword ? Eye : EyeOff}
                 />
                 <a
                   className="text-xs font-bold text-primary hover:underline"
                   href="#"
-                >
-                  Esqueceu a senha?
+                > 
+                  {t("forgotPassword", { ns: "login" })}
                 </a>
                 </div>
             </div>
@@ -75,16 +77,19 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
                 className="text-sm text-on-surface-variant font-body cursor-pointer select-none"
                 htmlFor="remember"
               >
-                Manter conectado
+                {t("keepConnected", { ns: "login" })}
               </label>
             </div>
-            <ButtonBase label="Login" onClick={() => onLoginClick(email, password)}/>
+            <ButtonBase
+              label={t("submit", { ns: "login" })}
+              onClick={() => onLoginClick(email)}
+            />
             <div className="relative py-4 flex items-center justify-center">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-outline-variant/30"></div>
               </div>
               <span className="relative px-4 bg-surface-container-lowest text-xs font-bold text-outline uppercase tracking-widest font-label">
-                ou continue com
+                {t("orContinueWith", { ns: "login" })}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -108,7 +113,7 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
               >
                 <Building2 size={18} className="text-on-surface" />
                 <span className="text-sm font-semibold text-on-surface font-label">
-                  SSO
+                  {t("sso", { ns: "login" })}
                 </span>
               </button>
             </div>
@@ -125,16 +130,16 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
         <div className="relative group">
           <div className="w-24 h-24 lg:w-32 lg:h-32 bg-primary rounded-[2rem] flex items-center justify-center shadow-2xl rotate-3 group-hover:rotate-0 transition-transform duration-500 mb-8 mx-auto lg:ml-auto lg:mr-0">
             <span className="text-on-primary text-5xl lg:text-7xl font-black font-headline tracking-tighter">
-              A
+              Dsy
             </span>
           </div>
           <h2 className="text-5xl lg:text-7xl font-extrabold text-on-surface tracking-tighter mb-6 leading-tight font-headline">
-            Desbravador
+            {t("companyName", { ns: "login" })}
             <br />
             <span className="text-primary-container">Web System</span>
           </h2>
           <p className="text-xl text-on-surface-variant font-body max-w-md lg:ml-auto">
-            A plataforma definitiva das melhores soluções para hotelaria.
+            {t("description", { ns: "login" })}
           </p>
           {/* Decorative Graphic */}
           <div className="mt-12 hidden lg:block opacity-80">

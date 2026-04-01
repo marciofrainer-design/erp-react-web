@@ -11,8 +11,10 @@ import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 import ToolFooter from "./ToolFooter";
 import { useFooterMessages } from "./useFooterMessages";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 export function ToolsPage() {
+  const { t } = useAppTranslation(["tools", "common"]);
   const { setEmpresaId, empresaId } = useEmpresa();
   const { login } = useAuth();
   const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
@@ -39,9 +41,9 @@ export function ToolsPage() {
     (email: string) => {
       login(email);
       setSelectedTool("app45");
-      addMessage("success", `Bem-vindo, ${email}!`);
+      addMessage("success", t("page.welcomeMessage", { ns: "tools", email }));
     },
-    [login, addMessage],
+    [login, addMessage, t],
   );
 
   useEffect(() => {
@@ -55,19 +57,19 @@ export function ToolsPage() {
   const getToolTitle = () => {
     switch (selectedTool) {
       case "login":
-        return "Login";
+        return t("page.toolTitle.login", { ns: "tools" });
       case "app45":
-        return "FrontWeb 4.5";
+        return t("page.toolTitle.app45", { ns: "tools" });
       case "config":
-        return "Configurações do Usuário";
+        return t("page.toolTitle.config", { ns: "tools" });
       case "relatorios":
-        return "Gerenciador de Relatórios";
+        return t("page.toolTitle.relatorios", { ns: "tools" });
       case "integracoes":
-        return "Integrações";
+        return t("page.toolTitle.integracoes", { ns: "tools" });
       case "reservas":
-        return "Reservas Online";
+        return t("page.toolTitle.reservas", { ns: "tools" });
       default:
-        return "Desbravador Web System";
+        return t("page.defaultTitle", { ns: "tools" });
     }
   };
 
@@ -90,7 +92,7 @@ export function ToolsPage() {
 
       <div className="p-1 flex flex-col">
         <ToolHeader
-          title="Desbravador Web System"
+          title={t("app.name", { ns: "common" })}
           setIsMenuOpen={setIsMenuOpen}
           showTitle={showTitle}
         />

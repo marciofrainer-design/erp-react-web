@@ -13,6 +13,7 @@ import type {
   FooterMessageType,
   ToolFooterProps,
 } from "./types";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 const MESSAGE_ICONS: Record<FooterMessageType, React.ReactNode> = {
   info: <Info className="w-3.5 h-3.5 shrink-0 text-blue-400" />,
@@ -26,6 +27,7 @@ const iconSize = "h-4 w-4";
 const MAX_VISIBLE = 4;
 
 const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
+  const { t } = useAppTranslation("common");
   const visible = messages.slice(-MAX_VISIBLE);
 
 function MessageChip({
@@ -57,7 +59,7 @@ function MessageChip({
       <button
         onClick={() => onDismiss(message.id)}
         className="ml-0.5 opacity-40 hover:opacity-100 transition-opacity cursor-pointer shrink-0"
-        aria-label="Dispensar notificação"
+        aria-label={t("notifications.dismiss")}
       >
         <X className="w-3 h-3" />
       </button>
@@ -90,7 +92,7 @@ function MessageChip({
             className={`${textSize}`}
             style={{ color: "var(--color-text-secondary)" }}
           >
-            {isConnected ? "Conectado" : "Sem conexão"}
+            {isConnected ? t("status.connected") : t("status.disconnected")}
           </span>
         </div>
 
@@ -114,7 +116,7 @@ function MessageChip({
                 className={textSize}
                 style={{ color: "var(--color-text-secondary)" }}
               >
-                Nenhuma notificação
+                {t("notifications.empty")}
               </motion.span>
             )}
           </AnimatePresence>

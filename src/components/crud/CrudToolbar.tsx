@@ -9,6 +9,7 @@ import {
   Info,
 } from "lucide-react";
 import type { CrudToolbarProps } from "./types";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 export function CrudToolbar({
   onView,
@@ -23,29 +24,31 @@ export function CrudToolbar({
   showTable = true,
   isFormValid = true,
 }: CrudToolbarProps) {
+  const { t } = useAppTranslation("crud");
+  
   return (
     <footer className="w-full bg-surface-container-lowest px-8 py-4 flex items-center justify-between shadow-[0_-4px_20px_rgba(27,27,36,0.03)] z-50">
       <div className="flex items-center gap-3">
         {showTable ? (
           <>
-            <ButtonBase onClick={onNew} Icon={CirclePlus} label="Novo" />
+            <ButtonBase onClick={onNew} Icon={CirclePlus} label={t("new")} />
             <ButtonBase
               onClick={onView}
               disabled={!hasSelected}
               Icon={Eye}
-              label="Visualizar"
+              label={t("view")} 
             />
             <ButtonBase
               onClick={onClone}
               disabled={!hasSelected}
               Icon={Copy}
-              label="Clonar"
+              label={t("clone")}
             />
             <ButtonBase
               onClick={onDelete}
               disabled={!hasSelected}
               Icon={Trash2}
-              label="Excluir"
+              label={t("delete")}
             />
           </>
         ) : (
@@ -53,8 +56,8 @@ export function CrudToolbar({
             <Info className={`w-5 h-5 ${isFormValid ? "text-primary" : "text-destructive"}`} />
             <span className="font-medium">
               {isFormValid
-                ? "Formulário validado com sucesso"
-                : "Formulário com erros de validação"}
+                ? t("formValid")
+                : t("formInvalid")}
             </span>
           </div>
         )}
@@ -62,17 +65,17 @@ export function CrudToolbar({
       <div className="flex items-center gap-3">
         {showTable ? (
           <>
-            <ButtonBase onClick={onPrint} Icon={Printer} label="Imprimir" />
-            <ButtonBase onClick={onClose} Icon={CircleX} label="Fechar" hidden/>
+            <ButtonBase onClick={onPrint} Icon={Printer} label={t("print")} />
+            <ButtonBase onClick={onClose} Icon={CircleX} label={t("close")} hidden/>
           </>
         ) : (
           <>
-            <ButtonBase onClick={onCancel} Icon={CircleX} label="Cancelar" />
+            <ButtonBase onClick={onCancel} Icon={CircleX} label={t("cancel")} />
             <ButtonBase
               onClick={onSave}
               disabled={!isFormValid}
               Icon={CirclePlus}
-              label="Salvar"
+              label={t("save")}
             />
           </>
         )}

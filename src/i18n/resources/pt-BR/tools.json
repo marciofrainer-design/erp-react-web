@@ -1,0 +1,17 @@
+{
+  "header": {
+    "searchPlaceholder": ""
+  },
+  "page": {
+    "defaultTitle": "",
+    "toolTitle": {
+      "app45": "",
+      "config": "",
+      "integracoes": "",
+      "login": "",
+      "relatorios": "",
+      "reservas": ""
+    },
+    "welcomeMessage": ""
+  }
+}
