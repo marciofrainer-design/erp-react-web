@@ -56,8 +56,8 @@ export function CrudToolbar({
             <Info className={`w-5 h-5 ${isFormValid ? "text-primary" : "text-destructive"}`} />
             <span className="font-medium">
               {isFormValid
-                ? t("status.formValid")
-                : t("status.formInvalid")}
+                ? t("notifications.formValid")
+                : t("notifications.formInvalid")}
             </span>
           </div>
         )}

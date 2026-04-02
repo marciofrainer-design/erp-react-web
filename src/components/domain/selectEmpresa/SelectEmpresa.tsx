@@ -8,8 +8,10 @@ import type { SelectEmpresaProps } from "./types";
 import { Loading } from "@/components/loading/Loading";
 import { useNotify } from "@/hooks";
 import type { AxiosError } from "axios";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
+  const { t } = useAppTranslation(["components", "crud"]);
   const notify = useNotify();
   const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
   
@@ -24,22 +26,22 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
         const data = await empresaRepository.getAll();
         setEmpresaData(data);
       } catch (err: AxiosError | unknown) {
-        notify.error(`Erro ao carregar dados: ${(err as AxiosError).message || err}`);
+        notify.error(`${t("notifications.loadingDataError")}: ${(err as AxiosError).message || err}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchEmpresaData();
-  }, [notify]);
+  }, [notify, t]);
 
   if (loading) {
     return (
       <Loading
         variant="inline"
         size="sm"
-        title="Carregando empresas"
-        description="Buscando estabelecimentos disponiveis"
+        title={t("selects.loading.title", { ns: "components" })}
+        description={t("selects.loading.description", { ns: "components" })}
         className="min-h-16"
       />
     );
@@ -47,7 +49,7 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
 
   return (
     <SelectBase
-      label="Estabelecimento"
+      label={t("selects.labelCompany", { ns: "components" })}
       options={empresaData.map((e) => ({
         value: e.idempresa.toString(),
         label: e.nmfantasia,

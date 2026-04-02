@@ -13,6 +13,9 @@ import ptBRCommon from "./pt-BR/common";
 import ptBRCrud from "./pt-BR/crud";
 import ptBRLogin from "./pt-BR/login";
 import ptBRTools from "./pt-BR/tools";
+import ptBRComponents from "./pt-BR/components";
+import enUSComponents from "./en-US/components";
+import esESComponents from "./es-ES/components";
 
 export const resources = {
   "pt-BR": {
@@ -21,6 +24,7 @@ export const resources = {
     crud: ptBRCrud,
     login: ptBRLogin,
     tools: ptBRTools,
+    components: ptBRComponents,
   },
   "en-US": {
     andar: enUSAndar,
@@ -28,6 +32,7 @@ export const resources = {
     crud: enUSCrud,
     login: enUSLogin,
     tools: enUSTools,
+    components: enUSComponents,
   },
   "es-ES": {
     andar: esESAndar,
@@ -35,6 +40,7 @@ export const resources = {
     crud: esESCrud,
     login: esESLogin,
     tools: esESTools,
+    components: esESComponents,
   },
 } as const;
 

@@ -9,8 +9,9 @@ import { useConfirm, useNotify } from "@/hooks";
 import { Loading } from "@/components/loading/Loading";
 import { normalizeSearchText, stringifyForSearch } from "@/utils";
 import type { AxiosError } from "axios";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
-function CrudPage<T extends object>({
+const CrudPage = <T extends object>({
   title,
   pageDescription,
   tableColumns,
@@ -18,7 +19,8 @@ function CrudPage<T extends object>({
   createNewItem,
   dependencies,
   validate,
-}: CrudPageProps<T>) {
+}: CrudPageProps<T>) => {
+  const { t } = useAppTranslation("crud");
   const notify = useNotify();
   const confirm = useConfirm();
   const [mode, setMode] = useState<CrudMode>("table");
@@ -54,11 +56,13 @@ function CrudPage<T extends object>({
       const data = await repository.getAll();
       setData(data);
     } catch (err: AxiosError | unknown) {
-      notify.error(`Erro ao carregar dados: ${(err as AxiosError).message || err}`);
+      notify.error(
+        `${t("notifications.loadingDataError")}: ${(err as AxiosError).message || err}`,
+      );
     } finally {
       setLoading(false);
     }
-  }, [repository, notify]);
+  }, [repository, notify, t]);
 
   useEffect(() => {
     fetchData();
@@ -125,47 +129,44 @@ function CrudPage<T extends object>({
     if (!selectedItem) return;
 
     if (!repository || !primaryKeyName) {
-      notify.error("Configuração de repositório inválida para exclusão.");
+      notify.error(t("notifications.invalidRepositoryConfig"));
       return;
     }
 
     const valueToDelete = selectedItem[primaryKeyName as keyof T];
     if (!valueToDelete) {
-      notify.error(
-        "Não foi possível identificar o registro para exclusão. Chave primária ausente ou inválida.",
-        {
-        description: `Valor da chave primária (${primaryKeyName}) não encontrado no item selecionado.`,
-        },
-      );
+      notify.error(t("notifications.invalidPrimaryKey"), {
+        description: t("notifications.missingPrimaryKeyValue"),
+      });
       return;
     }
 
     const shouldDelete = await confirm({
-      title: "Confirmar exclusão",
-      description: "Essa ação removerá o registro selecionado de forma permanente.",
-      confirmText: "Excluir registro",
-      cancelText: "Cancelar",
+      title: t("confirmations.deleteTitle"),
+      description: t("confirmations.deleteDescription"),
+      confirmText: t("confirmations.deleteConfirmText"),
+      cancelText: t("confirmations.deleteCancelText"),
       variant: "destructive",
     });
 
     if (!shouldDelete) {
-      notify.info("Exclusão cancelada pelo usuário.");
+      notify.info(t("notifications.deleteCancelled"));
       return;
     }
 
     try {
       await repository.delete(valueToDelete as number);
-      notify.success("Registro excluído com sucesso.");
+      notify.success(t("notifications.deleteSuccess"));
       await fetchData();
       setSelectedIndex(null);
     } catch {
-      notify.error("Não foi possível excluir o registro.");
+      notify.error(t("notifications.deleteError"));
     }
-  }, [selectedItem, repository, primaryKeyName, notify, fetchData, confirm]);
+  }, [selectedItem, repository, primaryKeyName, notify, fetchData, confirm, t]);
 
   const handlePrint = useCallback(() => {
-    notify.info("Imprimir relatório");
-  }, [notify]);
+    notify.info(t("notifications.printReport"));
+  }, [notify, t]);
 
   const handleClose = useCallback(() => {
     setMode("table");
@@ -173,34 +174,36 @@ function CrudPage<T extends object>({
 
   const handleCancel = useCallback(async () => {
     const shouldCancel = await confirm({
-      title: "Confirmar cancelamento",
-      description: "Essa ação cancelará as alterações feitas no registro.",
-      confirmText: "Cancelar alterações",
-      cancelText: "Continuar editando",
+      title: t("confirmations.cancelTitle"),
+      description: t("confirmations.cancelDescription"),
+      confirmText: t("confirmations.cancelConfirmText"),
+      cancelText: t("confirmations.cancelCancelText"),
       variant: "destructive",
     });
 
     if (shouldCancel) {
       setMode("table");
     }
-  }, [confirm]);
+  }, [confirm, t]);
 
   const handleSave = useCallback(async () => {
     if (!repository) {
-      notify.error("Configuração de repositório inválida para salvar.");
+      notify.error(t("notifications.invalidRepositoryConfig"));
       return;
     }
 
     if (validate && !validate(formData)) {
-      notify.warning("Existem erros no formulário. Revise os campos obrigatórios.");
+      notify.warning(
+        t("notifications.formInvalid"),
+      );
       return;
     }
 
     const shouldSave = await confirm({
-      title: "Confirmar salvamento",
-      description: "Essa ação salvará as alterações feitas no registro.",
-      confirmText: "Salvar alterações",
-      cancelText: "Continuar editando",
+      title: t("confirmations.saveTitle"),
+      description: t("confirmations.saveDescription"),
+      confirmText: t("confirmations.saveConfirmText"),
+      cancelText: t("confirmations.saveCancelText"),
       variant: "default",
     });
 
@@ -216,12 +219,12 @@ function CrudPage<T extends object>({
         await repository.save(formData);
       }
       await fetchData();
-      notify.success("Registro salvo com sucesso.");
+      notify.success(t("notifications.savingSuccess"));
       setMode("table");
     } catch {
-      notify.error("Não foi possível salvar o registro.");
+      notify.error(t("notifications.savingError"));
     }
-  }, [formData, repository, fetchData, mode, validate, notify, confirm]);
+  }, [formData, repository, fetchData, mode, validate, notify, confirm, t]);
 
   const handleRegisterChange = useCallback(
     <K extends keyof T>(field: K, value: T[K]) => {
@@ -249,8 +252,8 @@ function CrudPage<T extends object>({
       <Loading
         variant="page"
         size="lg"
-        title="Carregando dados"
-        description="Estamos preparando os dados para você continuar."
+        title={t("notifications.loadingData")}
+        description={t("notifications.preparingData")}
       />
     );
   }
@@ -261,7 +264,7 @@ function CrudPage<T extends object>({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{duration: 2}}
+      transition={{ duration: 2 }}
     >
       <CrudPageTemplate
         title={mode === "table" ? title : ""}
@@ -308,6 +311,6 @@ function CrudPage<T extends object>({
       </div>
     </motion.div>
   );
-}
+};
 
-export { CrudPage };
+export default CrudPage;
