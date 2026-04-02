@@ -1,18 +1,15 @@
-import { Bell, Search, Settings } from "lucide-react";
+import { User, Bell, Settings } from "lucide-react";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
-import { useAppTranslation } from "@/i18n/useAppTranslation";
 
 const ToolHeader = ({
   title,
   setIsMenuOpen,
   showTitle = false,
 }: ToolHeaderProps) => {
-  const { t } = useAppTranslation(["tools", "common"]);
-
   return (
     <header className="glass sticky top-0 z-50 shadow-ambient border-b border-outline-variant/10">
       <nav className="flex justify-between items-center w-full px-8 h-16">
@@ -38,14 +35,6 @@ const ToolHeader = ({
           )}
         </motion.div>
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
-            <input
-              className="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/40 w-64 transition-all outline-none"
-              placeholder={t("header.searchPlaceholder", { ns: "tools" })}
-              type="text"
-            />
-          </div>
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
             <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
@@ -58,13 +47,8 @@ const ToolHeader = ({
               <Settings className="w-5 h-5" />
             </button>
           </div>
-          <div className="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/20 cursor-pointer active:scale-95">
-            <img
-              className="w-full h-full object-cover"
-              src="https://picsum.photos/seed/profile/100/100"
-              alt="User Profile"
-              referrerPolicy="no-referrer"
-            />
+          <div className="h-8 w-8 rounded-full border border-outline-variant/20 cursor-pointer overflow-hidden items-center justify-center flex">
+            <User className="w-5 h-5 object-cover" />
           </div>
         </div>
       </nav>

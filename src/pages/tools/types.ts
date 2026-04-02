@@ -6,12 +6,7 @@ export type FormOption = (typeof formOptions)[number];
 
 export type ToolComponentParams = {
   tool: ToolKey;
-  selectedForm: FormOption;
-};
-
-export type ToolFormSelectProps = {
-  selectedForm: FormOption;
-  onSelectForm: (value: FormOption) => void;
+  selectedForm?: FormOption;
 };
 
 export type ToolHeaderProps = {
