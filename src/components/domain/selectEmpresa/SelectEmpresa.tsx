@@ -6,12 +6,14 @@ import SelectBase from "@/components/select/SelectBase";
 import { Building2 } from "lucide-react";
 import type { SelectEmpresaProps } from "./types";
 import { Loading } from "@/components/loading/Loading";
+import { useNotify } from "@/hooks";
+import type { AxiosError } from "axios";
 
 const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
+  const notify = useNotify();
   const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
   
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEmpresaData = async () => {
@@ -21,16 +23,15 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
         const empresaRepository = new EmpresaRepository(apiAdapter);
         const data = await empresaRepository.getAll();
         setEmpresaData(data);
-      } catch (err) {
-        console.error("Erro ao buscar dados de empresa:", err);
-        setError("Erro ao carregar dados de empresa");
+      } catch (err: AxiosError | unknown) {
+        notify.error(`Erro ao carregar dados: ${(err as AxiosError).message || err}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchEmpresaData();
-  }, []); // Evita loop infinito, só refaz a busca se o número de empresas mudar
+  }, [notify]);
 
   if (loading) {
     return (
@@ -42,10 +43,6 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
         className="min-h-16"
       />
     );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
   }
 
   return (

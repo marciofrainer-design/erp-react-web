@@ -1,3 +1,5 @@
-export const NAMESPACES = ["common", "tools", "login", "crud", "andar"] as const;
+import { resources } from "./resources";
 
-export type AppNamespace = (typeof NAMESPACES)[number];
+export type AppNamespace = keyof (typeof resources)["pt-BR"];
+
+export const NAMESPACES = Object.keys(resources["pt-BR"]) as AppNamespace[];

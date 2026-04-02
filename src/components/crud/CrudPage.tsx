@@ -8,6 +8,7 @@ import { motion } from "motion/react";
 import { useConfirm, useNotify } from "@/hooks";
 import { Loading } from "@/components/loading/Loading";
 import { normalizeSearchText, stringifyForSearch } from "@/utils";
+import type { AxiosError } from "axios";
 
 function CrudPage<T extends object>({
   title,
@@ -52,8 +53,8 @@ function CrudPage<T extends object>({
       setLoading(true);
       const data = await repository.getAll();
       setData(data);
-    } catch (err) {
-      notify.error(`Erro ao carregar dados: ${err}`);
+    } catch (err: AxiosError | unknown) {
+      notify.error(`Erro ao carregar dados: ${(err as AxiosError).message || err}`);
     } finally {
       setLoading(false);
     }
