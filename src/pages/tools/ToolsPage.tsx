@@ -70,12 +70,6 @@ export function ToolsPage() {
     if (selectedTool === "app45") {
       if (!selectedForm) {
         return null
-        // return (
-        //   <ToolPlaceholder
-        //     label={t("page.toolTitle.app45", { ns: "tools" })}
-        //     description={t("page.selectServicePrompt", { ns: "tools" })}
-        //   />
-        // );
       }
 
       if (!empresaId) {

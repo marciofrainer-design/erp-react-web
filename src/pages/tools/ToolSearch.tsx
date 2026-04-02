@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronRight, Search, Trash } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { cn } from "@/lib/utils";
@@ -73,9 +73,9 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
       return null;
     };
 
-    return APP_SERVICE_TREE
-      .map(filterNode)
-      .filter((node): node is AppServiceNode => node !== null);
+    return APP_SERVICE_TREE.map(filterNode).filter(
+      (node): node is AppServiceNode => node !== null,
+    );
   }, [query, getNodeLabel]);
 
   const selectedFormLabel = selectedForm
@@ -96,7 +96,9 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
           >
             {nodeLabel}
           </div>
-          <ul className="space-y-1">{node.children?.map((child) => renderNode(child, depth + 1))}</ul>
+          <ul className="space-y-1">
+            {node.children?.map((child) => renderNode(child, depth + 1))}
+          </ul>
         </li>
       );
     }
@@ -121,7 +123,8 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
               ? "bg-primary/10 text-primary"
               : "text-foreground",
           )}
-          style={{ paddingLeft: `${depth * 12}px` }}>
+          style={{ paddingLeft: `${depth * 12}px` }}
+        >
           <span className="flex items-center gap-2">
             <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
             {nodeLabel}
@@ -139,9 +142,9 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
   return (
     <div className="relative mt-12 min-w-md" ref={rootRef}>
       <div className="flex items-center relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
         <input
-          className="bg-surface-container-high border-none rounded-xl pl-8 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/40 w-full transition-all outline-none"
+          className="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/40 w-full transition-all outline-none"
           placeholder={t("header.searchPlaceholder", { ns: "tools" })}
           type="text"
           value={query}
@@ -150,10 +153,11 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
             setQuery(event.target.value);
             setIsOpen(true);
           }}
-        />
-        <Trash
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4 cursor-pointer opacity-0 transition-opacity hover:opacity-100"
-          onClick={() => setQuery("")}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setQuery("");
+            }
+          }}
         />
       </div>
 
@@ -168,9 +172,11 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
               })}
             </p>
           </CardHeader>
-          <CardContent className="max-h-80 overflow-auto pt-0">
+          <CardContent className="max-h-80 pt-0 overflow-y-auto scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {filteredTree.length > 0 ? (
-              <ul className="space-y-3">{filteredTree.map((node) => renderNode(node))}</ul>
+              <ul className="space-y-3">
+                {filteredTree.map((node) => renderNode(node))}
+              </ul>
             ) : (
               <p className="text-sm text-muted-foreground">
                 {t("appSearch.emptyResult", { ns: "tools" })}
