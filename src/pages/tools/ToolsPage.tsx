@@ -15,6 +15,7 @@ import { useEmpresa } from "@/context/empresa/useEmpresa";
 import { useAuth } from "@/context/auth/useAuth";
 import { useFooterMessages } from "./useFooterMessages";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { useNotify } from "@/hooks";
 
 const TOOL_KEYS: ToolKey[] = [
   "login",
@@ -47,7 +48,8 @@ export function ToolsPage() {
     : null;
 
   const { setEmpresaId, empresaId } = useEmpresa();
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
+  const notify = useNotify();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
 
@@ -108,12 +110,27 @@ export function ToolsPage() {
   );
 
   const handleOnLoginClick = useCallback(
-    (email: string) => {
-      login(email);
-      navigate("/tools/app45");
-      addMessage("success", t("page.welcomeMessage", { ns: "tools", email }));
+    async (loginValue: string, password: string) => {
+      try {
+        const authenticatedUser = await login(loginValue, password);
+        navigate("/tools/app45");
+        addMessage(
+          "success",
+          t("page.welcomeMessage", {
+            ns: "tools",
+            email: authenticatedUser.nmusuario || authenticatedUser.login,
+          }),
+        );
+      } catch (err) {
+        const message =
+          typeof err === "object" && err !== null && "message" in err
+            ? String(err.message)
+            : "Nao foi possivel autenticar.";
+
+        notify.error(message);
+      }
     },
-    [login, navigate, addMessage, t],
+    [login, navigate, addMessage, notify, t],
   );
 
   const getToolTitle = () => {
@@ -195,7 +212,7 @@ export function ToolsPage() {
             }}
           >
             {selectedTool === "login" ? (
-              <ToolLogin onLoginClick={handleOnLoginClick} />
+              <ToolLogin isLoading={isLoading} onLoginClick={handleOnLoginClick} />
             ) : (
               <div className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md">
                 {renderedComponent}

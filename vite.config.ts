@@ -22,6 +22,16 @@ const aliases = {
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: aliases },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
