@@ -1,16 +1,11 @@
 import { useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import type { AuthUser, AuthContextType } from "./types";
-
-const AUTH_STORAGE_KEY = "auth-user-email";
+import type { AuthUser, AuthContextType, AuthProviderProps } from "./types";
+import { AUTH_STORAGE_KEY } from "./consts";
 
 function loadStoredUser(): AuthUser | null {
   const email = localStorage.getItem(AUTH_STORAGE_KEY);
   return email ? { email } : null;
-}
-
-interface AuthProviderProps {
-  children: React.ReactNode;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {

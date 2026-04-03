@@ -1,10 +1,4 @@
 import { createContext } from 'react';
-
-export type ThemeMode = 'light' | 'dark';
-
-export interface ThemeContextType {
-  mode: ThemeMode;
-  toggleTheme: () => void;
-}
+import type { ThemeContextType } from './types';
 
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);

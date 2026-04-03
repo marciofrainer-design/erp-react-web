@@ -2,15 +2,9 @@ import ButtonSearchBase from "../button/ButtonSearchBase";
 import { InputStringBase } from "../inputs/string/InputStringBase";
 import { Trash2 } from "lucide-react";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import type { CrudSearchProps } from "./types";
 
-type Props = {
-  value: string;
-  onChange: (v: string) => void;
-  onSearch: () => void;
-  onClear: () => void;
-};
-
-export function CrudSearch({ value, onChange, onSearch, onClear }: Props) {
+export function CrudSearch({ value, onChange, onSearch, onClear }: CrudSearchProps) {
   const { t } = useAppTranslation("crud");
   return (
     <div className="flex w-full gap-2 items-center">

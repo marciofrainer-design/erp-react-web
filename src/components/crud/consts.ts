@@ -1,0 +1,1 @@
+export const CRUD_PAGE_ANIMATION_DURATION = 2;

@@ -1,34 +1,29 @@
 import { useEffect, useState } from 'react';
-import { ThemeContext, type ThemeMode, type ThemeContextType } from './ThemeContext';
-
-interface ThemeProviderProps {
-  children: React.ReactNode;
-}
+import { ThemeContext } from './ThemeContext';
+import type { ThemeMode, ThemeContextType, ThemeProviderProps } from './types';
+import { THEME_STORAGE_KEY } from './consts';
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [mode, setMode] = useState<ThemeMode>(() => {
-    // Verificar localStorage primeiro
-    const saved = localStorage.getItem('theme-mode') as ThemeMode | null;
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
     if (saved) return saved;
-    
-    // Verificar preferência do sistema
+
     if (typeof window !== 'undefined') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       return prefersDark ? 'dark' : 'light';
     }
-    
+
     return 'dark';
   });
 
   const toggleTheme = () => {
     setMode((prevMode) => {
       const newMode = prevMode === 'light' ? 'dark' : 'light';
-      localStorage.setItem('theme-mode', newMode);
+      localStorage.setItem(THEME_STORAGE_KEY, newMode);
       return newMode;
     });
   };
 
-  // Aplicar classe ao elemento raiz para uso com CSS variables
   useEffect(() => {
     const htmlElement = document.documentElement;
     if (mode === 'dark') {

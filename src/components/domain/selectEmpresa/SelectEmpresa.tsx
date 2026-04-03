@@ -1,5 +1,5 @@
 import { EmpresaRepository } from "@/domain/empresa/EmpresaRepository";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DataSnapAdapter } from "@/infra/api/service";
 import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
@@ -10,20 +10,25 @@ import { useNotify } from "@/hooks";
 import type { AxiosError } from "axios";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 
-const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
+const createDefaultRepository = () =>
+  new EmpresaRepository(new DataSnapAdapter());
+
+const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
   const { t } = useAppTranslation(["components", "crud"]);
   const notify = useNotify();
   const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
-  
   const [loading, setLoading] = useState(false);
+
+  const repo = useMemo(
+    () => repository ?? createDefaultRepository(),
+    [repository],
+  );
 
   useEffect(() => {
     const fetchEmpresaData = async () => {
       setLoading(true);
       try {
-        const apiAdapter = new DataSnapAdapter();
-        const empresaRepository = new EmpresaRepository(apiAdapter);
-        const data = await empresaRepository.getAll();
+        const data = await repo.getAll();
         setEmpresaData(data);
       } catch (err: AxiosError | unknown) {
         notify.error(`${t("notifications.loadingDataError")}: ${(err as AxiosError).message || err}`);
@@ -33,7 +38,7 @@ const SelectEmpresa = ({ onSelect }: SelectEmpresaProps) => {
     };
 
     fetchEmpresaData();
-  }, [notify, t]);
+  }, [repo, notify, t]);
 
   if (loading) {
     return (

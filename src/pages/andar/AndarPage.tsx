@@ -1,7 +1,7 @@
 import { AndarColumns } from "@/domain/andar/types";
 import { CrudPage } from "@/components/crud";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
-import AndarFactory from "@/domain/andar/andarFactory";
+import AndarFactory from "@/domain/andar/AndarFactory";
 import { andarRegisterSchema } from "@/domain/andar/validation";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { useTranslatedColumns } from "@/hooks";

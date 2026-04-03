@@ -63,3 +63,10 @@ export type CrudToolbarProps = {
 };
 
 export type CrudMode = "table" | "view" | "new" | "clone";
+
+export type CrudSearchProps = {
+  value: string;
+  onChange: (v: string) => void;
+  onSearch: () => void;
+  onClear: () => void;
+};

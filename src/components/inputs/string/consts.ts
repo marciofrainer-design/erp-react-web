@@ -1,0 +1,1 @@
+export const INPUT_STRING_ERROR_HEIGHT = "12";

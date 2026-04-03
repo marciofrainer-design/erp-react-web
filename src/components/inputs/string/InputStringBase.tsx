@@ -4,6 +4,7 @@ import InputBase from "@components/inputs/InputBase";
 import { InputGroupBase } from "../group/InputGroupBase";
 import {useEffect, useState} from "react";
 import { SpanError } from "../SpanError";
+import { INPUT_STRING_ERROR_HEIGHT } from "./consts";
 
 const InputStringBase = ({
   label,
@@ -15,11 +16,10 @@ const InputStringBase = ({
   ...props
 }: InputProps) => {
   const [height, setHeight] = useState<string | number>("auto");
-  const heightError = "12";
 
   useEffect(() => {
     if (props.error) {
-      setHeight(heightError);
+      setHeight(INPUT_STRING_ERROR_HEIGHT);
     } else {
       setHeight("auto");
     }

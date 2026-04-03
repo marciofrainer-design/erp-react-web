@@ -8,3 +8,7 @@ export interface AuthContextType {
   login: (email: string) => void;
   logout: () => void;
 }
+
+export interface AuthProviderProps {
+  children: React.ReactNode;
+}
