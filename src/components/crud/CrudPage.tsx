@@ -24,12 +24,14 @@ const CrudPage = <T extends object>({
     searchValue,
     setSearchValue,
     formData,
-    data,
     loading,
     filteredTableData,
     selectedItem,
     showTable,
     isFormValid,
+    currentPage,
+    pageCount,
+    totalRows,
     handlers,
   } = useCrud({ createNewItem, dependencies, validate });
 
@@ -61,7 +63,7 @@ const CrudPage = <T extends object>({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2 }}
+      transition={{ duration: 0.3 }}
     >
       <CrudPageTemplate
         title={mode === "table" ? title : ""}
@@ -82,7 +84,10 @@ const CrudPage = <T extends object>({
             onRowDblClick={handlers.rowDblClick}
             indexSelected={selectedIndex}
             rowsCount={filteredTableData.length}
-            totalRowsCount={data.length}
+            totalRowsCount={totalRows}
+            currentPage={currentPage}
+            totalPageCount={pageCount}
+            onPageChange={handlers.pageChange}
           />
         }
         register={registerContent}

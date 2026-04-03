@@ -22,6 +22,11 @@ export type CrudPageProps<T extends object> = {
   validate?: (data: T) => boolean;
 };
 
+export type UseCrudOptions<T extends object> = Pick<
+  CrudPageProps<T>,
+  "createNewItem" | "dependencies" | "validate"
+>;
+
 export type CrudRegisterRenderProps<T extends object> = {
   mode: "view" | "new" | "clone";
   data: T;

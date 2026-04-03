@@ -7,8 +7,8 @@ import { Building2 } from "lucide-react";
 import type { SelectEmpresaProps } from "./types";
 import { Loading } from "@/components/loading/Loading";
 import { useNotify } from "@/hooks";
-import type { AxiosError } from "axios";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { getErrorMessage } from "@/utils";
 
 const createDefaultRepository = () =>
   new EmpresaRepository(new DataSnapAdapter());
@@ -28,10 +28,12 @@ const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
     const fetchEmpresaData = async () => {
       setLoading(true);
       try {
-        const data = await repo.getAll();
-        setEmpresaData(data);
-      } catch (err: AxiosError | unknown) {
-        notify.error(`${t("notifications.loadingDataError")}: ${(err as AxiosError).message || err}`);
+        const result = await repo.getAll({ page: 1, pageCount: 1, limit: 100 });
+        setEmpresaData(result.data);
+      } catch (err: unknown) {
+        notify.error(
+          `${t("notifications.loadingDataError", { defaultValue: "Erro ao carregar dados" })}: ${getErrorMessage(err)}`,
+        );
       } finally {
         setLoading(false);
       }

@@ -1,6 +1,6 @@
-import type { ModelBase } from '@/types';
+import type { EntityBase } from '@/types';
 
-type Empresa = ModelBase & {
+type Empresa = EntityBase & {
   idempresa: number;
   nmfantasia: string;
   cnpj: string;

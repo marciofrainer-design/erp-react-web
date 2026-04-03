@@ -15,6 +15,7 @@ import { useEmpresa } from "@/context/empresa/useEmpresa";
 import { useAuth } from "@/context/auth/useAuth";
 import { useFooterMessages } from "./useFooterMessages";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { getErrorMessage } from "@/utils";
 import { useNotify } from "@/hooks";
 
 const TOOL_KEYS: ToolKey[] = [
@@ -122,12 +123,7 @@ export function ToolsPage() {
           }),
         );
       } catch (err) {
-        const message =
-          typeof err === "object" && err !== null && "message" in err
-            ? String(err.message)
-            : "Nao foi possivel autenticar.";
-
-        notify.error(message);
+        notify.error(getErrorMessage(err));
       }
     },
     [login, navigate, addMessage, notify, t],

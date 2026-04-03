@@ -71,6 +71,11 @@ const ToolLogin = ({ isLoading = false, onLoginClick }: ToolLoginProps) => {
                   placeholder={t("fields.passwordPlaceholder", { ns: "login" })}
                   onClickIcon={() => setShowPassword(!showPassword)}
                   Icon={showPassword ? Eye : EyeOff}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter'){
+                      void handleSubmit();
+                    }
+                  }}
                 />
                 <a
                   className="text-xs font-bold text-primary hover:underline"

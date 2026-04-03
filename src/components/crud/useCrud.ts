@@ -1,14 +1,13 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
-import type { CrudMode, CrudPageProps } from "@/components/crud/types";
+import type { CrudMode, UseCrudOptions } from "@/components/crud/types";
 import { useConfirm, useNotify } from "@/hooks";
-import { normalizeSearchText, stringifyForSearch } from "@/utils";
-import type { AxiosError } from "axios";
+import {
+  getErrorMessage,
+  normalizeSearchText,
+  stringifyForSearch,
+} from "@/utils";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-
-type UseCrudOptions<T extends object> = Pick<
-  CrudPageProps<T>,
-  "createNewItem" | "dependencies" | "validate"
->;
+import { CRUD_DEFAULT_LIMIT, CRUD_DEFAULT_PAGE } from "./consts";
 
 export function useCrud<T extends object>({
   createNewItem,
@@ -29,6 +28,10 @@ export function useCrud<T extends object>({
   const { repository, primaryKeyName } = dependencies || {};
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(CRUD_DEFAULT_PAGE);
+  const [pageCount, setPageCount] = useState(CRUD_DEFAULT_PAGE);
+  const [limit] = useState(CRUD_DEFAULT_LIMIT);
+  const [totalRows, setTotalRows] = useState(0);
 
   const filteredTableData = useMemo(() => {
     const term = normalizeSearchText(searchTerm.trim());
@@ -45,16 +48,23 @@ export function useCrud<T extends object>({
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const result = await repository.getAll();
-      setData(result);
-    } catch (err: AxiosError | unknown) {
+      const result = await repository.getAll({
+        page: currentPage,
+        pageCount,
+        limit,
+      });
+      setData(result.data);
+      setPageCount(result.pageCount);
+      setCurrentPage(result.page);
+      setTotalRows(result.total);
+    } catch (err: unknown) {
       notify.error(
-        `${t("notifications.loadingDataError")}: ${(err as AxiosError).message || err}`,
+        `${t("notifications.loadingDataError", { defaultValue: "Erro ao carregar dados" })}: ${getErrorMessage(err)}`,
       );
     } finally {
       setLoading(false);
     }
-  }, [repository, notify, t]);
+  }, [repository, notify, t, currentPage, pageCount, limit]);
 
   useEffect(() => {
     fetchData();
@@ -204,6 +214,26 @@ export function useCrud<T extends object>({
     [],
   );
 
+  const handlePageChange = useCallback(
+    (nextPage: number) => {
+      setSelectedIndex(null);
+      setCurrentPage((previousPage) => {
+        const maxPage = Math.max(CRUD_DEFAULT_PAGE, pageCount);
+        const clampedPage = Math.min(
+          Math.max(nextPage, CRUD_DEFAULT_PAGE),
+          maxPage,
+        );
+
+        if (clampedPage === previousPage) {
+          return previousPage;
+        }
+
+        return clampedPage;
+      });
+    },
+    [pageCount],
+  );
+
   const showTable = mode === "table";
   const isFormValid = validate ? validate(formData) : true;
 
@@ -219,6 +249,9 @@ export function useCrud<T extends object>({
     selectedItem,
     showTable,
     isFormValid,
+    currentPage,
+    pageCount,
+    totalRows,
     handlers: {
       search: handleSearch,
       clearSearch: handleClearSearch,
@@ -233,6 +266,7 @@ export function useCrud<T extends object>({
       cancel: handleCancel,
       save: handleSave,
       registerChange: handleRegisterChange,
+      pageChange: handlePageChange,
     },
   };
 }

@@ -1,5 +1,9 @@
 import type { ApiAdapter } from "../interface";
-import type { Repository } from "../interface/types";
+import type {
+  PaginatedResponse,
+  PaginationQueryParams,
+  Repository,
+} from "../interface/types";
 
 export class RepositoryBase<T> implements Repository<T> {
   protected api: ApiAdapter;
@@ -13,8 +17,8 @@ export class RepositoryBase<T> implements Repository<T> {
     this.controller = controller;
   }
 
-  getAll(): Promise<T[]> {
-    return this.api.get<T[]>(this.controller, 'GetAll');
+  getAll(params: PaginationQueryParams): Promise<PaginatedResponse<T>> {
+    return this.api.get<PaginatedResponse<T>>(this.controller, 'GetAll', params);
   }
 
   getById(id: number): Promise<T> {

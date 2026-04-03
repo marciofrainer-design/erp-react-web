@@ -1,4 +1,4 @@
-import type { Column, ModelBase } from "@/types";
+import type { Column, EntityBase } from "@/types";
 import { FieldType } from "@/types";
 import {
   WIDTH_INTEGER_COLUMN,
@@ -8,7 +8,7 @@ import {
 } from "@/consts";
 import type { Repository } from "@/infra/interface/types";
 
-export type Andar = ModelBase & {
+export type Andar = EntityBase & {
   idandar: number;
   idempresa: number;
   nmempresa: string;
