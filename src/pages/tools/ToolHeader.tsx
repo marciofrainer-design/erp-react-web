@@ -4,11 +4,16 @@ import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
+import { ToolMenuModal } from "./ToolMenuModal";
 import { useAuth } from "@/context/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const ToolHeader = ({
   title,
+  isMenuOpen,
+  selectedTool,
+  onSelectTool,
+  onCloseMenu,
   setIsMenuOpen,
   showTitle = false,
 }: ToolHeaderProps) => {
@@ -42,7 +47,15 @@ const ToolHeader = ({
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
-            <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
+            <div className="relative">
+              <ToolButtonMenuOpen isOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+              <ToolMenuModal
+                isOpen={isMenuOpen}
+                selectedTool={selectedTool}
+                onSelectTool={onSelectTool}
+                onClose={onCloseMenu}
+              />
+            </div>
             <ToolButtonToggleTheme />
             <button className="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer active:scale-95 relative">
               <Bell className="w-5 h-5" />

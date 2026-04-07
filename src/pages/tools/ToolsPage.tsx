@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import { getToolComponent } from "./toolConfig";
 import type { FormOption, ToolKey } from "./types";
 import { formOptions } from "./consts";
-import { ToolMenuModal } from "./ToolMenuModal";
 import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 import ToolFooter from "./ToolFooter";
@@ -15,8 +14,11 @@ import { useEmpresa } from "@/context/empresa/useEmpresa";
 import { useAuth } from "@/context/auth/useAuth";
 import { useFooterMessages } from "./useFooterMessages";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { getErrorMessage } from "@/utils";
 import { useNotify } from "@/hooks";
+
+// TODO: Remove when server authentication is available
+const TEMP_LOGIN = "admin";
+const TEMP_PASSWORD = "1234";
 
 const TOOL_KEYS: ToolKey[] = [
   "login",
@@ -49,7 +51,7 @@ export function ToolsPage() {
     : null;
 
   const { setEmpresaId, empresaId } = useEmpresa();
-  const { login, isLoading } = useAuth();
+  const { isLoading } = useAuth();
   const notify = useNotify();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
@@ -112,21 +114,22 @@ export function ToolsPage() {
 
   const handleOnLoginClick = useCallback(
     async (loginValue: string, password: string) => {
-      try {
-        const authenticatedUser = await login(loginValue, password);
-        navigate("/tools/app45");
-        addMessage(
-          "success",
-          t("page.welcomeMessage", {
-            ns: "tools",
-            email: authenticatedUser.nmusuario || authenticatedUser.login,
-          }),
-        );
-      } catch (err) {
-        notify.error(getErrorMessage(err));
+      // TODO: Replace with actual server authentication when available
+      if (loginValue !== TEMP_LOGIN || password !== TEMP_PASSWORD) {
+        notify.error(t("page.invalidCredentials", { ns: "tools" }));
+        return;
       }
+
+      navigate("/tools/app45");
+      addMessage(
+        "success",
+        t("page.welcomeMessage", {
+          ns: "tools",
+          email: loginValue,
+        }),
+      );
     },
-    [login, navigate, addMessage, notify, t],
+    [navigate, addMessage, notify, t],
   );
 
   const getToolTitle = () => {
@@ -158,16 +161,13 @@ export function ToolsPage() {
         color: "var(--color-text-primary)",
       }}
     >
-      <ToolMenuModal
-        isOpen={isMenuOpen}
-        selectedTool={selectedTool}
-        onSelectTool={handleToolSelect}
-        onClose={() => setIsMenuOpen(false)}
-      />
-
       <div className="p-1 flex flex-col">
         <ToolHeader
           title={t("app.name", { ns: "common" })}
+          isMenuOpen={isMenuOpen}
+          selectedTool={selectedTool}
+          onSelectTool={handleToolSelect}
+          onCloseMenu={() => setIsMenuOpen(false)}
           setIsMenuOpen={setIsMenuOpen}
           showTitle={selectedTool !== "login"}
         />

@@ -3,7 +3,7 @@ import { InputStringBase } from "@/components/inputs/string/InputStringBase";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { Mail, Building2, EyeOff, Eye } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ToolLoginProps = {
   isLoading?: boolean;
@@ -14,6 +14,11 @@ const ToolLogin = ({ isLoading = false, onLoginClick }: ToolLoginProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const refFirstFocus = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    refFirstFocus.current?.focus();
+  }, []);
 
   const canSubmit = login.trim().length > 0 && password.trim().length > 0 && !isLoading;
 
@@ -56,6 +61,7 @@ const ToolLogin = ({ isLoading = false, onLoginClick }: ToolLoginProps) => {
                   name="login"
                   placeholder={t("fields.emailPlaceholder", { ns: "login" })}
                   Icon={Mail}
+                  ref={refFirstFocus}
                 />
               </div>
             </div>

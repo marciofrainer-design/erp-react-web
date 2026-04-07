@@ -15,6 +15,7 @@ const esESTools = {
       reservas: "Reservas en Línea",
     },
     welcomeMessage: "Bienvenido, {{email}}!",
+    invalidCredentials: "Login o contraseña inválidos.",
   },
   appSearch: {
     title: "Servicios disponibles",

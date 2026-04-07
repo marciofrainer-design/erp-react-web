@@ -19,19 +19,20 @@ const TableBase = <T extends object>({
 }: TableProps<T>) => {
 
   return (
-    <div className="overflow-auto flex-1 max-h-97 no-scrollbar">
-      <Table className="w-full text-left border-collapse" id="table-base">
+    <div className="relative overflow-auto flex-1 max-h-97 no-scrollbar">
+      <Table className="w-full text-left border-separate border-spacing-0" id="table-base">
         <TableHeader
-          className="sticky top-0 bg-surface-container-low/95 backdrop-blur-md z-10 "
+          className="bg-surface-container-low/95 backdrop-blur-md"
           style={{ backgroundColor: "var(--color-table-header-bg)" }}
         >
           <TableRow>
             {columns.map((c) => (
               <TableHead
                 key={String(c.field)}
-                className={`px-6 py-4 text-[12px] font-extrabold text-outline uppercase tracking-widest border-b border-outline-variant/10 ${c.width || ""}`}
+                className={`sticky top-0 z-20 px-6 py-4 text-[12px] font-extrabold text-outline uppercase tracking-widest border-b border-outline-variant/10 bg-surface-container-low/95 backdrop-blur-md ${c.width || ""}`}
                 style={{
                   color: "var(--color-table-text)",
+                  backgroundColor: "var(--color-table-header-bg)",
                 }}
               >
                 {c.label}

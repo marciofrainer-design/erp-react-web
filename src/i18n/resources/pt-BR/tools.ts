@@ -15,6 +15,7 @@ const ptBRTools = {
       reservas: "Reservas Online",
     },
     welcomeMessage: "Bem-vindo, {{email}}!",
+    invalidCredentials: "Login ou senha inválidos.",
   },
   appSearch: {
     title: "Serviços disponíveis",

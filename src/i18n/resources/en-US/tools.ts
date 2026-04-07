@@ -15,6 +15,7 @@ const enUSTools = {
       reservas: "Online Reservations",
     },
     welcomeMessage: "Welcome, {{email}}!",
+    invalidCredentials: "Invalid login or password.",
   },
   appSearch: {
     title: "Available services",

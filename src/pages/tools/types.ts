@@ -12,6 +12,10 @@ export type ToolComponentParams = {
 export type ToolHeaderProps = {
   title: string;
   showTitle?: boolean;
+  isMenuOpen: boolean;
+  selectedTool: ToolKey;
+  onSelectTool: (tool: ToolKey) => void;
+  onCloseMenu: () => void;
   setIsMenuOpen: (open: boolean) => void;
 };
 

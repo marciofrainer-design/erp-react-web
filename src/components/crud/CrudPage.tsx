@@ -7,8 +7,10 @@ import { motion } from "motion/react";
 import { Loading } from "@/components/loading/Loading";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { useCrud } from "./useCrud";
+import { TRANSITION_DURATION } from "./consts";
+import type { EntityBase } from "@/types";
 
-const CrudPage = <T extends object>({
+const CrudPage = <T extends EntityBase>({
   title,
   pageDescription,
   tableColumns,
@@ -63,7 +65,7 @@ const CrudPage = <T extends object>({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: TRANSITION_DURATION }}
     >
       <CrudPageTemplate
         title={mode === "table" ? title : ""}

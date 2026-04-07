@@ -24,6 +24,7 @@ export function CrudSearch({ value, onChange, onSearch, onClear }: CrudSearchPro
             }
           }}
           Icon={value ? Trash2 : undefined}
+          onClickIcon={onClear}
         />
       </div>
       <ButtonSearchBase onClick={onSearch} />
