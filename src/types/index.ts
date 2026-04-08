@@ -21,9 +21,9 @@ type Column<T> = {
   type?: FieldType
 }
 
-type ModelBase = {
+type EntityBase = {
   id: number
 }
 
-export type { Column, ModelBase }
+export type { Column, EntityBase }
 export { FieldType, RegisterType }

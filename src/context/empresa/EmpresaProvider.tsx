@@ -4,7 +4,7 @@ import {
   getSelectedEmpresaId,
   setSelectedEmpresaId,
 } from "./empresaSelection";
-import { EmpresaContext } from "./empresaContext";
+import { EmpresaContext } from "./EmpresaContext";
 
 export function EmpresaProvider({ children }: EmpresaProviderProps) {
   const [empresaId, setEmpresaIdState] = useState<string | null>(() =>

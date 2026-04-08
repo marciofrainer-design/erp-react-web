@@ -22,19 +22,19 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-surface-container-high/30">
+    <div className="flex items-center gap-2 px-2 py-1 mr-8 rounded-lg bg-surface-container-high/30">
       {LANGUAGES.map((lang) => (
         <motion.button
           key={lang.code}
           onClick={() => handleLanguageChange(lang.code)}
-          className={`relative px-2 py-1 rounded transition-all cursor-pointer text-lg ${
+          className={`relative px-2 py-1 rounded transition-all cursor-pointer text-2xl ${
             i18n.language === lang.code
               ? "bg-primary/20 scale-110"
               : "hover:bg-primary/10"
           }`}
           title={lang.name}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.25 }}
+          whileTap={{ scale: 1.05 }}
         >
           {lang.flag}
           {i18n.language === lang.code && (

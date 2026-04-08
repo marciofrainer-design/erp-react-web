@@ -1,58 +1,136 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "motion/react";
 import { getToolComponent } from "./toolConfig";
 import type { FormOption, ToolKey } from "./types";
-import { ToolMenuModal } from "./ToolMenuModal";
-import { ToolFormSelect } from "./ToolFormSelect";
-import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
-import { useEmpresa } from "@/context/empresa/useEmpresa";
-import { useAuth } from "@/context/auth/useAuth";
-import { motion } from "motion/react";
+import { formOptions } from "./consts";
 import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 import ToolFooter from "./ToolFooter";
+import ToolSearch from "./ToolSearch";
+import { ToolPlaceholder } from "./ToolPlaceholder";
+import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
+import { useEmpresa } from "@/context/empresa/useEmpresa";
+import { useAuth } from "@/context/auth/useAuth";
 import { useFooterMessages } from "./useFooterMessages";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { useNotify } from "@/hooks";
+
+// TODO: Remove when server authentication is available
+const TEMP_LOGIN = "admin";
+const TEMP_PASSWORD = "1234";
+
+const TOOL_KEYS: ToolKey[] = [
+  "login",
+  "app45",
+  "reservas",
+  "config",
+  "relatorios",
+  "integracoes",
+];
+
+function isValidToolKey(value?: string): value is ToolKey {
+  return Boolean(value && TOOL_KEYS.includes(value as ToolKey));
+}
+
+function isValidFormOption(value?: string): value is FormOption {
+  return Boolean(value && formOptions.includes(value as FormOption));
+}
 
 export function ToolsPage() {
   const { t } = useAppTranslation(["tools", "common"]);
+  const navigate = useNavigate();
+  const { tool: routeTool, form: routeForm } = useParams<{
+    tool?: string;
+    form?: string;
+  }>();
+
+  const selectedTool: ToolKey = isValidToolKey(routeTool) ? routeTool : "login";
+  const selectedForm: FormOption | null = isValidFormOption(routeForm)
+    ? routeForm
+    : null;
+
   const { setEmpresaId, empresaId } = useEmpresa();
-  const { login } = useAuth();
-  const [selectedTool, setSelectedTool] = useState<ToolKey>("login");
-  const [selectedForm, setSelectedForm] = useState<FormOption>("andar");
+  const { isLoading } = useAuth();
+  const notify = useNotify();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showTitle, setShowTitle] = useState(false);
   const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
 
+  useEffect(() => {
+    if (!routeTool) {
+      return;
+    }
+
+    if (!isValidToolKey(routeTool)) {
+      navigate("/tools/login", { replace: true });
+      return;
+    }
+
+    if (routeTool === "app45" && routeForm && !isValidFormOption(routeForm)) {
+      navigate("/tools/app45", { replace: true });
+    }
+  }, [routeTool, routeForm, navigate]);
+
   const renderedComponent = useMemo(() => {
-    const params = { tool: selectedTool, selectedForm };
-    return getToolComponent(params);
-  }, [selectedTool, selectedForm]);
+    if (selectedTool === "app45") {
+      if (!selectedForm) {
+        return null
+      }
 
-  const handleSelectForm = useCallback((value: FormOption) => {
-    setSelectedForm(value);
-  }, []);
+      if (!empresaId) {
+        return (
+          <ToolPlaceholder
+            label={t(`appSearch.tree.${selectedForm}`, { ns: "tools" })}
+            description={t("page.selectCompanyPrompt", { ns: "tools" })}
+          />
+        );
+      }
+    }
 
-  const handleToolSelect = useCallback((tool: ToolKey) => {
-    setSelectedTool(tool);
-    setIsMenuOpen(false);
-  }, []);
+    return getToolComponent({ tool: selectedTool, selectedForm: selectedForm ?? undefined });
+  }, [selectedTool, selectedForm, empresaId, t]);
 
-  const handleOnLoginClick = useCallback(
-    (email: string) => {
-      login(email);
-      setSelectedTool("app45");
-      addMessage("success", t("page.welcomeMessage", { ns: "tools", email }));
+  const handleSelectForm = useCallback(
+    (value: FormOption) => {
+      navigate(`/tools/app45/${value}`);
     },
-    [login, addMessage, t],
+    [navigate],
   );
 
-  useEffect(() => {
-    if (selectedTool !== "login") {
-      setShowTitle(true);
-    } else {
-      setShowTitle(false);
-    }
-  }, [selectedTool]);
+  const handleToolSelect = useCallback(
+    (tool: ToolKey) => {
+      if (tool === "login") {
+        navigate("/tools/login");
+      } else if (tool === "app45") {
+        navigate("/tools/app45");
+      } else {
+        navigate(`/tools/${tool}`);
+      }
+
+      setIsMenuOpen(false);
+    },
+    [navigate],
+  );
+
+  const handleOnLoginClick = useCallback(
+    async (loginValue: string, password: string) => {
+      // TODO: Replace with actual server authentication when available
+      if (loginValue !== TEMP_LOGIN || password !== TEMP_PASSWORD) {
+        notify.error(t("page.invalidCredentials", { ns: "tools" }));
+        return;
+      }
+
+      navigate("/tools/app45");
+      addMessage(
+        "success",
+        t("page.welcomeMessage", {
+          ns: "tools",
+          email: loginValue,
+        }),
+      );
+    },
+    [navigate, addMessage, notify, t],
+  );
 
   const getToolTitle = () => {
     switch (selectedTool) {
@@ -83,22 +161,27 @@ export function ToolsPage() {
         color: "var(--color-text-primary)",
       }}
     >
-      <ToolMenuModal
-        isOpen={isMenuOpen}
-        selectedTool={selectedTool}
-        onSelectTool={handleToolSelect}
-        onClose={() => setIsMenuOpen(false)}
-      />
-
       <div className="p-1 flex flex-col">
         <ToolHeader
           title={t("app.name", { ns: "common" })}
+          isMenuOpen={isMenuOpen}
+          selectedTool={selectedTool}
+          onSelectTool={handleToolSelect}
+          onCloseMenu={() => setIsMenuOpen(false)}
           setIsMenuOpen={setIsMenuOpen}
-          showTitle={showTitle}
+          showTitle={selectedTool !== "login"}
         />
         {selectedTool !== "login" && (
           <div className="flex justify-between">
-            <SelectEmpresa onSelect={setEmpresaId} />
+            <div className="flex flex-row justify-center gap-6">
+              <SelectEmpresa onSelect={setEmpresaId} />
+              {selectedTool === "app45" && empresaId ? (
+                <ToolSearch
+                  selectedForm={selectedForm}
+                  onSelectForm={handleSelectForm}
+                />
+              ) : null}
+            </div>
             <div className="md:flex items-center gap-6 font-headline font-bold  text-xl">
               <a
                 className="text-primary mr-10 mt-2"
@@ -125,18 +208,12 @@ export function ToolsPage() {
             }}
           >
             {selectedTool === "login" ? (
-              <ToolLogin onLoginClick={handleOnLoginClick} />
-            ) : empresaId ? (
+              <ToolLogin isLoading={isLoading} onLoginClick={handleOnLoginClick} />
+            ) : (
               <div className="overflow-hidden p-2 h-full min-h-[58vh] rounded-md">
-                {selectedTool === "app45" && (
-                  <ToolFormSelect
-                    selectedForm={selectedForm}
-                    onSelectForm={handleSelectForm}
-                  />
-                )}
                 {renderedComponent}
               </div>
-            ) : null}
+            )}
           </main>
         </div>
         {selectedTool === "app45" ? (

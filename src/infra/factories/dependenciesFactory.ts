@@ -3,11 +3,11 @@ import type { DependenciesFactory, Repository } from "../interface/types";
 
 export class DependenciesFactoryBase<T> implements DependenciesFactory<T> {
   apiAdapter: ApiAdapter;
-  andarRepository: Repository<T>;
-    
+  repository: Repository<T>;
+
   constructor(adapter: ApiAdapter, repository: Repository<T>) {
     this.apiAdapter = adapter;
-    this.andarRepository = repository;
+    this.repository = repository;
   }
 
   getAdapter(): ApiAdapter {
@@ -15,6 +15,6 @@ export class DependenciesFactoryBase<T> implements DependenciesFactory<T> {
   }
 
   getRepository(): Repository<T> {
-    return this.andarRepository;
-  } 
+    return this.repository;
+  }
 }

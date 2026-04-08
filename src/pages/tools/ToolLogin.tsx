@@ -3,16 +3,32 @@ import { InputStringBase } from "@/components/inputs/string/InputStringBase";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { Mail, Building2, EyeOff, Eye } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ToolLoginProps = {
-  onLoginClick: (email: string) => void;
+  isLoading?: boolean;
+  onLoginClick: (login: string, password: string) => void | Promise<void>;
 };
-const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
+const ToolLogin = ({ isLoading = false, onLoginClick }: ToolLoginProps) => {
   const { t } = useAppTranslation("login");
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const refFirstFocus = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    refFirstFocus.current?.focus();
+  }, []);
+
+  const canSubmit = login.trim().length > 0 && password.trim().length > 0 && !isLoading;
+
+  const handleSubmit = async () => {
+    if (!canSubmit) {
+      return;
+    }
+
+    await onLoginClick(login.trim(), password);
+  };
 
   return (
     <div className="container max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10 py-12">
@@ -31,18 +47,21 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
               {t("subtitle", { ns: "login" })}
             </p>
           </div>
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={(e) => {
+            e.preventDefault();
+            void handleSubmit();
+          }}>
             <div className="space-y-1.5">
               <div className="relative group">
                 <InputStringBase
                   label={t("fields.emailLabel", { ns: "login" })}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  name="email"
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
+                  id="login"
+                  name="login"
                   placeholder={t("fields.emailPlaceholder", { ns: "login" })}
-                  type="email"
                   Icon={Mail}
+                  ref={refFirstFocus}
                 />
               </div>
             </div>
@@ -58,6 +77,11 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
                   placeholder={t("fields.passwordPlaceholder", { ns: "login" })}
                   onClickIcon={() => setShowPassword(!showPassword)}
                   Icon={showPassword ? Eye : EyeOff}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter'){
+                      void handleSubmit();
+                    }
+                  }}
                 />
                 <a
                   className="text-xs font-bold text-primary hover:underline"
@@ -82,7 +106,10 @@ const ToolLogin = ({ onLoginClick }: ToolLoginProps) => {
             </div>
             <ButtonBase
               label={t("submit", { ns: "login" })}
-              onClick={() => onLoginClick(email)}
+              disabled={!canSubmit}
+              onClick={() => {
+                void handleSubmit();
+              }}
             />
             <div className="relative py-4 flex items-center justify-center">
               <div className="absolute inset-0 flex items-center">

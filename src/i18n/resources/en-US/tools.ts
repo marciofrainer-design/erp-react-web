@@ -1,9 +1,11 @@
 const enUSTools = {
   header: {
-    searchPlaceholder: "Search...",
+    searchPlaceholder: "Search service...",
   },
   page: {
     defaultTitle: "Desbravador Web System",
+    selectServicePrompt: "Select a record in the search field to open the desired screen.",
+    selectCompanyPrompt: "Select the company to perform backend requests.",
     toolTitle: {
       login: "Login",
       app45: "FrontWeb 4.5",
@@ -13,6 +15,29 @@ const enUSTools = {
       reservas: "Online Reservations",
     },
     welcomeMessage: "Welcome, {{email}}!",
+    invalidCredentials: "Invalid login or password.",
+  },
+  appSearch: {
+    title: "Available services",
+    currentSelection: "Current selection: {{selected}}",
+    noSelection: "No service selected",
+    emptyResult: "No service found for this search.",
+    comingSoon: "Soon",
+    tree: {
+      records: "Records",
+      infrastructure: "Infrastructure",
+      floor: "Floor",
+      apartment: "Apartment",
+      queries: "Queries",
+      reservations: "Reservations",
+      guests: "Guests",
+      reports: "Reports",
+      occupancy: "Occupancy",
+      averageDailyRate: "Average daily rate",
+      maps: "Maps",
+      reservationMap: "Reservation map",
+      apartmentMap: "Apartment map",
+    },
   },
   login: {
     title: "Welcome",

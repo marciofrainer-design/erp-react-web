@@ -8,7 +8,7 @@ const InputBase = ({ width, Icon, onClickIcon, ...props }: InputProps) => {
 
   const classNameClass = props.className
     ? props.className
-    : `pl-3 w-full bg-surface-container-lowest shadow-sm rounded-md ${paddingTextClass} focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-outline/60 outline-none h-11 border-none placeholder:text-base ${widthClass} text-lg`;
+    : `pl-3 w-full bg-surface-container-lowest shadow-sm dark:shadow-none rounded-md ${paddingTextClass} focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-outline/60 outline-none h-11 border placeholder:text-base ${widthClass} text-lg`;
 
   const styleObject = {
     backgroundColor: "var(--color-input-bg)",

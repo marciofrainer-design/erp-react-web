@@ -1,4 +1,4 @@
-const EMPRESA_STORAGE_KEY = "selected-empresa-id";
+import { EMPRESA_STORAGE_KEY } from "./consts";
 
 let selectedEmpresaId: string | null = null;
 

@@ -1,9 +1,11 @@
 const esESTools = {
   header: {
-    searchPlaceholder: "Buscar...",
+    searchPlaceholder: "Buscar servicio...",
   },
   page: {
     defaultTitle: "Desbravador Web System",
+    selectServicePrompt: "Seleccione un registro en el campo de búsqueda para abrir la pantalla deseada.",
+    selectCompanyPrompt: "Seleccione la empresa para realizar las solicitudes al backend.",
     toolTitle: {
       login: "Iniciar Sesión",
       app45: "FrontWeb 4.5",
@@ -13,6 +15,29 @@ const esESTools = {
       reservas: "Reservas en Línea",
     },
     welcomeMessage: "Bienvenido, {{email}}!",
+    invalidCredentials: "Login o contraseña inválidos.",
+  },
+  appSearch: {
+    title: "Servicios disponibles",
+    currentSelection: "Selección actual: {{selected}}",
+    noSelection: "Ningún servicio seleccionado",
+    emptyResult: "No se encontró ningún servicio para esta búsqueda.",
+    comingSoon: "Próximamente",
+    tree: {
+      records: "Registros",
+      infrastructure: "Infraestructura",
+      floor: "Piso",
+      apartment: "Apartamento",
+      queries: "Consultas",
+      reservations: "Reservas",
+      guests: "Huéspedes",
+      reports: "Reportes",
+      occupancy: "Ocupación",
+      averageDailyRate: "Tarifa media diaria",
+      maps: "Mapas",
+      reservationMap: "Mapa de reservas",
+      apartmentMap: "Mapa de apartamentos",
+    },
   },
   login: {
     title: "Bienvenido",

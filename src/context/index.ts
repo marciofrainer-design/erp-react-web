@@ -1,6 +1,7 @@
 import { ThemeProvider } from './theme/ThemeProvider';
 import { useTheme } from './theme/useTheme';
-import { ThemeContext, type ThemeMode, type ThemeContextType } from './theme/ThemeContext';
+import { ThemeContext } from './theme/ThemeContext';
+import type { ThemeMode, ThemeContextType } from './theme/types';
 import { EmpresaProvider } from './empresa/EmpresaProvider';
 import { useEmpresa } from './empresa/useEmpresa';
 import { type EmpresaContextType } from './empresa/types';

@@ -1,4 +1,4 @@
-import type { Column, ModelBase } from "@/types";
+import type { Column, EntityBase } from "@/types";
 import { FieldType } from "@/types";
 import {
   WIDTH_INTEGER_COLUMN,
@@ -8,7 +8,7 @@ import {
 } from "@/consts";
 import type { Repository } from "@/infra/interface/types";
 
-export type Andar = ModelBase & {
+export type Andar = EntityBase & {
   idandar: number;
   idempresa: number;
   nmempresa: string;
@@ -17,33 +17,45 @@ export type Andar = ModelBase & {
   isativo: number;
 };
 
-export const AndarColumns: Column<Andar>[] = [
+export const ANDAR_LABEL_KEYS = {
+  keyName: "crud.fields.keyName",
+  nameLabel: "crud.fields.nameLabel",
+  situation: "crud.fields.situation",
+  company: "crud.fields.company",
+  identificator: "crud.fields.identificator",
+} as const;
+
+export type AndarColumnDefinition = Omit<Column<Andar>, "label"> & {
+  labelKey: (typeof ANDAR_LABEL_KEYS)[keyof typeof ANDAR_LABEL_KEYS];
+};
+
+export const AndarColumns: AndarColumnDefinition[] = [
   {
-    label: "Chave",
+    labelKey: ANDAR_LABEL_KEYS.keyName,
     field: "idandar",
     width: WIDTH_INTEGER_COLUMN,
     type: FieldType.NUMBER,
   },
   {
-    label: "Nome",
+    labelKey: ANDAR_LABEL_KEYS.nameLabel,
     field: "nmandar",
     width: WIDTH_STRING_COLUMN,
     type: FieldType.STRING,
   },
   {
-    label: "Sit.",
+    labelKey: ANDAR_LABEL_KEYS.situation,
     field: "isativo",
     width: WIDTH_BOOLEAN_COLUMN,
     type: FieldType.BOOLEAN,
   },
   {
-    label: "Estab.",
+    labelKey: ANDAR_LABEL_KEYS.company,
     field: "nmempresa",
     width: WIDTH_SHORTSTRING_COLUMN,
     type: FieldType.STRING,
   },
   {
-    label: "Identificador",
+    labelKey: ANDAR_LABEL_KEYS.identificator,
     field: "cdandar",
     width: WIDTH_SHORTSTRING_COLUMN,
     type: FieldType.STRING,

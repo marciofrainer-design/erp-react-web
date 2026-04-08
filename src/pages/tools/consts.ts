@@ -1,7 +1,9 @@
 import { FileText, Link, Monitor, Calendar, Settings } from "lucide-react";
 import type { ToolKey } from "./types";
+import { APP_FORM_OPTIONS } from "./treeSearch/";
 
-export const formOptions = ["andar"] as const;
+export const formOptions = APP_FORM_OPTIONS;
+
 export const toolLabels: Record<ToolKey, string> = {
   login: "Login",
   app45: "Aplicação 4.5",

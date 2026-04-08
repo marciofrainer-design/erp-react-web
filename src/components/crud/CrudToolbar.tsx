@@ -31,24 +31,24 @@ export function CrudToolbar({
       <div className="flex items-center gap-3">
         {showTable ? (
           <>
-            <ButtonBase onClick={onNew} Icon={CirclePlus} label={t("new")} />
+            <ButtonBase onClick={onNew} Icon={CirclePlus} label={t("actions.new")} />
             <ButtonBase
               onClick={onView}
               disabled={!hasSelected}
               Icon={Eye}
-              label={t("view")} 
+              label={t("actions.view")} 
             />
             <ButtonBase
               onClick={onClone}
               disabled={!hasSelected}
               Icon={Copy}
-              label={t("clone")}
+              label={t("actions.clone")}
             />
             <ButtonBase
               onClick={onDelete}
               disabled={!hasSelected}
               Icon={Trash2}
-              label={t("delete")}
+              label={t("actions.delete")}
             />
           </>
         ) : (
@@ -56,8 +56,8 @@ export function CrudToolbar({
             <Info className={`w-5 h-5 ${isFormValid ? "text-primary" : "text-destructive"}`} />
             <span className="font-medium">
               {isFormValid
-                ? t("formValid")
-                : t("formInvalid")}
+                ? t("notifications.formValid")
+                : t("notifications.formInvalid")}
             </span>
           </div>
         )}
@@ -65,17 +65,17 @@ export function CrudToolbar({
       <div className="flex items-center gap-3">
         {showTable ? (
           <>
-            <ButtonBase onClick={onPrint} Icon={Printer} label={t("print")} />
-            <ButtonBase onClick={onClose} Icon={CircleX} label={t("close")} hidden/>
+            <ButtonBase onClick={onPrint} Icon={Printer} label={t("actions.print")} />
+            <ButtonBase onClick={onClose} Icon={CircleX} label={t("actions.close")} hidden/>
           </>
         ) : (
           <>
-            <ButtonBase onClick={onCancel} Icon={CircleX} label={t("cancel")} />
+            <ButtonBase onClick={onCancel} Icon={CircleX} label={t("actions.cancel")} />
             <ButtonBase
               onClick={onSave}
               disabled={!isFormValid}
               Icon={CirclePlus}
-              label={t("save")}
+              label={t("actions.save")}
             />
           </>
         )}

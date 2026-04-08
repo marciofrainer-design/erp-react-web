@@ -1,3 +1,4 @@
+import { getErrorMessage } from "./errors";
 import {normalizeSearchText, stringifyForSearch} from "./search";
 
-export { normalizeSearchText, stringifyForSearch };
+export { getErrorMessage, normalizeSearchText, stringifyForSearch };

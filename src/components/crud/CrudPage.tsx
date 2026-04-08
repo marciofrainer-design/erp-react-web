@@ -1,15 +1,16 @@
-import { useMemo, useState, useCallback, useEffect } from "react";
-import type { CrudMode, CrudPageProps } from "@/components/crud/types";
+import type { CrudPageProps } from "@/components/crud/types";
 import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
 import { CrudTable } from "./CrudTable";
 import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
-import { useConfirm, useNotify } from "@/hooks";
 import { Loading } from "@/components/loading/Loading";
-import { normalizeSearchText, stringifyForSearch } from "@/utils";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { useCrud } from "./useCrud";
+import { TRANSITION_DURATION } from "./consts";
+import type { EntityBase } from "@/types";
 
-function CrudPage<T extends object>({
+const CrudPage = <T extends EntityBase>({
   title,
   pageDescription,
   tableColumns,
@@ -17,242 +18,46 @@ function CrudPage<T extends object>({
   createNewItem,
   dependencies,
   validate,
-}: CrudPageProps<T>) {
-  const notify = useNotify();
-  const confirm = useConfirm();
-  const [mode, setMode] = useState<CrudMode>("table");
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [searchValue, setSearchValue] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [formData, setFormData] = useState<T>(
-    () => createNewItem?.() ?? ({} as T),
-  );
-  const { repository, primaryKeyName } = dependencies || {};
-  const [data, setData] = useState<T[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const filteredTableData = useMemo(() => {
-    const term = normalizeSearchText(searchTerm.trim());
-
-    if (!term) {
-      return data;
-    }
-
-    return data.filter((row) =>
-      normalizeSearchText(stringifyForSearch(row)).includes(term),
-    );
-  }, [searchTerm, data]);
-
-  const selectedItem = useMemo(() => {
-    return selectedIndex !== null ? filteredTableData[selectedIndex] : null;
-  }, [selectedIndex, filteredTableData]);
-
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await repository.getAll();
-      setData(data);
-    } catch (err) {
-      notify.error(`Erro ao carregar dados: ${err}`);
-    } finally {
-      setLoading(false);
-    }
-  }, [repository, notify]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
-    if (
-      selectedIndex !== null &&
-      (selectedIndex < 0 || selectedIndex >= filteredTableData.length)
-    ) {
-      setSelectedIndex(null);
-    }
-  }, [filteredTableData.length, selectedIndex]);
-
-  const handleSearch = useCallback(() => {
-    setSearchTerm(searchValue);
-    setSelectedIndex(null);
-  }, [searchValue]);
-
-  const handleClearSearch = useCallback(() => {
-    setSearchValue("");
-    setSearchTerm("");
-    setSelectedIndex(null);
-  }, []);
-
-  const handleRowClick = useCallback(
-    (_: T, index: number) => {
-      setSelectedIndex(index);
-      if (mode !== "table") {
-        setMode("table");
-      }
-    },
-    [mode],
-  );
-
-  const handleRowDblClick = useCallback(
-    (_: T, index: number) => {
-      setSelectedIndex(index);
-      setFormData({ ...filteredTableData[index] });
-      setMode("view");
-    },
-    [filteredTableData],
-  );
-
-  const handleView = useCallback(() => {
-    if (!selectedItem) return;
-    setFormData({ ...selectedItem });
-    setMode("view");
-  }, [selectedItem]);
-
-  const handleNew = useCallback(() => {
-    setSelectedIndex(null);
-    setFormData(createNewItem?.() ?? ({} as T));
-    setMode("new");
-  }, [createNewItem]);
-
-  const handleClone = useCallback(() => {
-    if (!selectedItem) return;
-    setFormData({ ...selectedItem });
-    setMode("clone");
-  }, [selectedItem]);
-
-  const handleDelete = useCallback(async () => {
-    if (!selectedItem) return;
-
-    if (!repository || !primaryKeyName) {
-      notify.error("Configuração de repositório inválida para exclusão.");
-      return;
-    }
-
-    const valueToDelete = selectedItem[primaryKeyName as keyof T];
-    if (!valueToDelete) {
-      notify.error(
-        "Não foi possível identificar o registro para exclusão. Chave primária ausente ou inválida.",
-        {
-        description: `Valor da chave primária (${primaryKeyName}) não encontrado no item selecionado.`,
-        },
-      );
-      return;
-    }
-
-    const shouldDelete = await confirm({
-      title: "Confirmar exclusão",
-      description: "Essa ação removerá o registro selecionado de forma permanente.",
-      confirmText: "Excluir registro",
-      cancelText: "Cancelar",
-      variant: "destructive",
-    });
-
-    if (!shouldDelete) {
-      notify.info("Exclusão cancelada pelo usuário.");
-      return;
-    }
-
-    try {
-      await repository.delete(valueToDelete as number);
-      notify.success("Registro excluído com sucesso.");
-      await fetchData();
-      setSelectedIndex(null);
-    } catch {
-      notify.error("Não foi possível excluir o registro.");
-    }
-  }, [selectedItem, repository, primaryKeyName, notify, fetchData, confirm]);
-
-  const handlePrint = useCallback(() => {
-    notify.info("Imprimir relatório");
-  }, [notify]);
-
-  const handleClose = useCallback(() => {
-    setMode("table");
-  }, []);
-
-  const handleCancel = useCallback(async () => {
-    const shouldCancel = await confirm({
-      title: "Confirmar cancelamento",
-      description: "Essa ação cancelará as alterações feitas no registro.",
-      confirmText: "Cancelar alterações",
-      cancelText: "Continuar editando",
-      variant: "destructive",
-    });
-
-    if (shouldCancel) {
-      setMode("table");
-    }
-  }, [confirm]);
-
-  const handleSave = useCallback(async () => {
-    if (!repository) {
-      notify.error("Configuração de repositório inválida para salvar.");
-      return;
-    }
-
-    if (validate && !validate(formData)) {
-      notify.warning("Existem erros no formulário. Revise os campos obrigatórios.");
-      return;
-    }
-
-    const shouldSave = await confirm({
-      title: "Confirmar salvamento",
-      description: "Essa ação salvará as alterações feitas no registro.",
-      confirmText: "Salvar alterações",
-      cancelText: "Continuar editando",
-      variant: "default",
-    });
-
-    if (!shouldSave) {
-      return;
-    }
-
-    try {
-      if (mode === "view") {
-        await repository.update(formData);
-      }
-      if ((mode as string) === "new" || (mode as string) === "clone") {
-        await repository.save(formData);
-      }
-      await fetchData();
-      notify.success("Registro salvo com sucesso.");
-      setMode("table");
-    } catch {
-      notify.error("Não foi possível salvar o registro.");
-    }
-  }, [formData, repository, fetchData, mode, validate, notify, confirm]);
-
-  const handleRegisterChange = useCallback(
-    <K extends keyof T>(field: K, value: T[K]) => {
-      setFormData((prev) => ({ ...prev, [field]: value }));
-    },
-    [],
-  );
-
-  const showTable = mode === "table";
-  const isFormValid = validate ? validate(formData) : true;
-
-  const registerContent =
-    !showTable && register
-      ? register({
-          mode,
-          data: formData,
-          onChange: handleRegisterChange,
-        })
-      : undefined;
-
-  const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
+}: CrudPageProps<T>) => {
+  const { t } = useAppTranslation("crud");
+  const {
+    mode,
+    selectedIndex,
+    searchValue,
+    setSearchValue,
+    formData,
+    loading,
+    filteredTableData,
+    selectedItem,
+    showTable,
+    isFormValid,
+    currentPage,
+    pageCount,
+    totalRows,
+    handlers,
+  } = useCrud({ createNewItem, dependencies, validate });
 
   if (loading) {
     return (
       <Loading
         variant="page"
         size="lg"
-        title="Carregando dados"
-        description="Estamos preparando os dados para você continuar."
+        title={t("notifications.loadingData")}
+        description={t("notifications.preparingData")}
       />
     );
   }
+
+  const registerContent =
+    !showTable && register
+      ? register({
+          mode: mode as "view" | "new" | "clone",
+          data: formData,
+          onChange: handlers.registerChange,
+        })
+      : undefined;
+
+  const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
 
   return (
     <motion.div
@@ -260,7 +65,7 @@ function CrudPage<T extends object>({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{duration: 2}}
+      transition={{ duration: TRANSITION_DURATION }}
     >
       <CrudPageTemplate
         title={mode === "table" ? title : ""}
@@ -269,33 +74,36 @@ function CrudPage<T extends object>({
           <CrudSearch
             value={searchValue}
             onChange={setSearchValue}
-            onSearch={handleSearch}
-            onClear={handleClearSearch}
+            onSearch={handlers.search}
+            onClear={handlers.clearSearch}
           />
         }
         table={
           <CrudTable
             columns={tableColumns}
             data={filteredTableData}
-            onRowClick={handleRowClick}
-            onRowDblClick={handleRowDblClick}
+            onRowClick={handlers.rowClick}
+            onRowDblClick={handlers.rowDblClick}
             indexSelected={selectedIndex}
             rowsCount={filteredTableData.length}
-            totalRowsCount={data.length}
+            totalRowsCount={totalRows}
+            currentPage={currentPage}
+            totalPageCount={pageCount}
+            onPageChange={handlers.pageChange}
           />
         }
         register={registerContent}
         showTable={showTable}
         footer={
           <CrudToolbar
-            onView={handleView}
-            onNew={handleNew}
-            onClone={handleClone}
-            onDelete={handleDelete}
-            onPrint={handlePrint}
-            onClose={handleClose}
-            onCancel={handleCancel}
-            onSave={handleSave}
+            onView={handlers.view}
+            onNew={handlers.new}
+            onClone={handlers.clone}
+            onDelete={handlers.delete}
+            onPrint={handlers.print}
+            onClose={handlers.close}
+            onCancel={handlers.cancel}
+            onSave={handlers.save}
             hasSelected={selectedItem !== null}
             showTable={showTable}
             isFormValid={isFormValid}
@@ -307,6 +115,6 @@ function CrudPage<T extends object>({
       </div>
     </motion.div>
   );
-}
+};
 
-export { CrudPage };
+export default CrudPage;

@@ -7,8 +7,6 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "i18n:extract": "i18next 'src/**/*.{ts,tsx}' --config i18next-parser.config.cjs",
-    "i18n:extract:ci": "npm run i18n:extract -- --fail-on-update",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -42,6 +40,9 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@eslint/js": "^9.36.0",
     "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^25.5.0",
@@ -55,7 +56,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
-    "i18next-parser": "^9.0.2",
     "jsdom": "^23.0.1",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.1",

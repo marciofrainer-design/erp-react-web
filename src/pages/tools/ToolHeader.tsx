@@ -1,17 +1,24 @@
-import { Bell, Search, Settings } from "lucide-react";
+import { User, Bell, Settings, LogOut } from "lucide-react";
 import ToolButtonMenuOpen from "./ToolButtonMenuOpen";
 import ToolButtonToggleTheme from "./ToolButtonToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
-import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { ToolMenuModal } from "./ToolMenuModal";
+import { useAuth } from "@/context/auth/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const ToolHeader = ({
   title,
+  isMenuOpen,
+  selectedTool,
+  onSelectTool,
+  onCloseMenu,
   setIsMenuOpen,
   showTitle = false,
 }: ToolHeaderProps) => {
-  const { t } = useAppTranslation(["tools", "common"]);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="glass sticky top-0 z-50 shadow-ambient border-b border-outline-variant/10">
@@ -38,17 +45,17 @@ const ToolHeader = ({
           )}
         </motion.div>
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
-            <input
-              className="bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/40 w-64 transition-all outline-none"
-              placeholder={t("header.searchPlaceholder", { ns: "tools" })}
-              type="text"
-            />
-          </div>
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
-            <ToolButtonMenuOpen setIsMenuOpen={setIsMenuOpen} />
+            <div className="relative">
+              <ToolButtonMenuOpen isOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+              <ToolMenuModal
+                isOpen={isMenuOpen}
+                selectedTool={selectedTool}
+                onSelectTool={onSelectTool}
+                onClose={onCloseMenu}
+              />
+            </div>
             <ToolButtonToggleTheme />
             <button className="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer active:scale-95 relative">
               <Bell className="w-5 h-5" />
@@ -57,14 +64,28 @@ const ToolHeader = ({
             <button className="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer active:scale-95">
               <Settings className="w-5 h-5" />
             </button>
+            {isAuthenticated ? (
+              <button
+                className="p-2 text-outline hover:bg-surface-container-high rounded-lg transition-colors cursor-pointer active:scale-95"
+                onClick={() => {
+                  logout();
+                  navigate('/tools/login');
+                }}
+                type="button"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            ) : null}
           </div>
-          <div className="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/20 cursor-pointer active:scale-95">
-            <img
-              className="w-full h-full object-cover"
-              src="https://picsum.photos/seed/profile/100/100"
-              alt="User Profile"
-              referrerPolicy="no-referrer"
-            />
+          <div className="flex items-center gap-3">
+            {user ? (
+              <span className="text-sm font-semibold text-on-surface-variant hidden md:inline">
+                {user.nmusuario}
+              </span>
+            ) : null}
+            <div className="h-8 w-8 rounded-full border border-outline-variant/20 cursor-pointer overflow-hidden items-center justify-center flex">
+              <User className="w-5 h-5 object-cover" />
+            </div>
           </div>
         </div>
       </nav>

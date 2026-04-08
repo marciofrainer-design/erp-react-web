@@ -30,42 +30,42 @@ const ToolFooter = ({ messages, isConnected, onDismiss }: ToolFooterProps) => {
   const { t } = useAppTranslation("common");
   const visible = messages.slice(-MAX_VISIBLE);
 
-function MessageChip({
-  message,
-  onDismiss,
-}: {
-  message: FooterMessage;
-  onDismiss: (id: string) => void;
-}) {
-  return (
-    <motion.div
-      layout
-      key={message.id}
-      initial={{ opacity: 0, y: 6, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -6, scale: 0.96 }}
-      transition={{ duration: 0.18 }}
-      className="flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs shrink-0 max-w-xs"
-      style={{ backgroundColor: "var(--color-bg-secondary)" }}
-    >
-      {MESSAGE_ICONS[message.type]}
-      <span
-        className="truncate"
-        style={{ color: "var(--color-text-primary)", fontSize: textSize }}
-        title={message.text}
+  function MessageChip({
+    message,
+    onDismiss,
+  }: {
+    message: FooterMessage;
+    onDismiss: (id: string) => void;
+  }) {
+    return (
+      <motion.div
+        layout
+        key={message.id}
+        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -6, scale: 0.96 }}
+        transition={{ duration: 0.18 }}
+        className="flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs shrink-0 max-w-xs"
+        style={{ backgroundColor: "var(--color-bg-secondary)" }}
       >
-        {message.text}
-      </span>
-      <button
-        onClick={() => onDismiss(message.id)}
-        className="ml-0.5 opacity-40 hover:opacity-100 transition-opacity cursor-pointer shrink-0"
-        aria-label={t("notifications.dismiss")}
-      >
-        <X className="w-3 h-3" />
-      </button>
-    </motion.div>
-  );
-}
+        {MESSAGE_ICONS[message.type]}
+        <span
+          className="truncate"
+          style={{ color: "var(--color-text-primary)", fontSize: textSize }}
+          title={message.text}
+        >
+          {message.text}
+        </span>
+        <button
+          onClick={() => onDismiss(message.id)}
+          className="ml-0.5 opacity-40 hover:opacity-100 transition-opacity cursor-pointer shrink-0"
+          aria-label={t("notifications.dismiss")}
+        >
+          <X className="w-3 h-3" />
+        </button>
+      </motion.div>
+    );
+  }
 
   return (
     <footer

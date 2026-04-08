@@ -1,13 +1,12 @@
 import type { LucideIcon } from "lucide-react";
 
-export type ButtonBaseProps = {
+export type ButtonBaseProps = React.ComponentProps<"button"> & {
   children?: React.ReactNode;
   disabled?: boolean;
   onClick?: () => void;
   Icon?: LucideIcon;
   label?: string;
   hidden?: boolean;
-  className?: string;
 };
 
 export type ButtonSearchBaseProps = {

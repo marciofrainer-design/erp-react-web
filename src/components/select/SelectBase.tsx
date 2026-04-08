@@ -2,20 +2,17 @@ import type { SelectBaseProps } from "./types";
 import { Select, SelectContent, SelectGroup, SelectItem } from "../ui/select";
 import { SelectTrigger, SelectValue } from "../ui/select";
 import { useEffect, useState } from "react";
+import { useAppTranslation } from "@/i18n/useAppTranslation";
 
-const SelectBase = ({
-  label,
-  options,
-  onChange,
-  Icon,
-}: SelectBaseProps) => {
-    const [value, setValue] = useState<string>("");
-    const selectedLabel = options.find((option) => option.value === value)?.label;
+const SelectBase = ({ label, options, onChange, Icon }: SelectBaseProps) => {
+  const { t } = useAppTranslation(["components"]);
+  const [value, setValue] = useState<string>("");
+  const selectedLabel = options.find((option) => option.value === value)?.label;
 
-    useEffect(() => {
-      onChange(value);
-     }, [value, onChange]);
-    
+  useEffect(() => {
+    onChange(value);
+  }, [value, onChange]);
+
   return (
     <div className="flex items-center gap-4 mt-4 ml-8">
       <div className="flex flex-col">
@@ -24,20 +21,23 @@ const SelectBase = ({
         </label>
         <div className="flex items-center bg-surface-container-lowest shadow-sm rounded-xl px-4 py-2 gap-3 min-w-70 cursor-pointer hover:bg-surface-container transition-colors border border-outline-variant/20">
           {Icon && <Icon className="text-primary w-5 h-5" />}
-          <Select value={value} onValueChange={(value) => setValue(value || "")}>
+          <Select
+            value={value}
+            onValueChange={(value) => setValue(value || "")}
+          >
             <SelectTrigger>
-              <SelectValue className="text-base" placeholder={`Selecione ${label.toLowerCase()}`} >
+              <SelectValue
+                className="text-base"
+                placeholder={`${t("selects.labelDefault", { ns: "components" })} ${label.toLowerCase()}`}
+              >
                 {selectedLabel}
-                </SelectValue>
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 {options &&
                   options.map((option) => (
-                    <SelectItem
-                      key={option.value}
-                      value={option.value}
-                    >
+                    <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
                   ))}

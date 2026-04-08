@@ -1,9 +1,11 @@
 const ptBRTools = {
   header: {
-    searchPlaceholder: "Pesquisar...",
+    searchPlaceholder: "Pesquisar serviço...",
   },
   page: {
     defaultTitle: "Desbravador Web System",
+    selectServicePrompt: "Selecione um cadastro no campo de busca para abrir a tela desejada.",
+    selectCompanyPrompt: "Selecione a empresa para realizar as requisições ao backend.",
     toolTitle: {
       login: "Login",
       app45: "FrontWeb 4.5",
@@ -13,6 +15,29 @@ const ptBRTools = {
       reservas: "Reservas Online",
     },
     welcomeMessage: "Bem-vindo, {{email}}!",
+    invalidCredentials: "Login ou senha inválidos.",
+  },
+  appSearch: {
+    title: "Serviços disponíveis",
+    currentSelection: "Seleção atual: {{selected}}",
+    noSelection: "Nenhum serviço selecionado",
+    emptyResult: "Nenhum serviço encontrado para essa busca.",
+    comingSoon: "Em breve",
+    tree: {
+      records: "Cadastros",
+      infrastructure: "Infraestrutura",
+      floor: "Andar",
+      apartment: "Apartamento",
+      queries: "Consultas",
+      reservations: "Reservas",
+      guests: "Hóspedes",
+      reports: "Relatórios",
+      occupancy: "Ocupação",
+      averageDailyRate: "Diária média",
+      maps: "Mapas",
+      reservationMap: "Mapa de reservas",
+      apartmentMap: "Mapa de apartamentos",
+    },
   },
   login: {
     title: "Bem-vindo",

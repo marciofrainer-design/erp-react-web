@@ -6,17 +6,16 @@ export type FormOption = (typeof formOptions)[number];
 
 export type ToolComponentParams = {
   tool: ToolKey;
-  selectedForm: FormOption;
-};
-
-export type ToolFormSelectProps = {
-  selectedForm: FormOption;
-  onSelectForm: (value: FormOption) => void;
+  selectedForm?: FormOption;
 };
 
 export type ToolHeaderProps = {
   title: string;
   showTitle?: boolean;
+  isMenuOpen: boolean;
+  selectedTool: ToolKey;
+  onSelectTool: (tool: ToolKey) => void;
+  onCloseMenu: () => void;
   setIsMenuOpen: (open: boolean) => void;
 };
 

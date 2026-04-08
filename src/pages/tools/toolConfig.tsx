@@ -1,24 +1,24 @@
 import { AndarPage } from "@/pages/andar/AndarPage";
 import { ToolPlaceholder } from "./ToolPlaceholder";
-import type { FormOption, ToolComponentParams } from "./types"
+import type { FormOption, ToolComponentParams } from "./types";
 import { toolLabels } from "./consts";
 
 export function formLabels(value: FormOption) {
-  if (value === "andar") return "Andar";
+  if (value === "floor") return "Andar";
   return "Empresa";
 }
 
 export function getToolComponent(
-    params: ToolComponentParams
+  params: ToolComponentParams,
 ) {
   const { tool, selectedForm } = params;
 
   if (tool === "app45") {
     switch (selectedForm) {
-      case "andar":
+      case "floor":
         return <AndarPage />;
       default:
-        return <div>Not implemented</div>;
+        return <ToolPlaceholder label={toolLabels[tool]} />;
     }
   }
 
