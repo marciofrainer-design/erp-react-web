@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import type { AuthContextType, AuthProviderProps } from "./types";
 import { apiClient } from "@/infra/api/client";
+import { IS_MOCK_MODE } from "@/infra/factories/adapterFactory";
+import { mockAuthRoutes } from "@/mocks/auth/authMocks";
 import {
   clearStoredAuthSession,
   loadStoredAuthSession,
@@ -17,14 +19,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(true);
 
     try {
-      const response = await apiClient.post("/TAuthController/Login", {
-        login,
-        password,
-      });
+      let data;
 
-      saveStoredAuthSession(response.data);
-      setSession(response.data);
-      return response.data.user;
+      if (IS_MOCK_MODE) {
+        data = mockAuthRoutes.Login({ login, password });
+      } else {
+        const response = await apiClient.post("/TAuthController/Login", {
+          login,
+          password,
+        });
+        data = response.data;
+      }
+
+      saveStoredAuthSession(data);
+      setSession(data);
+      return data.user;
     } finally {
       setIsLoading(false);
     }

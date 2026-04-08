@@ -1,6 +1,6 @@
 import { EmpresaRepository } from "@/domain/empresa/EmpresaRepository";
 import { useEffect, useMemo, useState } from "react";
-import { DataSnapAdapter } from "@/infra/api/service";
+import { getAdapter } from "@/infra/factories/adapterFactory";
 import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
 import { Building2 } from "lucide-react";
@@ -11,7 +11,7 @@ import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { getErrorMessage } from "@/utils";
 
 const createDefaultRepository = () =>
-  new EmpresaRepository(new DataSnapAdapter());
+  new EmpresaRepository(getAdapter());
 
 const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
   const { t } = useAppTranslation(["components", "crud"]);
