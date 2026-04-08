@@ -7,7 +7,7 @@ import {
   stringifyForSearch,
 } from "@/utils";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { CRUD_DEFAULT_LIMIT, CRUD_DEFAULT_PAGE } from "./consts";
+import { CRUD_DEFAULT_LIMIT, CRUD_DEFAULT_PAGE } from "@/components/crud/consts";
 
 export function useCrud<T extends object>({
   createNewItem,

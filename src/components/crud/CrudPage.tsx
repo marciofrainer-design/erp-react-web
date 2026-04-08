@@ -6,7 +6,7 @@ import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
 import { Loading } from "@/components/loading/Loading";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { useCrud } from "./useCrud";
+import { useCrud } from "@/hooks";
 import { TRANSITION_DURATION } from "./consts";
 import type { EntityBase } from "@/types";
 
