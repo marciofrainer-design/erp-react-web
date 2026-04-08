@@ -16,10 +16,6 @@ import { useFooterMessages } from "./useFooterMessages";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { useNotify } from "@/hooks";
 
-// TODO: Remove when server authentication is available
-const TEMP_LOGIN = "admin";
-const TEMP_PASSWORD = "1234";
-
 const TOOL_KEYS: ToolKey[] = [
   "login",
   "app45",
@@ -51,7 +47,7 @@ export function ToolsPage() {
     : null;
 
   const { setEmpresaId, empresaId } = useEmpresa();
-  const { isLoading } = useAuth();
+  const { isLoading, login } = useAuth();
   const notify = useNotify();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
@@ -114,22 +110,21 @@ export function ToolsPage() {
 
   const handleOnLoginClick = useCallback(
     async (loginValue: string, password: string) => {
-      // TODO: Replace with actual server authentication when available
-      if (loginValue !== TEMP_LOGIN || password !== TEMP_PASSWORD) {
+      try {
+        const user = await login(loginValue, password);
+        navigate("/tools/app45");
+        addMessage(
+          "success",
+          t("page.welcomeMessage", {
+            ns: "tools",
+            email: user?.login ?? loginValue,
+          }),
+        );
+      } catch {
         notify.error(t("page.invalidCredentials", { ns: "tools" }));
-        return;
       }
-
-      navigate("/tools/app45");
-      addMessage(
-        "success",
-        t("page.welcomeMessage", {
-          ns: "tools",
-          email: loginValue,
-        }),
-      );
     },
-    [navigate, addMessage, notify, t],
+    [navigate, addMessage, notify, t, login],
   );
 
   const getToolTitle = () => {
