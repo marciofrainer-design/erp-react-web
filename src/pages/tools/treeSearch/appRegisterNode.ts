@@ -11,6 +11,12 @@ const APP_REGISTER_NODE = (): AppServiceNode => ({
       enabled: true,
     },
     {
+      id: "records-uh",
+      labelKey: "appSearch.tree.uh",
+      formOption: "uh",
+      enabled: true,
+    },
+    {
       id: "records-apartment",
       labelKey: "appSearch.tree.apartment",
       enabled: false,

@@ -1,5 +1,5 @@
 import { EmpresaRepository } from "@/domain/empresa/EmpresaRepository";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { getAdapter } from "@/infra/factories/adapterFactory";
 import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
@@ -8,39 +8,26 @@ import type { SelectEmpresaProps } from "./types";
 import { Loading } from "@/components/loading/Loading";
 import { useNotify } from "@/hooks";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { getErrorMessage } from "@/utils";
+import { useFetchAll } from "@/hooks/useFetchAll";
 
-const createDefaultRepository = () =>
-  new EmpresaRepository(getAdapter());
+const createDefaultRepository = () => new EmpresaRepository(getAdapter());
 
 const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
   const { t } = useAppTranslation(["components", "crud"]);
   const notify = useNotify();
-  const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const repo = useMemo(
     () => repository ?? createDefaultRepository(),
     [repository],
   );
 
-  useEffect(() => {
-    const fetchEmpresaData = async () => {
-      setLoading(true);
-      try {
-        const result = await repo.getAll({ page: 1, pageCount: 1, limit: 100 });
-        setEmpresaData(result.data);
-      } catch (err: unknown) {
-        notify.error(
-          `${t("notifications.loadingDataError", { defaultValue: "Erro ao carregar dados" })}: ${getErrorMessage(err)}`,
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: empresaData, loading, error } = useFetchAll<Empresa>(repo);
 
-    fetchEmpresaData();
-  }, [repo, notify, t]);
+  useEffect(() => {
+    if (error) {
+      notify.error(t("notifications.loadingDataError", { ns: "crud" }));
+    }
+  }, [error, notify, t]);
 
   if (loading) {
     return (

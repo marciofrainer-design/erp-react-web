@@ -27,6 +27,7 @@ const esESTools = {
       records: "Registros",
       infrastructure: "Infraestructura",
       floor: "Piso",
+      uh: "UH",
       apartment: "Apartamento",
       queries: "Consultas",
       reservations: "Reservas",

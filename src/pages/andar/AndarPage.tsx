@@ -9,14 +9,15 @@ import { useTranslatedColumns } from "@/hooks";
 export function AndarPage() {
   const { t } = useAppTranslation("andar");
   const tableColumns = useTranslatedColumns("andar", AndarColumns);
+  const dependencies = AndarFactory.dependencies();
 
   return (
     <CrudPage
       title={t("crud.title")}
       pageDescription={t("crud.subtitle")}
       tableColumns={tableColumns}
-      createNewItem={AndarFactory.createBlankAndar}
-      dependencies={AndarFactory.dependencies()}
+      createNewItem={() => AndarFactory.createBlankAndar()}
+      dependencies={dependencies}
       validate={(data) => andarRegisterSchema.safeParse(data).success}
       register={({ mode, data, onChange }) => (
         <AndarRegister mode={mode} data={data} onChange={onChange} />
