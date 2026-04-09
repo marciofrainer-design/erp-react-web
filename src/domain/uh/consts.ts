@@ -1,4 +1,4 @@
-import type { Uh } from "./uh.types";
+import type { Uh } from "./types";
 
 export const blankUh = <T extends Uh>() =>
   ({
@@ -12,6 +12,5 @@ export const blankUh = <T extends Uh>() =>
     nmuhtipo: "",
     nmandar: "",
     nmedificacao: "",
-    iduhtipo_emp: 0,
     empresa_dsabreviatura: "",
   } as T);

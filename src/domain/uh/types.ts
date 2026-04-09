@@ -16,9 +16,10 @@ export type Uh = EntityBase & {
   isacessibilidade: number;
   iduhtipo: number;
   nmuhtipo: string;
+  idandar: number;
   nmandar: string;
+  idedificacao: number;
   nmedificacao: string;
-  iduhtipo_emp: number;
   empresa_dsabreviatura: string;
   qtquarto: number;
   iduhclassificacao: number;

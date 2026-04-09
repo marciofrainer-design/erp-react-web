@@ -3,6 +3,7 @@ import { mockAndarRoutes } from "./andar/andarMocks";
 import { mockEmpresaRoutes } from "./empresa/empresaMocks";
 import { mockAuthRoutes } from "./auth/authMocks";
 import { mockUhRoutes } from "./uh/uhMocks";
+import { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 
 export const mockAdapter = new MockAdapter({
   TAuthController: {
@@ -20,6 +21,10 @@ export const mockAdapter = new MockAdapter({
     GetAll: (params) => mockUhRoutes.GetAll(params),
     GetById: (params) => mockUhRoutes.GetById(params),
   },
+  TUhTipoController: {
+    GetAll: (params) => mockUhTipoRoutes.GetAll(params),
+    GetById: (params) => mockUhTipoRoutes.GetById(params),
+  },
 });
 
 export { MockAdapter } from "./MockAdapter";
@@ -27,4 +32,5 @@ export { mockAuthRoutes } from "./auth/authMocks";
 export { mockEmpresaRoutes } from "./empresa/empresaMocks";
 export { mockAndarRoutes } from "./andar/andarMocks";
 export { mockUhRoutes } from "./uh/uhMocks";
+export { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 export { MOCK_AUTH_USERS, MOCK_AUTH_CREDENTIALS } from "./auth/authMocks";

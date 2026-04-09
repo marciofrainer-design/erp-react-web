@@ -1,5 +1,5 @@
 import { UhRepository } from "./UhRepository";
-import type { Uh } from "./uh.types";
+import type { Uh } from "./types";
 import type { CrudRegisterDependencies } from "@/components/crud/types";
 import { blankUh } from "./consts";
 import { getAdapter } from "@/infra/factories/adapterFactory";

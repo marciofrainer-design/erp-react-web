@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 
 export function useFetchAll<T>(
   repository: Repository<T>,
+  enabled = true,
 ): UseFetchAllResult<T> {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!enabled) return;
     let cancelled = false;
     setLoading(true);
     repository
@@ -27,7 +29,7 @@ export function useFetchAll<T>(
     return () => {
       cancelled = true;
     };
-  }, [repository]);
+  }, [repository, enabled]);
 
   return { data, loading, error };
 }

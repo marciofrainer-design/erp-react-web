@@ -22,7 +22,6 @@ let store: Uh[] = Array.from({ length: 30 }, (_, i) => ({
   nmuhtipo: faker.helpers.arrayElement(TIPOS_UH),
   nmandar: faker.helpers.arrayElement(ANDARES),
   nmedificacao: faker.helpers.arrayElement(EDIFICACOES),
-  iduhtipo_emp: faker.number.int({ min: 1, max: 5 }),
   qtquarto: faker.number.int({ min: 1, max: 4 }),
   iduhclassificacao: faker.number.int({ min: 1, max: 5 }),
 }));

@@ -37,7 +37,7 @@ export function ToolMenuModal({ isOpen, selectedTool, onSelectTool, onClose }: T
   return (
     <Card
       ref={rootRef}
-      className="absolute top-full right-0 z-30 mt-2 w-[22rem] border-border/80 bg-background/95 shadow-lg backdrop-blur supports-backdrop-filter:bg-background/75"
+      className="absolute top-full right-0 z-30 mt-2 w-88 border-border/80 bg-background/95 shadow-lg backdrop-blur supports-backdrop-filter:bg-background/75"
     >
       <CardHeader className="pb-2">
         <CardTitle>Ferramentas</CardTitle>

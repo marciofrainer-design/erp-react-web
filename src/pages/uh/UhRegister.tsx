@@ -1,11 +1,15 @@
 import { CrudRegister } from "@/components/crud";
 import { InputStringBase } from "@/components/inputs/string/InputStringBase";
+import { SelectRepository } from "@/components/select/SelectRepository";
 import { uhRegisterSchema } from "@/domain/uh/validation";
+import type { UHTipo } from "@/domain/uhTipo/types";
 import type { UhRegisterProps } from "./types";
 import { useEffect, useRef } from "react";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { ListFilter } from "lucide-react";
+import { UH_TIPO_MAPPER } from "./consts";
 
-export function UhRegister({ data, onChange }: UhRegisterProps) {
+export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps) {
   const { t } = useAppTranslation("uh");
   const validation = uhRegisterSchema.safeParse(data);
   const errors = validation.success
@@ -45,11 +49,18 @@ export function UhRegister({ data, onChange }: UhRegisterProps) {
           error={errors.dsuh?.[0]}
           onChange={(e) => onChange("dsuh", e.target.value)}
         />
-        <InputStringBase
+        <SelectRepository<UHTipo>
+          repository={uhTipoRepository}
+          mapper={UH_TIPO_MAPPER}
           label={t("inputs.uhType")}
-          value={data.nmuhtipo}
-          error={errors.nmuhtipo?.[0]}
-          onChange={(e) => onChange("nmuhtipo", e.target.value)}
+          Icon={ListFilter}
+          value={String(data.iduhtipo || "")}
+          onChange={(v) => {
+            onChange("iduhtipo", Number(v));
+          }}
+          error={errors.iduhtipo?.[0]}
+          lazy={true}
+          initialLabel={data.nmuhtipo}
         />
         <InputStringBase
           label={t("inputs.nmEdification")}
@@ -91,5 +102,4 @@ export function UhRegister({ data, onChange }: UhRegisterProps) {
 //   nmuhtipo: string;
 //   nmandar: string;
 //   nmedificacao: string;
-//   iduhtipo_emp: number;
 //   empresa_dsabreviatura: string;
