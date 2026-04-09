@@ -6,6 +6,7 @@ import enUSTools from "./en-US/tools";
 import enUSUh from "./en-US/uh";
 import enUSEdificacao from "./en-US/edificacao";
 import enUSUhclassificacao from "./en-US/uhclassificacao";
+import enUSCaracteristica from "./en-US/caracteristica";
 import esESAndar from "./es-ES/andar";
 import esESCommon from "./es-ES/common";
 import esESCrud from "./es-ES/crud";
@@ -14,6 +15,7 @@ import esESTools from "./es-ES/tools";
 import esESUh from "./es-ES/uh";
 import esESEdificacao from "./es-ES/edificacao";
 import esESUhclassificacao from "./es-ES/uhclassificacao";
+import esESCaracteristica from "./es-ES/caracteristica";
 import ptBRAndar from "./pt-BR/andar";
 import ptBRCommon from "./pt-BR/common";
 import ptBRCrud from "./pt-BR/crud";
@@ -22,6 +24,7 @@ import ptBRTools from "./pt-BR/tools";
 import ptBRUh from "./pt-BR/uh";
 import ptBREdificacao from "./pt-BR/edificacao";
 import ptBRUhclassificacao from "./pt-BR/uhclassificacao";
+import ptBRCaracteristica from "./pt-BR/caracteristica";
 import ptBRComponents from "./pt-BR/components";
 import enUSComponents from "./en-US/components";
 import esESComponents from "./es-ES/components";
@@ -36,6 +39,7 @@ export const resources = {
     uh: ptBRUh,
     edificacao: ptBREdificacao,
     uhclassificacao: ptBRUhclassificacao,
+    caracteristica: ptBRCaracteristica,
     components: ptBRComponents,
   },
   "en-US": {
@@ -47,6 +51,7 @@ export const resources = {
     uh: enUSUh,
     edificacao: enUSEdificacao,
     uhclassificacao: enUSUhclassificacao,
+    caracteristica: enUSCaracteristica,
     components: enUSComponents,
   },
   "es-ES": {
@@ -58,6 +63,7 @@ export const resources = {
     uh: esESUh,
     edificacao: esESEdificacao,
     uhclassificacao: esESUhclassificacao,
+    caracteristica: esESCaracteristica,
     components: esESComponents,
   },
 } as const;

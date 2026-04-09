@@ -76,7 +76,7 @@ export function ToolsPage() {
       if (!empresaId) {
         return (
           <ToolPlaceholder
-            label={t(`appSearch.tree.${selectedForm}`, { ns: "tools" })}
+            label={t(`appSearch.tree.${selectedForm}`, `appSearch.tree.${selectedForm}`, { ns: "tools" })}
             description={t("page.selectCompanyPrompt", { ns: "tools" })}
           />
         );
@@ -167,8 +167,8 @@ export function ToolsPage() {
           showTitle={selectedTool !== "login"}
         />
         {selectedTool !== "login" && (
-          <div className="flex justify-between">
-            <div className="flex flex-row justify-center gap-6">
+          <div className="flex justify-between items-center mt-2">
+            <div className="flex flex-row justify-center gap-6 items-end">
               <SelectEmpresa onSelect={setEmpresaId} />
               {selectedTool === "app45" && empresaId ? (
                 <ToolSearch

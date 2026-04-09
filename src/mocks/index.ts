@@ -6,6 +6,7 @@ import { mockUhRoutes } from "./uh/uhMocks";
 import { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 import { mockEdificacaoRoutes } from "./edificacao/edificacaoMocks";
 import { mockUHClassificacaoRoutes } from "./uhclassificacao/uhclassificacaoMocks";
+import { mockCaracteristicaRoutes } from "./caracteristica/caracteristicaMocks";
 
 export const mockAdapter = new MockAdapter({
   TAuthController: {
@@ -35,6 +36,10 @@ export const mockAdapter = new MockAdapter({
     GetAll: (params) => mockUHClassificacaoRoutes.GetAll(params),
     GetById: (params) => mockUHClassificacaoRoutes.GetById(params),
   },
+  TCaracteristicaController: {
+    GetAll: (params) => mockCaracteristicaRoutes.GetAll(params),
+    GetById: (params) => mockCaracteristicaRoutes.GetById(params),
+  },
 });
 
 export { MockAdapter } from "./MockAdapter";
@@ -45,4 +50,5 @@ export { mockUhRoutes } from "./uh/uhMocks";
 export { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 export { mockEdificacaoRoutes } from "./edificacao/edificacaoMocks";
 export { mockUHClassificacaoRoutes } from "./uhclassificacao/uhclassificacaoMocks";
+export { mockCaracteristicaRoutes } from "./caracteristica/caracteristicaMocks";
 export { MOCK_AUTH_USERS, MOCK_AUTH_CREDENTIALS } from "./auth/authMocks";

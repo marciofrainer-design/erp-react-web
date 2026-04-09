@@ -46,14 +46,15 @@ export function useSelectRepository<T>({
 
   const filteredOptions = useMemo<SelectOption[]>(() => {
     const term = normalizeSearchText(search.trim());
-    if (!term) return allOptions;
 
-    return allOptions.filter((option) => {
-      if (filterFn) {
-        const originalItem = data[allOptions.indexOf(option)];
-        return filterFn(originalItem, term);
-      }
-      return normalizeSearchText(option.label).includes(term);
+    if (!term) {
+      if (!filterFn) return allOptions;
+      return allOptions.filter((_, index) => filterFn(data[index], ""));
+    }
+
+    return allOptions.filter((_, index) => {
+      if (filterFn) return filterFn(data[index], term);
+      return normalizeSearchText(allOptions[index].label).includes(term);
     });
   }, [allOptions, search, filterFn, data]);
 

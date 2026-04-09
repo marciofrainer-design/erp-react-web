@@ -2,6 +2,7 @@ import type { Repository } from "@/infra/interface/types";
 import type { Column } from "@/types";
 import { EdificacaoRepository } from "@/domain/edificacao";
 import { UhTipoRepository } from "@/domain/uhTipo/UhTipoRepository";
+import { CaracteristicaRepository } from "@/domain/caracteristica/CaracteristicaRepository";
 
 export type CrudPageTemplateProps = {
   title: string;
@@ -17,7 +18,10 @@ export type CrudPageProps<T extends object> = {
   title: string;
   pageDescription?: string;
   tableColumns: Column<T>[];
+  /** Formulário simples (CrudRegister). Ignorado se `tabs` for fornecido. */
   register?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
+  /** Formulário em abas (CrudRegisterTabs). Tem prioridade sobre `register`. */
+  tabs?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
   createNewItem?: () => T;
   onSaved?: () => Promise<void> | void;
   dependencies: CrudRegisterDependencies<T>;
@@ -46,6 +50,7 @@ export type CrudRegisterDependencies<T> = {
   repository: Repository<T>;
   edificacaoRepository: EdificacaoRepository;
   uhTipoRepository: UhTipoRepository;
+  caracteristicaRepository: CaracteristicaRepository;
   primaryKeyName: string;
 };
 
@@ -53,6 +58,7 @@ export type CrudRegisterProps = {
   children: React.ReactNode;
   title?: string;
   description?: string;
+  showTitle?: boolean;
 };
 
 export type ViewMode = "list" | "edit";

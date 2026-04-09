@@ -13,4 +13,5 @@ export const blankUh = <T extends Uh>() =>
     nmandar: "",
     nmedificacao: "",
     empresa_dsabreviatura: "",
+    caracteristicas: [],
   } as T);

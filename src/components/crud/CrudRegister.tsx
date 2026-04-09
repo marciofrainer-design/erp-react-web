@@ -5,6 +5,7 @@ const CrudRegister = ({
   children,
   title,
   description,
+  showTitle = true,
 }: CrudRegisterProps) => {
 
   return (
@@ -16,9 +17,11 @@ const CrudRegister = ({
       <div >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-black font-headline tracking-tighter text-on-surface">
-              {title}
-            </h1>
+            {showTitle && (
+              <h1 className="text-3xl font-black font-headline tracking-tighter text-on-surface">
+                {title}
+              </h1>
+            )}
             <p className="text-on-surface-variant">
               {description && <span>{description}</span>}
             </p>

@@ -5,6 +5,7 @@ import { blankUh } from "./consts";
 import { getAdapter } from "@/infra/factories/adapterFactory";
 import { EdificacaoRepository } from "../edificacao";
 import { UhTipoRepository } from "../uhTipo/UhTipoRepository";
+import { CaracteristicaRepository } from "../caracteristica/CaracteristicaRepository";
 
 export const UhFactory = {
   createBlankUh(): Uh {
@@ -15,7 +16,8 @@ export const UhFactory = {
     const primaryKeyName = "iduh";
     const edificacaoRepository = new EdificacaoRepository(getAdapter());
     const uhTipoRepository = new UhTipoRepository(getAdapter());
-    return { repository, primaryKeyName, edificacaoRepository, uhTipoRepository };
+    const caracteristicaRepository = new CaracteristicaRepository(getAdapter());
+    return { repository, primaryKeyName, edificacaoRepository, uhTipoRepository, caracteristicaRepository };
   },
 };
 

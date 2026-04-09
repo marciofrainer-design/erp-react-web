@@ -15,6 +15,7 @@ const CrudPage = <T extends EntityBase>({
   pageDescription,
   tableColumns,
   register,
+  tabs,
   createNewItem,
   dependencies,
   validate,
@@ -48,14 +49,15 @@ const CrudPage = <T extends EntityBase>({
     );
   }
 
-  const registerContent =
-    !showTable && register
-      ? register({
-          mode: mode as "view" | "new" | "clone",
-          data: formData,
-          onChange: handlers.registerChange,
-        })
-      : undefined;
+  const renderProps = {
+    mode: mode as "view" | "new" | "clone",
+    data: formData,
+    onChange: handlers.registerChange,
+  };
+
+  const registerContent = !showTable
+    ? (tabs?.(renderProps) ?? register?.(renderProps))
+    : undefined;
 
   const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
 

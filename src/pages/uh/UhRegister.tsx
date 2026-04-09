@@ -34,6 +34,7 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
     <CrudRegister
       title={data.iduh ? t("crud.editLabel") : t("crud.createLabel")}
       description={t("crud.subtitle")}
+      showTitle={false}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <InputStringBase
@@ -74,7 +75,11 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
           }}
           error={errors.idedificacao?.[0]}
           lazy={true}
-          initialLabel={data.empresa_dsabreviatura ? `${data.empresa_dsabreviatura} - ${data.nmedificacao}` : ""}
+          initialLabel={
+            data.empresa_dsabreviatura
+              ? `${data.empresa_dsabreviatura} - ${data.nmedificacao}`
+              : ""
+          }
         />
         <InputStringBase
           label={t("inputs.floor")}
@@ -92,7 +97,9 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
           label={t("inputs.classification")}
           value={data.iduhclassificacao}
           error={errors.iduhclassificacao?.[0]}
-          onChange={(e) => onChange("iduhclassificacao", parseInt(e.target.value, 10))}
+          onChange={(e) =>
+            onChange("iduhclassificacao", parseInt(e.target.value, 10))
+          }
         />
       </div>
     </CrudRegister>

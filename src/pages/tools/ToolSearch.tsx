@@ -79,7 +79,7 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
   }, [query, getNodeLabel]);
 
   const selectedFormLabel = selectedForm
-    ? t(`appSearch.tree.${selectedForm}`, { ns: "tools" })
+    ? t(`appSearch.tree.${selectedForm}`, `appSearch.tree.${selectedForm}`, { ns: "tools" })
     : t("appSearch.noSelection", { ns: "tools" });
 
   const renderNode = (node: AppServiceNode, depth = 0) => {
@@ -140,7 +140,7 @@ const ToolSearch = ({ selectedForm, onSelectForm }: ToolSearchProps) => {
   };
 
   return (
-    <div className="relative mt-12 min-w-md" ref={rootRef}>
+    <div className="relative mb-2 min-w-md" ref={rootRef}>
       <div className="flex items-center relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-outline w-4 h-4" />
         <input

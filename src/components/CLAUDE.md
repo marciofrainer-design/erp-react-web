@@ -7,7 +7,7 @@
 ```
 src/components/
 ├── ui/           # Primitivos de UI sem lógica (shadcn/Radix)
-├── {categoria}/  # Componentes genéricos por categoria (button, inputs, table…)
+├── {categoria}/  # Componentes genéricos por categoria (button, inputs, table, tabs…)
 │   ├── {Name}Base.tsx    # Componente base reutilizável
 │   └── types.ts          # Props do componente
 └── domain/       # Componentes que consomem domínios específicos
@@ -47,6 +47,14 @@ export function AndarTableBase() {} // use AndarTable ou diretamente na página
 ### Componentes shadcn/ui — obrigatório criar um `*Base`
 
 **Sempre que um componente de `ui/` (shadcn/Radix) for utilizado em mais de um lugar, crie um componente `*Base` intermediário** que encapsula o estilo padrão do projeto (Tailwind, tokens de cor) e expõe uma API simplificada via props e `children`.
+
+**Local obrigatório:** componentes `*Base` criados a partir de primitivos shadcn devem ficar em `src/components/{categoria}/`, nunca dentro de pastas de domínio ou de feature específica (ex: `crud/`).
+
+```
+✅ src/components/tabs/TabsBase.tsx
+✅ src/components/select/SelectBase.tsx
+❌ src/components/crud/tabs/TabsBase.tsx   ← dentro de feature específica
+```
 
 Nunca use primitivos de `ui/` diretamente em páginas, componentes de domínio ou outros `*Base`. A camada `ui/` é acesso exclusivo dos componentes `*Base`.
 

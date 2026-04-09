@@ -1,6 +1,6 @@
 import { UhColumns } from "@/domain/uh/types";
 import { CrudPage } from "@/components/crud";
-import { UhRegister } from "@/pages/uh/UhRegister";
+import UhTabs from "@/pages/uh/UhTabs";
 import UhFactory from "@/domain/uh/UhFactory";
 import { uhRegisterSchema } from "@/domain/uh/validation";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
@@ -10,7 +10,7 @@ export function UhPage() {
   const { t } = useAppTranslation("uh");
   const tableColumns = useTranslatedColumns("uh", UhColumns);
   const dependencies = UhFactory.dependencies();
-  const { uhTipoRepository, edificacaoRepository } = dependencies;
+  const { uhTipoRepository, edificacaoRepository, caracteristicaRepository } = dependencies;
 
   return (
     <CrudPage
@@ -20,12 +20,12 @@ export function UhPage() {
       createNewItem={() => UhFactory.createBlankUh()}
       dependencies={dependencies}
       validate={(data) => uhRegisterSchema.safeParse(data).success}
-      register={({ mode, data, onChange }) => (
-        <UhRegister
+      tabs={({ mode, data, onChange }) => (
+        <UhTabs
           mode={mode}
           data={data}
           onChange={onChange}
-          repositories={{ uhTipoRepository, edificacaoRepository }}
+          repositories={{ uhTipoRepository, edificacaoRepository, caracteristicaRepository }}
         />
       )}
     />

@@ -6,6 +6,7 @@ import {
 } from "@/consts";
 import type { Repository } from "@/infra/interface/types";
 import type { EntityBase } from "@/types";
+import type { Caracteristica } from "@/domain/caracteristica/types";
 
 export type Uh = EntityBase & {
   idempresa: number;
@@ -23,6 +24,7 @@ export type Uh = EntityBase & {
   empresa_dsabreviatura: string;
   qtquarto: number;
   iduhclassificacao: number;
+  caracteristicas: Caracteristica[];
 };
 
 export const UH_LABEL_KEYS = {

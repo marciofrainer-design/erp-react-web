@@ -49,6 +49,10 @@ const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
     );
   }
 
+  const selectedLabel = empresaData.find(
+    (e) => e.idempresa.toString() === value,
+  )?.nmfantasia;
+
   return (
     <SelectBase
       label={t("selects.labelCompany", { ns: "components" })}
@@ -62,7 +66,9 @@ const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
       <SelectTrigger>
         <SelectValue
           placeholder={t("selects.labelDefault", { ns: "components" })}
-        />
+        >
+          {selectedLabel || undefined}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
