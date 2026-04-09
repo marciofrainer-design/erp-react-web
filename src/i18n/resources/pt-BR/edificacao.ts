@@ -1,7 +1,8 @@
 const ptBREdificacao = {
   crud: {
     title: "Cadastro de Edificação",
-    subtitle: "Gerencie as edificações do seu hotel de forma eficiente e organizada.",
+    subtitle:
+      "Gerencie as edificações do seu hotel de forma eficiente e organizada.",
     fields: {
       keyName: "Chave",
       identificator: "Identificação",
@@ -17,6 +18,9 @@ const ptBREdificacao = {
     nameLabel: "Nome",
     situation: "Situação",
     company: "Estabelecimento",
+    buiding: "Edificação",
+    nmEdification: "Nome da Edificação",
+    floor: "Andar",
   },
   validation: {
     cdedificacao: {

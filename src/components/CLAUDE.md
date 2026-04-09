@@ -44,6 +44,35 @@ export function TableBase({ columns, data, onRowClick }: TableBaseProps<T>) {}
 export function AndarTableBase() {} // use AndarTable ou diretamente na página
 ```
 
+### Componentes shadcn/ui — obrigatório criar um `*Base`
+
+**Sempre que um componente de `ui/` (shadcn/Radix) for utilizado em mais de um lugar, crie um componente `*Base` intermediário** que encapsula o estilo padrão do projeto (Tailwind, tokens de cor) e expõe uma API simplificada via props e `children`.
+
+Nunca use primitivos de `ui/` diretamente em páginas, componentes de domínio ou outros `*Base`. A camada `ui/` é acesso exclusivo dos componentes `*Base`.
+
+```ts
+// ✅ correto — SelectBase encapsula ui/select e expõe children
+// components/select/SelectBase.tsx
+const SelectBase = ({ label, Icon, error, children, ...selectProps }: SelectBaseProps) => (
+  <div className="flex flex-col gap-1 w-full">
+    ...
+    <Select {...selectProps}>{children}</Select>
+    ...
+  </div>
+);
+
+// ✅ uso em domínio ou página
+<SelectBase label="Empresa" Icon={Building2}>
+  <SelectTrigger>...</SelectTrigger>
+  <SelectContent>...</SelectContent>
+</SelectBase>
+
+// ❌ errado — ui/select usado diretamente em página ou domínio
+import { Select, SelectTrigger } from "@/components/ui/select";
+```
+
+Siga o mesmo padrão para qualquer primitivo shadcn: `DialogBase`, `SheetBase`, `TooltipBase`, `PopoverBase`, etc.
+
 ---
 
 ## Arquivo `types.ts`

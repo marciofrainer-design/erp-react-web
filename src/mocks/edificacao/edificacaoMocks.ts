@@ -1,19 +1,15 @@
-import { faker } from "@faker-js/faker/locale/pt_BR";
 import type { Edificacao } from "@/domain/edificacao/types";
 import { paginate } from "@/mocks/MockAdapter";
 import type { PaginationQueryParams } from "@/infra/interface/types";
 
-faker.seed(42);
-
-let store: Edificacao[] = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  idedificacao: i + 1,
-  idempresa: faker.number.int({ min: 1, max: 2 }),
-  empresa_dsabreviatura: faker.helpers.arrayElement(["HT01", "HT02"]),
-  cdedificacao: faker.string.alphanumeric(4).toUpperCase(),
-  nmedificacao: `Edificação ${faker.location.buildingNumber()}`,
-  isativo: faker.helpers.arrayElement([1, 1, 1, 0]),
-}));
+let store: Edificacao[] = [
+  { id: 1, idedificacao: 1, idempresa: 1, empresa_dsabreviatura: "HT01", cdedificacao: "PRIN", nmedificacao: "Edificação Principal", isativo: 1 },
+  { id: 2, idedificacao: 2, idempresa: 1, empresa_dsabreviatura: "HT01", cdedificacao: "ANEX", nmedificacao: "Anexo Leste", isativo: 1 },
+  { id: 3, idedificacao: 3, idempresa: 1, empresa_dsabreviatura: "HT01", cdedificacao: "CHAL", nmedificacao: "Bloco de Chalés", isativo: 1 },
+  { id: 4, idedificacao: 4, idempresa: 1, empresa_dsabreviatura: "HT01", cdedificacao: "SPA", nmedificacao: "SPA e Lazer", isativo: 1 },
+  { id: 5, idedificacao: 5, idempresa: 2, empresa_dsabreviatura: "HT02", cdedificacao: "PRIN", nmedificacao: "Torre Principal", isativo: 1 },
+  { id: 6, idedificacao: 6, idempresa: 2, empresa_dsabreviatura: "HT02", cdedificacao: "RES", nmedificacao: "Residencial Oeste", isativo: 0 },
+];
 
 let nextId = store.length + 1;
 

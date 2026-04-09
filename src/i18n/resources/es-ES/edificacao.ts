@@ -17,6 +17,9 @@ const esESEdificacao = {
     nameLabel: "Nombre",
     situation: "Situación",
     company: "Establecimiento",
+    buiding: "Edificio",
+    nmEdification: "Nombre del Edificio",
+    floor: "Piso",
   },
   validation: {
     cdedificacao: {

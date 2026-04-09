@@ -22,7 +22,9 @@ CrudPage (orquestrador)
 
 ### 1. Domínio (`src/domain/{entity}/`)
 
-Crie os 5 arquivos obrigatórios — ver `src/domain/CLAUDE.md`.
+Crie os 6 arquivos obrigatórios — ver `src/domain/CLAUDE.md`.
+
+Obrigatório: inclua o `index.ts` expondo todos os tipos, constantes, schemas e classes públicas do domínio.
 
 ### 2. Traduções (`src/i18n/resources/`)
 

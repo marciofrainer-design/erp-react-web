@@ -17,6 +17,9 @@ const enUSEdificacao = {
     nameLabel: "Name",
     situation: "Situation",
     company: "Company",
+    buiding: "Building",
+    nmEdification: "Building Name",
+    floor: "Floor",
   },
   validation: {
     cdedificacao: {

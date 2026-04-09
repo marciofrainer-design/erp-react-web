@@ -1,5 +1,7 @@
 import type { Repository } from "@/infra/interface/types";
 import type { Column } from "@/types";
+import { EdificacaoRepository } from "@/domain/edificacao";
+import { UhTipoRepository } from "@/domain/uhTipo/UhTipoRepository";
 
 export type CrudPageTemplateProps = {
   title: string;
@@ -42,7 +44,9 @@ export type CrudRegisterRenderProps<T extends object> = {
 
 export type CrudRegisterDependencies<T> = {
   repository: Repository<T>;
-  primaryKeyName?: string;
+  edificacaoRepository: EdificacaoRepository;
+  uhTipoRepository: UhTipoRepository;
+  primaryKeyName: string;
 };
 
 export type CrudRegisterProps = {

@@ -12,7 +12,38 @@ src/domain/{entity}/
 ├── consts.ts                 # Função blank{Entity} (objeto vazio padrão)
 ├── validation.ts             # Schema Zod + tipo inferido
 ├── {Entity}Repository.ts     # Acesso a dados, estende RepositoryBase
-└── {Entity}Factory.ts        # Cria instâncias e agrega dependências
+├── {Entity}Factory.ts        # Cria instâncias e agrega dependências
+└── index.ts                  # Barrel export: expõe tudo que outras camadas consomem
+```
+
+---
+
+## `index.ts` — barrel export do domínio
+
+Todo domínio deve ter um `index.ts` que reexporta os membros públicos consumidos por outras camadas (`pages/`, `components/`, `hooks/`).
+
+```ts
+// src/domain/andar/index.ts
+export type { Andar, AndarDependencies, AndarColumnDefinition } from "./types";
+export { ANDAR_LABEL_KEYS, AndarColumns } from "./types";
+export { blankAndar } from "./consts";
+export { andarRegisterSchema } from "./validation";
+export type { AndarRegisterFormData } from "./validation";
+export { AndarRepository } from "./AndarRepository";
+export { AndarFactory } from "./AndarFactory";
+```
+
+- Exporte apenas o que outras camadas precisam consumir — não reexporte tudo indiscriminadamente.
+- Tipos gerados internamente que não saem do domínio não precisam ser exportados.
+- Após criar o `index.ts`, importe via `@/domain/{entity}` (sem especificar o arquivo):
+
+```ts
+// ✅
+import { AndarColumns, AndarFactory } from "@/domain/andar";
+
+// ❌
+import { AndarColumns } from "@/domain/andar/types";
+import { AndarFactory } from "@/domain/andar/AndarFactory";
 ```
 
 ---

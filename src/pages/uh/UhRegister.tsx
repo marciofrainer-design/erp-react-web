@@ -6,11 +6,11 @@ import type { UHTipo } from "@/domain/uhTipo/types";
 import type { UhRegisterProps } from "./types";
 import { useEffect, useRef } from "react";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { ListFilter } from "lucide-react";
 import { UH_TIPO_MAPPER } from "./consts";
+import type { Edificacao } from "@/domain/edificacao/types";
 
-export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps) {
-  const { t } = useAppTranslation("uh");
+export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
+  const { t } = useAppTranslation(["uh", "edificacao"]);
   const validation = uhRegisterSchema.safeParse(data);
   const errors = validation.success
     ? {}
@@ -35,7 +35,7 @@ export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps
       title={data.iduh ? t("crud.editLabel") : t("crud.createLabel")}
       description={t("crud.subtitle")}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <InputStringBase
           ref={firstCmpFocus}
           label={t("inputs.identificator")}
@@ -50,10 +50,9 @@ export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps
           onChange={(e) => onChange("dsuh", e.target.value)}
         />
         <SelectRepository<UHTipo>
-          repository={uhTipoRepository}
+          repository={repositories.uhTipoRepository}
           mapper={UH_TIPO_MAPPER}
           label={t("inputs.uhType")}
-          Icon={ListFilter}
           value={String(data.iduhtipo || "")}
           onChange={(v) => {
             onChange("iduhtipo", Number(v));
@@ -62,11 +61,20 @@ export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps
           lazy={true}
           initialLabel={data.nmuhtipo}
         />
-        <InputStringBase
-          label={t("inputs.nmEdification")}
-          value={data.nmedificacao}
-          error={errors.nmedificacao?.[0]}
-          onChange={(e) => onChange("nmedificacao", e.target.value)}
+        <SelectRepository<Edificacao>
+          repository={repositories.edificacaoRepository}
+          mapper={{
+            valueKey: "idedificacao",
+            labelKeys: ["cdedificacao", "nmedificacao"],
+          }}
+          label={t("inputs.buiding", { ns: "edificacao" })}
+          value={String(data.idedificacao || "")}
+          onChange={(v) => {
+            onChange("idedificacao", Number(v));
+          }}
+          error={errors.idedificacao?.[0]}
+          lazy={true}
+          initialLabel={data.empresa_dsabreviatura ? `${data.empresa_dsabreviatura} - ${data.nmedificacao}` : ""}
         />
         <InputStringBase
           label={t("inputs.floor")}
@@ -90,16 +98,3 @@ export function UhRegister({ data, onChange, uhTipoRepository }: UhRegisterProps
     </CrudRegister>
   );
 }
-
-
-//   idempresa: number;
-//   iduh: number;
-//   cduh: string;
-//   dsuh: string;
-//   isativo: number;
-//   isacessibilidade: number;
-//   iduhtipo: number;
-//   nmuhtipo: string;
-//   nmandar: string;
-//   nmedificacao: string;
-//   empresa_dsabreviatura: string;
