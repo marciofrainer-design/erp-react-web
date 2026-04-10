@@ -9,6 +9,7 @@ const esESCaracteristica = {
       type: "Tipo",
       situation: "Situación",
       company: "Empresa",
+      principal: "Principal",
     },
     editLabel: "Editar Característica",
     createLabel: "Nueva Característica",
@@ -18,6 +19,7 @@ const esESCaracteristica = {
     abbreviation: "Abreviatura",
     type: "Tipo",
     situation: "Situación",
+    principal: "Principal",
   },
   validation: {
     dscaracteristica: {

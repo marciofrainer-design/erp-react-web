@@ -18,11 +18,14 @@ const TableBase = <T extends object>({
   indexSelected,
   leadingColumn,
   getRowClassName,
+  isDetailsTable = false,
 }: TableProps<T>) => {
-
   return (
     <div className="relative overflow-auto flex-1 max-h-97 no-scrollbar">
-      <Table className="w-full text-left border-separate border-spacing-0" id="table-base">
+      <Table
+        className="w-full text-left border-separate border-spacing-0"
+        id="table-base"
+      >
         <TableHeader
           className="bg-surface-container-low/95 backdrop-blur-md"
           style={{ backgroundColor: "var(--color-table-header-bg)" }}
@@ -36,18 +39,20 @@ const TableBase = <T extends object>({
                 {leadingColumn.header}
               </TableHead>
             )}
-            {columns.map((c) => (
-              <TableHead
-                key={String(c.field)}
-                className={`sticky top-0 z-20 px-6 py-4 text-[12px] font-extrabold text-outline uppercase tracking-widest border-b border-outline-variant/10 bg-surface-container-low/95 backdrop-blur-md ${c.width || ""}`}
-                style={{
-                  color: "var(--color-table-text)",
-                  backgroundColor: "var(--color-table-header-bg)",
-                }}
-              >
-                {c.label}
-              </TableHead>
-            ))}
+            {columns.map((c) =>
+              isDetailsTable && !c.useDetails ? null : (
+                <TableHead
+                  key={String(c.field)}
+                  className={`sticky top-0 z-20 px-6 py-4 text-[12px] font-extrabold text-outline uppercase tracking-widest border-b border-outline-variant/10 bg-surface-container-low/95 backdrop-blur-md ${c.width || ""}`}
+                  style={{
+                    color: "var(--color-table-text)",
+                    backgroundColor: "var(--color-table-header-bg)",
+                  }}
+                >
+                  {c.label}
+                </TableHead>
+              ),
+            )}
           </TableRow>
         </TableHeader>
 
@@ -70,34 +75,40 @@ const TableBase = <T extends object>({
                 onDoubleClick={() => onRowDblClick?.(row, i)}
               >
                 {leadingColumn && (
-                  <TableCell className={`px-4 py-4 ${leadingColumn.width ?? "w-10"}`}>
+                  <TableCell
+                    className={`px-4 py-4 ${leadingColumn.width ?? "w-10"}`}
+                  >
                     {leadingColumn.cell(row, i)}
                   </TableCell>
                 )}
-                {columns.map((c) => (
-                  <TableCell
-                    key={String(c.field)}
-                    className={`px-6 py-4 text-sm font-medium ${
-                      isSelected && !getRowClassName ? "font-semibold" : "text-outline"
-                    } ${c.width || ""}`}
-                    style={{
-                      color:
+                {columns.map((c) =>
+                  isDetailsTable && !c.useDetails ? null : (
+                    <TableCell
+                      key={String(c.field)}
+                      className={`px-6 py-4 text-sm font-medium ${
                         isSelected && !getRowClassName
-                          ? "var(--color-primary)"
-                          : "var(--color-table-text)",
-                    }}
-                  >
-                    {c.type === FieldType.BOOLEAN ? (
-                      row[c.field] ? (
-                        <Check className="w-6 h-6" />
+                          ? "font-semibold"
+                          : "text-outline"
+                      } ${c.width || ""}`}
+                      style={{
+                        color:
+                          isSelected && !getRowClassName
+                            ? "var(--color-primary)"
+                            : "var(--color-table-text)",
+                      }}
+                    >
+                      {c.type === FieldType.BOOLEAN ? (
+                        row[c.field] ? (
+                          <Check className="w-6 h-6" />
+                        ) : (
+                          <ArrowDown className="w-6 h-6" />
+                        )
                       ) : (
-                        <ArrowDown className="w-6 h-6" />
-                      )
-                    ) : (
-                      String(row[c.field])
-                    )}
-                  </TableCell>
-                ))}
+                        String(row[c.field])
+                      )}
+                    </TableCell>
+                  ),
+                )}
               </TableRow>
             );
           })}

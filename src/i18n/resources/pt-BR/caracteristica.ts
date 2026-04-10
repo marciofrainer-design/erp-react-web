@@ -9,6 +9,7 @@ const ptBRCaracteristica = {
       type: "Tipo",
       situation: "Sit.",
       company: "Empresa",
+      principal: "Principal",
     },
     editLabel: "Editar Característica",
     createLabel: "Nova Característica",
@@ -18,6 +19,7 @@ const ptBRCaracteristica = {
     abbreviation: "Abreviatura",
     type: "Tipo",
     situation: "Situação",
+    principal: "Principal",
   },
   validation: {
     dscaracteristica: {

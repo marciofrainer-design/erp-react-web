@@ -48,10 +48,7 @@ export type CrudRegisterRenderProps<T extends object> = {
 
 export type CrudRegisterDependencies<T> = {
   repository: Repository<T>;
-  edificacaoRepository: EdificacaoRepository;
-  uhTipoRepository: UhTipoRepository;
-  caracteristicaRepository: CaracteristicaRepository;
-  primaryKeyName: string;
+  primaryKeyName: keyof T;
 };
 
 export type CrudRegisterProps = {

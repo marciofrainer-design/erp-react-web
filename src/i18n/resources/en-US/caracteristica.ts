@@ -9,6 +9,7 @@ const enUSCaracteristica = {
       type: "Type",
       situation: "Sit.",
       company: "Company",
+      principal: "Principal",
     },
     editLabel: "Edit Characteristic",
     createLabel: "New Characteristic",
@@ -18,6 +19,7 @@ const enUSCaracteristica = {
     abbreviation: "Abbreviation",
     type: "Type",
     situation: "Situation",
+    principal: "Principal",
   },
   validation: {
     dscaracteristica: {

@@ -28,6 +28,7 @@ const CrudPage = <T extends EntityBase>({
     setSearchValue,
     formData,
     loading,
+    loadingDetail,
     filteredTableData,
     selectedItem,
     showTable,
@@ -38,7 +39,7 @@ const CrudPage = <T extends EntityBase>({
     handlers,
   } = useCrud({ createNewItem, dependencies, validate });
 
-  if (loading) {
+  if (loading || loadingDetail) {
     return (
       <Loading
         variant="page"

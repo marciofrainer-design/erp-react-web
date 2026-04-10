@@ -1,7 +1,8 @@
 import type { Uh } from "./types";
 
-export const blankUh = <T extends Uh>() =>
+export const blankUh = (): Uh =>
   ({
+    id: 0,
     iduh: 0,
     idempresa: 0,
     cduh: "",
@@ -10,8 +11,12 @@ export const blankUh = <T extends Uh>() =>
     isacessibilidade: 0,
     iduhtipo: 0,
     nmuhtipo: "",
+    idandar: 0,
     nmandar: "",
+    idedificacao: 0,
     nmedificacao: "",
     empresa_dsabreviatura: "",
-    caracteristicas: [],
-  } as T);
+    qtquarto: 1,
+    iduhclassificacao: 1,
+    caracteristicas: [],    
+  });

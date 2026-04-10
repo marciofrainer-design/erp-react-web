@@ -28,6 +28,7 @@ export function useCrud<T extends object>({
   const { repository, primaryKeyName } = dependencies || {};
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingDetail, setLoadingDetail] = useState(false);
   const [currentPage, setCurrentPage] = useState(CRUD_DEFAULT_PAGE);
   const [pageCount, setPageCount] = useState(CRUD_DEFAULT_PAGE);
   const [limit] = useState(CRUD_DEFAULT_LIMIT);
@@ -99,19 +100,46 @@ export function useCrud<T extends object>({
   );
 
   const handleRowDblClick = useCallback(
-    (_: T, index: number) => {
+    async (_: T, index: number) => {
       setSelectedIndex(index);
-      setFormData({ ...filteredTableData[index] });
+      const item = filteredTableData[index];
+      if (repository && primaryKeyName) {
+        const id = item[primaryKeyName as keyof T] as number;
+        try {
+          setLoadingDetail(true);
+          const fullItem = await repository.getById(id);
+          setFormData(fullItem);
+        } catch {
+          setFormData({ ...item });
+        } finally {
+          setLoadingDetail(false);
+        }
+      } else {
+        setFormData({ ...item });
+      }
       setMode("view");
     },
-    [filteredTableData],
+    [filteredTableData, repository, primaryKeyName],
   );
 
-  const handleView = useCallback(() => {
+  const handleView = useCallback(async () => {
     if (!selectedItem) return;
-    setFormData({ ...selectedItem });
+    if (repository && primaryKeyName) {
+      const id = selectedItem[primaryKeyName as keyof T] as number;
+      try {
+        setLoadingDetail(true);
+        const fullItem = await repository.getById(id);
+        setFormData(fullItem);
+      } catch {
+        setFormData({ ...selectedItem });
+      } finally {
+        setLoadingDetail(false);
+      }
+    } else {
+      setFormData({ ...selectedItem });
+    }
     setMode("view");
-  }, [selectedItem]);
+  }, [selectedItem, repository, primaryKeyName]);
 
   const handleNew = useCallback(() => {
     setSelectedIndex(null);
@@ -238,6 +266,7 @@ export function useCrud<T extends object>({
   const isFormValid = validate ? validate(formData) : true;
 
   return {
+    loadingDetail,
     mode,
     selectedIndex,
     searchValue,

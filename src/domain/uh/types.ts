@@ -7,6 +7,10 @@ import {
 import type { Repository } from "@/infra/interface/types";
 import type { EntityBase } from "@/types";
 import type { Caracteristica } from "@/domain/caracteristica/types";
+import type { CrudRegisterDependencies } from "@/components/crud/types";
+import type { CaracteristicaRepository } from "../caracteristica/CaracteristicaRepository";
+import type { UhTipoRepository } from "../uhTipo/UhTipoRepository";
+import type { EdificacaoRepository } from "../edificacao";
 
 export type Uh = EntityBase & {
   idempresa: number;
@@ -82,3 +86,19 @@ export const UhColumns: UhColumnDefinition[] = [
 export type UhDependencies = {
   uhRepository: Repository<Uh>;
 };
+
+export type UhRegisterDependencies<T> = CrudRegisterDependencies<T> & {
+  repository: Repository<T>;
+  edificacaoRepository: EdificacaoRepository;
+  uhTipoRepository: UhTipoRepository;
+  caracteristicaRepository: CaracteristicaRepository;
+};
+
+export type UhCaracteristicaPayload = {
+  idcaracteristica: number;
+  isprincipal: number;
+}
+
+export type UhPayload = Omit<Uh, "caracteristicas"> & {
+  caracteristicas: UhCaracteristicaPayload[];
+}

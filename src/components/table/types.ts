@@ -25,6 +25,7 @@ type TableProps<T extends object> = {
   leadingColumn?: LeadingColumn<T>
   /** Sobrescreve a classe CSS da linha; recebe a linha e o índice */
   getRowClassName?: (row: T, index: number) => string
+  isDetailsTable?: boolean
 }
 
 export type { TableProps, LeadingColumn };

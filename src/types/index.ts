@@ -19,6 +19,7 @@ type Column<T> = {
   field: keyof T
   width?: string
   type?: FieldType
+  useDetails?: boolean
 }
 
 type EntityBase = {

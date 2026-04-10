@@ -17,13 +17,13 @@ const TabsBase = ({ tabs, defaultValue, value, onValueChange, className }: TabsB
       onValueChange={onValueChange}
       className={cn("w-full mt-4", className)}
     >
-      <TabsList variant="line" className="w-full justify-start border-b border-outline-variant/20 rounded-none bg-transparent pb-0 mb-4 h-auto">
+      <TabsList className="justify-start flex-wrap gap-1">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
             disabled={tab.disabled}
-            className="gap-2 rounded-none border-0 pb-3 data-active:border-b-2 data-active:border-primary data-active:text-primary"
+            className="flex-none gap-2 border-2 hover:border-primary"
           >
             {tab.icon && <tab.icon className="w-4 h-4" />}
             {tab.label}

@@ -45,17 +45,19 @@ function SelectionList<T extends EntityBase>({
 
   const resolvedLabel =
     label ?? t("selectionList.selectLabel", { ns: "components", defaultValue: "Selecionar item" });
+
   const resolvedAddLabel =
     addButtonLabel ?? t("selectionList.add", { ns: "components", defaultValue: "Adicionar" });
+
   const resolvedRemoveLabel =
     removeButtonLabel ?? t("selectionList.remove", { ns: "components", defaultValue: "Remover" });
+    
   const resolvedEmptyMessage =
     emptyMessage ??
     t("selectionList.empty", { ns: "components", defaultValue: "Nenhum item adicionado." });
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      {/* Toolbar: select + add button */}
+    <div className="flex flex-col gap-3 w-full mt-4">
       <div className="flex items-end gap-3">
         <div className="flex-1">
           <SelectRepository<T>
@@ -76,7 +78,6 @@ function SelectionList<T extends EntityBase>({
         />
       </div>
 
-      {/* Remove toolbar (visible only when items are checked) */}
       {checkedKeys.size > 0 && (
         <div className="flex justify-end">
           <ButtonBase
@@ -137,6 +138,7 @@ function SelectionList<T extends EntityBase>({
                   : "bg-surface-container-low hover:bg-(--table-row-hover)"
               }`;
             }}
+            isDetailsTable={true}
           />
         </div>
       )}
