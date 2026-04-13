@@ -16,8 +16,8 @@ const CrudRegisterTabs = ({
     value: "master",
     label: t("tabs.master", { ns: "components", defaultValue: "Principal" }),
     content: (
-      <div className="bg-surface-container-lowest rounded-xl shadow-ambient ">
-        <form className="space-y-8">{masterContent}</form>
+      <div className="bg-surface-container-lowest rounded-xl shadow-ambient">
+        {masterContent}
       </div>
     ),
   };
