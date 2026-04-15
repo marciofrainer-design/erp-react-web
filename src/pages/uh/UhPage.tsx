@@ -1,4 +1,5 @@
 import { UhColumns } from "@/domain/uh/types";
+import type { Uh, UhAll } from "@/domain/uh/types";
 import { CrudPage } from "@/components/crud";
 import UhTabs from "@/pages/uh/UhTabs";
 import UhFactory from "@/domain/uh/UhFactory";
@@ -10,10 +11,10 @@ export function UhPage() {
   const { t } = useAppTranslation("uh");
   const tableColumns = useTranslatedColumns("uh", UhColumns);
   const dependencies = UhFactory.dependencies();
-  const { uhTipoRepository, edificacaoRepository, caracteristicaRepository } = dependencies;
+  const { uhTipoRepository, edificacaoRepository, caracteristicaRepository, andarRepository } = dependencies;
 
   return (
-    <CrudPage
+    <CrudPage<Uh, UhAll>
       title={t("crud.title")}
       pageDescription={t("crud.subtitle")}
       tableColumns={tableColumns}
@@ -25,7 +26,7 @@ export function UhPage() {
           mode={mode}
           data={data}
           onChange={onChange}
-          repositories={{ uhTipoRepository, edificacaoRepository, caracteristicaRepository }}
+          repositories={{ uhTipoRepository, edificacaoRepository, caracteristicaRepository, andarRepository }}
         />
       )}
     />

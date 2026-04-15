@@ -1,10 +1,10 @@
 import { RepositoryBase } from "@/infra/repository/repositoryBase";
 import type { ApiAdapter } from "@/infra/interface";
-import type { Uh, UhPayload } from "./types";
+import type { Uh, UhAll, UhPayload } from "./types";
 import { ControllerPrefix, ControllerSuffix } from "@/consts";
 
 const typeName = "Uh";
-export class UhRepository extends RepositoryBase<Uh> {
+export class UhRepository extends RepositoryBase<UhAll, Uh> {
   constructor(api: ApiAdapter) {
     super(api, `${ControllerPrefix}${typeName}${ControllerSuffix}`);
   }
@@ -21,7 +21,7 @@ export class UhRepository extends RepositoryBase<Uh> {
     return {
       ...uhData,
       caracteristicas: caracteristicas.map((c) => ({
-        idcaracteristica: c.idcaracteristica,
+        idcaracteristica_emp: c.idcaracteristica_emp,
         isprincipal: c.isprincipal,
       })),
     };

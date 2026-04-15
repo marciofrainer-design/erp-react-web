@@ -13,7 +13,7 @@ import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { useTranslatedColumns } from "@/hooks";
 import { BedDouble } from "lucide-react";
 import { useMemo } from "react";
-import type { Uh } from "@/domain/uh/types";
+import type { Uh, UhAll } from "@/domain/uh/types";
 
 export function UHClassificacaoPage() {
   const { t } = useAppTranslation(["uhclassificacao", "uh"]);
@@ -43,7 +43,7 @@ export function UHClassificacaoPage() {
               label: t("crud.title", { ns: "uh" }),
               icon: BedDouble,
               content: (
-                <CrudDetailSection<Uh>
+                <CrudDetailSection<Uh, UhAll>
                   repository={uhDependencies.repository}
                   columns={uhColumns}
                   parentIdField="iduhclassificacao"

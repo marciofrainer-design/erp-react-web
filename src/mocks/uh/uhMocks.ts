@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker/locale/pt_BR";
 import type { Uh } from "@/domain/uh/types";
 import { paginate } from "@/mocks/MockAdapter";
 import type { PaginationQueryParams } from "@/infra/interface/types";
+import type { Caracteristica } from "@/domain/caracteristica/types";
 
 faker.seed(42);
 
@@ -19,11 +20,24 @@ let store: Uh[] = Array.from({ length: 30 }, (_, i) => ({
   isativo: faker.helpers.arrayElement([1, 1, 1, 0]),
   isacessibilidade: faker.helpers.arrayElement([0, 0, 1]),
   iduhtipo: faker.number.int({ min: 1, max: 5 }),
+  iduhtipo_emp: faker.number.int({ min: 1, max: 5 }),
   nmuhtipo: faker.helpers.arrayElement(TIPOS_UH),
+  nmuhtipo_emp_flsituacao: 1,
   nmandar: faker.helpers.arrayElement(ANDARES),
+  andar_isativo: 1,
   nmedificacao: faker.helpers.arrayElement(EDIFICACOES),
+  dsidentificador: `CLASS-${faker.number.int({ min: 1, max: 5 })}`,
+  uhclassificacao_isativo: 1,
   qtquarto: faker.number.int({ min: 1, max: 4 }),
+  flestoque: faker.helpers.arrayElement([0, 1]),
+  ispaxadicional: faker.helpers.arrayElement([0, 1]),
   iduhclassificacao: faker.number.int({ min: 1, max: 5 }),
+  isconjugada: faker.helpers.arrayElement([0, 1]),
+  caracteristicas: [] as Caracteristica[],
+  conjugadas: [],
+  pessoaanotacao: [],
+  idandar: faker.number.int({ min: 1, max: 5 }),
+  idedificacao: faker.number.int({ min: 1, max: 3 }),
 }));
 
 let nextId = store.length + 1;

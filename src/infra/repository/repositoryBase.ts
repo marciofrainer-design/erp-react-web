@@ -5,7 +5,12 @@ import type {
   Repository,
 } from "../interface/types";
 
-export class RepositoryBase<T> implements Repository<T> {
+export class RepositoryBase<
+  TList,
+  TDetail = TList,
+  TCreate = TDetail,
+  TUpdate = TDetail,
+> implements Repository<TList, TDetail, TCreate, TUpdate> {
   protected api: ApiAdapter;
   protected controller: string;
 
@@ -17,19 +22,19 @@ export class RepositoryBase<T> implements Repository<T> {
     this.controller = controller;
   }
 
-  getAll(params: PaginationQueryParams): Promise<PaginatedResponse<T>> {
-    return this.api.get<PaginatedResponse<T>>(this.controller, 'GetAll', params);
+  getAll(params: PaginationQueryParams): Promise<PaginatedResponse<TList>> {
+    return this.api.get<PaginatedResponse<TList>>(this.controller, 'GetAll', params);
   }
 
-  getById(id: number): Promise<T> {
-    return this.api.get<T>(this.controller, 'GetById', { id });
+  getById(id: number): Promise<TDetail> {
+    return this.api.get<TDetail>(this.controller, 'GetById', { id });
   }
 
-  save(data: T): Promise<void> {
+  save(data: TCreate): Promise<void> {
     return this.api.post<void>(this.controller, '', data);
   }
 
-  update(data: T): Promise<void> {
+  update(data: TUpdate): Promise<void> {
     return this.api.put<void>(this.controller, '', data);
   }
 

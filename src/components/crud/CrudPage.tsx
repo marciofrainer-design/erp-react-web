@@ -10,7 +10,7 @@ import { useCrud } from "@/hooks";
 import { TRANSITION_DURATION } from "./consts";
 import type { EntityBase } from "@/types";
 
-const CrudPage = <T extends EntityBase>({
+const CrudPage = <T extends EntityBase, TList extends EntityBase = T>({
   title,
   pageDescription,
   tableColumns,
@@ -19,7 +19,7 @@ const CrudPage = <T extends EntityBase>({
   createNewItem,
   dependencies,
   validate,
-}: CrudPageProps<T>) => {
+}: CrudPageProps<T, TList>) => {
   const { t } = useAppTranslation("crud");
   const {
     mode,
@@ -37,7 +37,7 @@ const CrudPage = <T extends EntityBase>({
     pageCount,
     totalRows,
     handlers,
-  } = useCrud({ createNewItem, dependencies, validate });
+  } = useCrud<T, TList>({ createNewItem, dependencies, validate });
 
   if (loading || loadingDetail) {
     return (

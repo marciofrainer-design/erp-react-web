@@ -101,6 +101,18 @@ function SelectionList<T extends EntityBase>({
             columns={columns}
             data={value}
             onRowClick={(row) => handleToggleCheck(String(row[primaryKeyField]))}
+            onCellChange={(_, rowIndex, field, nextValue) => {
+              const updatedItems = value.map((item, index) =>
+                index === rowIndex
+                  ? {
+                      ...item,
+                      [field]: nextValue,
+                    }
+                  : item,
+              ) as T[];
+
+              onChange(updatedItems);
+            }}
             leadingColumn={{
               header: (
                 <input

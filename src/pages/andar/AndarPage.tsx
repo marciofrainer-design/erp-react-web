@@ -1,4 +1,5 @@
 import { AndarColumns } from "@/domain/andar/types";
+import type { Andar, AndarAll } from "@/domain/andar/types";
 import { CrudPage } from "@/components/crud";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
 import AndarFactory from "@/domain/andar/AndarFactory";
@@ -12,7 +13,7 @@ export function AndarPage() {
   const dependencies = AndarFactory.dependencies();
 
   return (
-    <CrudPage
+    <CrudPage<Andar, AndarAll>
       title={t("crud.title")}
       pageDescription={t("crud.subtitle")}
       tableColumns={tableColumns}

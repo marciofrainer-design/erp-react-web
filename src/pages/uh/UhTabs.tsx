@@ -25,6 +25,7 @@ const UhTabs = ({ mode, data, onChange, repositories }: UhTabsProps) => {
           repositories={{
             uhTipoRepository: repositories.uhTipoRepository,
             edificacaoRepository: repositories.edificacaoRepository,
+            andarRepository: repositories.andarRepository,
           }}
         />
       }

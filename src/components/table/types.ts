@@ -15,6 +15,7 @@ type TableProps<T extends object> = {
   data: T[]
   onRowClick?: (row: T, index: number) => void
   onRowDblClick?: (row: T, index: number) => void
+  onCellChange?: (row: T, rowIndex: number, field: keyof T, value: T[keyof T]) => void
   indexSelected?: number | null
   totalPageCount?: number
   currentPage?: number

@@ -82,5 +82,11 @@ export const CaracteristicaColumns: CaracteristicaColumnDefinition[] = [
     width: WIDTH_BOOLEAN_COLUMN,
     type: FieldType.BOOLEAN,
     useDetails: true,
+    checkbox: {
+      checkedValue: 1,
+      uncheckedValue: 0,
+      isChecked: (value) => value === 1,
+      ariaLabel: "Alternar caracteristica principal",
+    },
   },
 ];
