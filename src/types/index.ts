@@ -16,7 +16,7 @@ const RegisterType = {
 
 type RegisterType = typeof RegisterType[keyof typeof RegisterType]
 
-type ColumnCheckboxConfig<T> = {
+type ColumnCheckboxConfig<T extends object> = {
   checkedValue: T[keyof T]
   uncheckedValue: T[keyof T]
   onChange?: (row: T, value: T[keyof T], rowIndex: number) => void
@@ -25,7 +25,7 @@ type ColumnCheckboxConfig<T> = {
   disabled?: boolean | ((row: T, rowIndex: number) => boolean)
 }
 
-type Column<T> = {
+type Column<T extends object> = {
   label: string
   field: keyof T
   width?: string
@@ -35,9 +35,7 @@ type Column<T> = {
   checkbox?: ColumnCheckboxConfig<T>
 }
 
-type EntityBase = {
-  id: number
-};
+type EntityBase = Record<string, unknown>;;
 
 export type { Column, EntityBase }
 export type { ColumnCheckboxConfig }

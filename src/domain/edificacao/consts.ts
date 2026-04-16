@@ -8,4 +8,4 @@ export const blankEdificacao = <T extends Edificacao>() =>
     cdedificacao: "",
     nmedificacao: "",
     isativo: 1,
-  }) as T;
+  }) as unknown as T;

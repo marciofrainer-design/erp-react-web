@@ -6,74 +6,82 @@ import {
   WIDTH_BOOLEAN_COLUMN,
   WIDTH_SHORTSTRING_COLUMN,
 } from "@/consts";
+import type { UhCaracteristica } from "../uhcaracteristica";
 
-export type Caracteristica = EntityBase & {
+export type CaracteristicaAll = EntityBase & {
   idcaracteristica: number;
-  idempresa: number;
   dscaracteristica: string;
   dsabreviatura: string;
   fltipo: number;
   idcaracteristica_emp: number;
+  idempresa: number;
+  flsituacao: number;
+  empresa_dsabreviatura: string;
+};  
+
+export type Caracteristica = EntityBase & UhCaracteristica & {
+  idcaracteristica: number;
+  dscaracteristica: string;
+  dsabreviatura: string;
+  fltipo: number;
+  idcaracteristica_emp: number;
+  idempresa: number;
   flsituacao: number;
   empresa_dsabreviatura: string;
   isprincipal: number;
+  iduh?: number;
 };
 
-export const CARACTERISTICA_LABEL_KEYS = {
-  keyName: "crud.fields.keyName",
-  name: "crud.fields.nameLabel",
-  abbreviation: "crud.fields.abbreviation",
-  type: "crud.fields.type",
-  situation: "crud.fields.situation",
-  company: "crud.fields.company",
-  isprincipal: "crud.fields.principal",
+export const CARACTERISTICA_LABEL_KEYS: Record<
+  keyof Omit<
+    CaracteristicaAll,
+    "id" | "idempresa" | "flsituacao" | "empresa_dsabreviatura"
+  >,
+  string
+> = {
+  idcaracteristica: "crud.fields.keyName",
+  dscaracteristica: "crud.fields.nameLabel",
+  dsabreviatura: "crud.fields.abbreviation",
+  fltipo: "crud.fields.type",
+  isprincipal: "crud.fields.isPrincipal",
+  idcaracteristica_emp: "crud.fields.characteristicCompanyId",
+  iduh: "crud.fields.uhId",
 } as const;
 
-export type CaracteristicaColumnDefinition = Omit<Column<Caracteristica>, "label"> & {
+export type CaracteristicaColumnDefinition = Omit<
+  Column<Caracteristica>,
+  "label"
+> & {
   labelKey: (typeof CARACTERISTICA_LABEL_KEYS)[keyof typeof CARACTERISTICA_LABEL_KEYS];
 };
 
 export const CaracteristicaColumns: CaracteristicaColumnDefinition[] = [
   {
-    labelKey: CARACTERISTICA_LABEL_KEYS.keyName,
+    labelKey: CARACTERISTICA_LABEL_KEYS.idcaracteristica,
     field: "idcaracteristica",
     width: WIDTH_INTEGER_COLUMN,
     type: FieldType.NUMBER,
     useDetails: false,
   },
   {
-    labelKey: CARACTERISTICA_LABEL_KEYS.name,
+    labelKey: CARACTERISTICA_LABEL_KEYS.dscaracteristica,
     field: "dscaracteristica",
     width: WIDTH_STRING_COLUMN,
     type: FieldType.STRING,
     useDetails: true,
   },
   {
-    labelKey: CARACTERISTICA_LABEL_KEYS.abbreviation,
+    labelKey: CARACTERISTICA_LABEL_KEYS.dsabreviatura,
     field: "dsabreviatura",
     width: WIDTH_SHORTSTRING_COLUMN,
     type: FieldType.STRING,
     useDetails: false,
   },
   {
-    labelKey: CARACTERISTICA_LABEL_KEYS.type,
+    labelKey: CARACTERISTICA_LABEL_KEYS.fltipo,
     field: "fltipo",
     width: WIDTH_INTEGER_COLUMN,
     type: FieldType.NUMBER,
-    useDetails: false,
-  },
-  {
-    labelKey: CARACTERISTICA_LABEL_KEYS.situation,
-    field: "flsituacao",
-    width: WIDTH_BOOLEAN_COLUMN,
-    type: FieldType.BOOLEAN,
-    useDetails: true,
-  },
-  {
-    labelKey: CARACTERISTICA_LABEL_KEYS.company,
-    field: "empresa_dsabreviatura",
-    width: WIDTH_SHORTSTRING_COLUMN,
-    type: FieldType.STRING,
     useDetails: false,
   },
   {

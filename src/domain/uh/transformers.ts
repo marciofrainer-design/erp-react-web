@@ -1,3 +1,4 @@
+import type { UhCaracteristica } from "../uhcaracteristica";
 import type { Uh, UhCreate, UhUpdate } from "./types";
 
 /**
@@ -5,9 +6,14 @@ import type { Uh, UhCreate, UhUpdate } from "./types";
  * @param uh The Uh object to transform.
  * @returns The UhCreate DTO.
  */
+function getUhCaracteristicasPayload(caracteristicas: UhCaracteristica[]): UhCaracteristica[] {
+  return caracteristicas.map((caracteristica) => ({
+    idcaracteristica_emp: caracteristica.idcaracteristica_emp,
+    isprincipal: caracteristica.isprincipal,
+  }));
+}
 export function toUhCreate(uh: Uh): UhCreate {
   const {
-    id,
     idempresa,
     cduh,
     dsuh,
@@ -28,7 +34,6 @@ export function toUhCreate(uh: Uh): UhCreate {
   } = uh;
 
   return {
-    id,
     idempresa,
     cduh,
     dsuh,
@@ -40,7 +45,7 @@ export function toUhCreate(uh: Uh): UhCreate {
     idedificacao,
     qtquarto,
     iduhclassificacao,
-    caracteristicas,
+    caracteristicas: getUhCaracteristicasPayload(caracteristicas),
     conjugadas,
     flestoque,
     ispaxadicional,
@@ -56,44 +61,42 @@ export function toUhCreate(uh: Uh): UhCreate {
  */
 export function toUhUpdate(uh: Uh): UhUpdate {
   const {
-    id,
     idempresa,
     cduh,
-    dsuh,
-    isativo,
-    isacessibilidade,
-    iduhtipo,
     iduhtipo_emp,
-    idandar,
     idedificacao,
+    idandar,
+    dsuh,
     qtquarto,
     flestoque,
     ispaxadicional,
+    isativo,
     isconjugada,
+    isacessibilidade,
     iduhclassificacao,
+    iduhtipo,
     caracteristicas,
     conjugadas,
     pessoaanotacao,
   } = uh;
 
   return {
-    id,
     idempresa,
     cduh,
-    dsuh,
-    isativo,
-    isacessibilidade,
-    iduhtipo,
     iduhtipo_emp,
-    idandar,
     idedificacao,
+    idandar,
+    dsuh,
     qtquarto,
-    iduhclassificacao,
-    caracteristicas,
-    conjugadas,
     flestoque,
     ispaxadicional,
+    isativo,
     isconjugada,
+    isacessibilidade,
+    iduhclassificacao,
+    iduhtipo,
+    caracteristicas: getUhCaracteristicasPayload(caracteristicas),
+    conjugadas,
     pessoaanotacao,
   };
 }

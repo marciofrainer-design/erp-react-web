@@ -7,9 +7,17 @@ import {
   WIDTH_SHORTSTRING_COLUMN,
 } from "@/consts";
 
-export type UHClassificacao = EntityBase & {
-  iduhclassificacao: number;
+export type UHClassificacaoAll = EntityBase & {
   idempresa: number;
+  iduhclassificacao: number;
+  dsidentificador: string;
+  nmclassificacao: string;
+  isativo: number;
+};
+
+export type UHClassificacao = EntityBase & {
+  idempresa: number;
+  iduhclassificacao: number;
   dsidentificador: string;
   nmclassificacao: string;
   isativo: number;

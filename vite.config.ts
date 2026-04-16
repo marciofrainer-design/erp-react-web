@@ -22,6 +22,18 @@ const aliases = {
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: aliases },
+  build: {
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        }
+      }
+    }
+  },
   server: {
     proxy: {
       '/api': {

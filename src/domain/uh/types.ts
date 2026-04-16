@@ -9,6 +9,7 @@ import type { CaracteristicaRepository } from "../caracteristica/CaracteristicaR
 import type { UhTipoRepository } from "../uhTipo/UhTipoRepository";
 import type { EdificacaoRepository } from "../edificacao";
 import type { AndarRepository } from "../andar/AndarRepository";
+import type { UhCaracteristica } from "../uhcaracteristica";
 
 export type UhAll = EntityBase & {
   idempresa: number;
@@ -71,7 +72,7 @@ export type UhUpdate = EntityBase & {
   iduhclassificacao: number;
   iduhtipo: number;
   conjugadas: [];
-  caracteristicas: Caracteristica[];
+  caracteristicas: UhCaracteristica[];
   pessoaanotacao: [];
 };
 
@@ -91,7 +92,7 @@ export type UhCreate = EntityBase & {
   iduhclassificacao: number;
   iduhtipo: number;
   conjugadas: [];
-  caracteristicas: Caracteristica[];
+  caracteristicas: UhCaracteristica[];
   pessoaanotacao: [];
 };
 
