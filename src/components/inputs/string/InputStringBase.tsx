@@ -1,5 +1,5 @@
 import { Label } from "@components/ui/label";
-import type { InputProps } from "../types";
+import type { InputProps } from "../../types";
 import InputBase from "@components/inputs/InputBase";
 import { InputGroupBase } from "../group/InputGroupBase";
 import {useEffect, useState} from "react";

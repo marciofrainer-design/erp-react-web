@@ -13,6 +13,7 @@ const ButtonBase = ({
   return (
     <Button
       {...props}
+      type="button"
       onClick={onClick}
       disabled={disabled}
       className={`${className} ? ${className} : flex items-center gap-2 px-6 py-2.5 indigo-gradient text-white font-bold text-sm rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95 cursor-pointer ${hidden ? "hidden" : ""}`}

@@ -9,6 +9,7 @@ import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { UH_TIPO_MAPPER } from "./consts";
 import type { Edificacao } from "@/domain/edificacao/types";
 import type { Andar } from "@/domain/andar/types";
+import { InputCheckBase } from "@/components/checkbox/InputCheckBase";
 
 export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
   const { t } = useAppTranslation(["uh", "edificacao"]);
@@ -96,7 +97,7 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
           error={errors.idandar?.[0]}
           lazy={true}
           initialLabel={data.nmandar}
-          />
+        />
         <InputStringBase
           label={t("inputs.roomQuantity")}
           value={data.qtquarto}
@@ -110,6 +111,11 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
           onChange={(e) =>
             onChange("iduhclassificacao", parseInt(e.target.value, 10))
           }
+        />
+        <InputCheckBase
+          value={data.isacessibilidade}
+          onChange={(v: number) => onChange("isacessibilidade", v)}
+          label={t("inputs.accessibility", { defaultValue: "Acessibilidade" })}
         />
       </div>
     </CrudRegister>

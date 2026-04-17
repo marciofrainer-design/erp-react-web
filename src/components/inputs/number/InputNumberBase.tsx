@@ -1,5 +1,5 @@
 import { Label } from "../../ui/label";
-import type { InputProps } from "../types";
+import type { InputProps } from "../../types";
 import { InputGroupBase } from "../group/InputGroupBase";
 import InputBase from "@/components/inputs/InputBase";
 import { SpanError } from "../SpanError";

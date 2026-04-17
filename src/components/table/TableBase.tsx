@@ -18,6 +18,7 @@ const TableBase = <T extends object>({
   onCellChange,
   indexSelected,
   leadingColumn,
+  lastColumn,
   getRowClassName,
   isDetailsTable = false,
 }: TableProps<T>) => {
@@ -113,6 +114,14 @@ const TableBase = <T extends object>({
                 </TableHead>
               ),
             )}
+            {lastColumn && (
+              <TableHead
+                className={`sticky top-0 z-20 px-4 py-4 bg-surface-container-low/95 backdrop-blur-md ${lastColumn.width ?? "w-10"}`}
+                style={{ backgroundColor: "var(--color-table-header-bg)" }}
+              >
+                {lastColumn.footer}
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
 
@@ -160,6 +169,13 @@ const TableBase = <T extends object>({
                       {renderCellContent(row, i, c)}
                     </TableCell>
                   ),
+                )}
+                {lastColumn && (
+                  <TableCell
+                    className={`px-4 py-4 ${lastColumn.width ?? "w-10"}`}
+                  >
+                    {lastColumn.cell(row, i)}
+                  </TableCell>
                 )}
               </TableRow>
             );

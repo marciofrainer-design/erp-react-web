@@ -17,7 +17,7 @@ function SelectionList<T extends EntityBase>({
   allowDuplicates = false,
   label,
   addButtonLabel,
-  removeButtonLabel,
+  // removeButtonLabel,
   emptyMessage,
 }: SelectionListProps<T>) {
   const { t } = useAppTranslation(["components", "crud"]);
@@ -26,14 +26,12 @@ function SelectionList<T extends EntityBase>({
     pendingValue,
     setPendingValue,
     checkedKeys,
-    allChecked,
-    someChecked,
     canAdd,
     filterFn,
     handleAdd,
     handleToggleCheck,
-    handleToggleAll,
-    handleRemoveChecked,
+    // handleRemoveChecked,
+    handleRemoveRow,
   } = useSelectionList({
     repository,
     mapper,
@@ -49,8 +47,8 @@ function SelectionList<T extends EntityBase>({
   const resolvedAddLabel =
     addButtonLabel ?? t("selectionList.add", { ns: "components", defaultValue: "Adicionar" });
 
-  const resolvedRemoveLabel =
-    removeButtonLabel ?? t("selectionList.remove", { ns: "components", defaultValue: "Remover" });
+  // const resolvedRemoveLabel =
+  //   removeButtonLabel ?? t("selectionList.remove", { ns: "components", defaultValue: "Remover" });
     
   const resolvedEmptyMessage =
     emptyMessage ??
@@ -78,7 +76,7 @@ function SelectionList<T extends EntityBase>({
         />
       </div>
 
-      {checkedKeys.size > 0 && (
+      {/* {checkedKeys.size > 0 && (
         <div className="flex justify-end">
           <ButtonBase
             type="button"
@@ -87,7 +85,7 @@ function SelectionList<T extends EntityBase>({
             label={`${resolvedRemoveLabel} (${checkedKeys.size})`}
           />
         </div>
-      )}
+      )} */}
 
       {/* Empty state */}
       {value.length === 0 ? (
@@ -113,30 +111,18 @@ function SelectionList<T extends EntityBase>({
 
               onChange(updatedItems);
             }}
-            leadingColumn={{
-              header: (
-                <input
-                  type="checkbox"
-                  checked={allChecked}
-                  ref={(el) => {
-                    if (el) el.indeterminate = someChecked;
-                  }}
-                  onChange={handleToggleAll}
-                  className="w-4 h-4 cursor-pointer accent-primary"
-                  aria-label="Selecionar todos"
-                />
-              ),
+            lastColumn={{
+              footer: null,
+              width: "w-8",
               cell: (row) => {
                 const key = String(row[primaryKeyField]);
-                const isChecked = checkedKeys.has(key);
                 return (
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => handleToggleCheck(key)}
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-4 h-4 cursor-pointer accent-primary"
-                    aria-label={`Selecionar linha ${key}`}
+                  <ButtonBase
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleRemoveRow(key);
+                    }}
+                    Icon={Trash2}
                   />
                 );
               },
