@@ -14,15 +14,25 @@ export type PaginatedResponse<T> = {
   total: number;
 };
 
-export type Repository<T> = {
-  getAll: (params: PaginationQueryParams) => Promise<PaginatedResponse<T>>;
-  getById: (id: number) => Promise<T>;
-  save: (data: T) => Promise<void>;
-  update: (data: T) => Promise<void>;
+export type Repository<
+  TList,
+  TDetail = TList,
+  TCreate = TDetail,
+  TUpdate = TDetail,
+> = {
+  getAll: (params: PaginationQueryParams) => Promise<PaginatedResponse<TList>>;
+  getById: (id: number) => Promise<TDetail>;
+  save: (data: TCreate) => Promise<void>;
+  update: (data: TUpdate) => Promise<void>;
   delete: (id: number) => Promise<void>;
 }
 
-export type DependenciesFactory<T> = {
+export type DependenciesFactory<
+  TList,
+  TDetail = TList,
+  TCreate = TDetail,
+  TUpdate = TDetail,
+> = {
   getAdapter: () => ApiAdapter;
-  getRepository: () => Repository<T>;
+  getRepository: () => Repository<TList, TDetail, TCreate, TUpdate>;
 }

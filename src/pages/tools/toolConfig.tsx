@@ -1,7 +1,5 @@
 import { AndarPage } from "@/pages/andar/AndarPage";
 import { UhPage } from "@/pages/uh/UhPage";
-import { EdificacaoPage } from "@/pages/edificacao/EdificacaoPage";
-import { UHClassificacaoPage } from "@/pages/uhclassificacao/UHClassificacaoPage";
 import { ToolPlaceholder } from "./ToolPlaceholder";
 import type { FormOption, ToolComponentParams } from "./types";
 import { toolLabels } from "./consts";
@@ -17,18 +15,14 @@ export function formLabels(value: FormOption) {
 export function getToolComponent(
   params: ToolComponentParams,
 ) {
-  const { tool, selectedForm } = params;
+  const { tool, selectedForm, onCrudModeChange } = params;
 
   if (tool === "app45") {
     switch (selectedForm) {
       case "floor":
-        return <AndarPage />;
+        return <AndarPage onModeChange={onCrudModeChange} />;
       case "uh":
-        return <UhPage />;
-      case "edificacao":
-        return <EdificacaoPage />;
-      case "uhclassificacao":
-        return <UHClassificacaoPage />;
+        return <UhPage onModeChange={onCrudModeChange} />;
       default:
         return <ToolPlaceholder label={toolLabels[tool]} />;
     }

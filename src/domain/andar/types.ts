@@ -8,54 +8,78 @@ import {
 } from "@/consts";
 import type { Repository } from "@/infra/interface/types";
 
+export type AndarAll = EntityBase & {
+  idandar: number;
+  idempresa: number;
+  cdandar: string;
+  nmandar: string;
+  isativo: number;
+  empresa_dsabreviatura: string;
+};
+
 export type Andar = EntityBase & {
   idandar: number;
   idempresa: number;
-  nmempresa: string;
+  cdandar: string;
+  nmandar: string;
+  isativo: number;
+};
+
+export type AndarUpdate = EntityBase & {
+  idandar: number;
+  idempresa: number;
+  cdandar: string;
+  nmandar: string;
+  isativo: number;
+};
+
+export type AndarCreate = EntityBase & {
+  idandar: number;
+  idempresa: number;
   cdandar: string;
   nmandar: string;
   isativo: number;
 };
 
 export const ANDAR_LABEL_KEYS = {
-  keyName: "crud.fields.keyName",
-  nameLabel: "crud.fields.nameLabel",
-  situation: "crud.fields.situation",
-  company: "crud.fields.company",
-  identificator: "crud.fields.identificator",
-} as const;
+  idandar: "crud.fields.keyName",
+  nmandar: "crud.fields.nameLabel",
+  isativo: "crud.fields.situation",
+  empresa_dsabreviatura: "crud.fields.company",
+  cdandar: "crud.fields.identificator",
+} as const satisfies Record<keyof Omit<AndarAll, "idempresa" | "id">, string>;
 
-export type AndarColumnDefinition = Omit<Column<Andar>, "label"> & {
+export type AndarColumnDefinition = Omit<Column<AndarAll>, "label"> & {
   labelKey: (typeof ANDAR_LABEL_KEYS)[keyof typeof ANDAR_LABEL_KEYS];
 };
 
 export const AndarColumns: AndarColumnDefinition[] = [
   {
-    labelKey: ANDAR_LABEL_KEYS.keyName,
+    labelKey: ANDAR_LABEL_KEYS.idandar,
     field: "idandar",
     width: WIDTH_INTEGER_COLUMN,
     type: FieldType.NUMBER,
   },
   {
-    labelKey: ANDAR_LABEL_KEYS.nameLabel,
+    labelKey: ANDAR_LABEL_KEYS.nmandar,
     field: "nmandar",
     width: WIDTH_STRING_COLUMN,
     type: FieldType.STRING,
   },
   {
-    labelKey: ANDAR_LABEL_KEYS.situation,
+    labelKey: ANDAR_LABEL_KEYS.isativo,
     field: "isativo",
     width: WIDTH_BOOLEAN_COLUMN,
     type: FieldType.BOOLEAN,
   },
   {
-    labelKey: ANDAR_LABEL_KEYS.company,
-    field: "nmempresa",
+    labelKey: ANDAR_LABEL_KEYS.empresa_dsabreviatura,
+    field: "empresa_dsabreviatura",
     width: WIDTH_SHORTSTRING_COLUMN,
     type: FieldType.STRING,
   },
   {
-    labelKey: ANDAR_LABEL_KEYS.identificator,
+    labelKey: ANDAR_LABEL_KEYS.cdandar,
     field: "cdandar",
     width: WIDTH_SHORTSTRING_COLUMN,
     type: FieldType.STRING,
@@ -63,6 +87,6 @@ export const AndarColumns: AndarColumnDefinition[] = [
 ];
 
 export type AndarDependencies = {
-  andarRepository: Repository<Andar>;
+  andarRepository: Repository<AndarAll, Andar>;
 };
 

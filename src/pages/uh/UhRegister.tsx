@@ -8,6 +8,8 @@ import { useEffect, useRef } from "react";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { UH_TIPO_MAPPER } from "./consts";
 import type { Edificacao } from "@/domain/edificacao/types";
+import type { Andar } from "@/domain/andar/types";
+import { InputCheckBase } from "@/components/checkbox/InputCheckBase";
 
 export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
   const { t } = useAppTranslation(["uh", "edificacao"]);
@@ -81,11 +83,20 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
               : ""
           }
         />
-        <InputStringBase
-          label={t("inputs.floor")}
-          value={data.nmandar}
-          error={errors.nmandar?.[0]}
-          onChange={(e) => onChange("nmandar", e.target.value)}
+        <SelectRepository<Andar>
+          repository={repositories.andarRepository}
+          mapper={{
+            valueKey: "idandar",
+            labelKeys: ["cdandar", "nmandar"],
+          }}
+          label={t("inputs.floor", { ns: "uh" })}
+          value={String(data.idandar || "")}
+          onChange={(v) => {
+            onChange("idandar", Number(v));
+          }}
+          error={errors.idandar?.[0]}
+          lazy={true}
+          initialLabel={data.nmandar}
         />
         <InputStringBase
           label={t("inputs.roomQuantity")}
@@ -100,6 +111,11 @@ export function UhRegister({ data, onChange, repositories }: UhRegisterProps) {
           onChange={(e) =>
             onChange("iduhclassificacao", parseInt(e.target.value, 10))
           }
+        />
+        <InputCheckBase
+          value={data.isacessibilidade}
+          onChange={(v: number) => onChange("isacessibilidade", v)}
+          label={t("inputs.accessibility", { defaultValue: "Acessibilidade" })}
         />
       </div>
     </CrudRegister>

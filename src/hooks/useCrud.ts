@@ -9,11 +9,11 @@ import {
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { CRUD_DEFAULT_LIMIT, CRUD_DEFAULT_PAGE } from "@/components/crud/consts";
 
-export function useCrud<T extends object>({
+export function useCrud<T extends object, TList extends object = T>({
   createNewItem,
   dependencies,
   validate,
-}: UseCrudOptions<T>) {
+}: UseCrudOptions<T, TList>) {
   const { t } = useAppTranslation("crud");
   const notify = useNotify();
   const confirm = useConfirm();
@@ -26,7 +26,7 @@ export function useCrud<T extends object>({
     () => createNewItem?.() ?? ({} as T),
   );
   const { repository, primaryKeyName } = dependencies || {};
-  const [data, setData] = useState<T[]>([]);
+  const [data, setData] = useState<TList[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [currentPage, setCurrentPage] = useState(CRUD_DEFAULT_PAGE);
@@ -92,7 +92,7 @@ export function useCrud<T extends object>({
   }, []);
 
   const handleRowClick = useCallback(
-    (_: T, index: number) => {
+    (_: TList, index: number) => {
       setSelectedIndex(index);
       if (mode !== "table") setMode("table");
     },
@@ -100,22 +100,22 @@ export function useCrud<T extends object>({
   );
 
   const handleRowDblClick = useCallback(
-    async (_: T, index: number) => {
+    async (_: TList, index: number) => {
       setSelectedIndex(index);
       const item = filteredTableData[index];
       if (repository && primaryKeyName) {
-        const id = item[primaryKeyName as keyof T] as number;
+        const id = item[primaryKeyName as keyof TList] as number;
         try {
           setLoadingDetail(true);
           const fullItem = await repository.getById(id);
           setFormData(fullItem);
         } catch {
-          setFormData({ ...item });
+          setFormData({ ...item } as unknown as T);
         } finally {
           setLoadingDetail(false);
         }
       } else {
-        setFormData({ ...item });
+        setFormData({ ...item } as unknown as T);
       }
       setMode("view");
     },
@@ -125,18 +125,18 @@ export function useCrud<T extends object>({
   const handleView = useCallback(async () => {
     if (!selectedItem) return;
     if (repository && primaryKeyName) {
-      const id = selectedItem[primaryKeyName as keyof T] as number;
+      const id = selectedItem[primaryKeyName as keyof TList] as number;
       try {
         setLoadingDetail(true);
         const fullItem = await repository.getById(id);
         setFormData(fullItem);
       } catch {
-        setFormData({ ...selectedItem });
+        setFormData({ ...selectedItem } as unknown as T);
       } finally {
         setLoadingDetail(false);
       }
     } else {
-      setFormData({ ...selectedItem });
+      setFormData({ ...selectedItem } as unknown as T);
     }
     setMode("view");
   }, [selectedItem, repository, primaryKeyName]);
@@ -147,11 +147,24 @@ export function useCrud<T extends object>({
     setMode("new");
   }, [createNewItem]);
 
-  const handleClone = useCallback(() => {
+  const handleClone = useCallback(async () => {
     if (!selectedItem) return;
-    setFormData({ ...selectedItem });
+    if (repository && primaryKeyName) {
+      const id = selectedItem[primaryKeyName as keyof TList] as number;
+      try {
+        setLoadingDetail(true);
+        const fullItem = await repository.getById(id);
+        setFormData(fullItem);
+      } catch {
+        setFormData({ ...selectedItem } as unknown as T);
+      } finally {
+        setLoadingDetail(false);
+      }
+    } else {
+      setFormData({ ...selectedItem } as unknown as T);
+    }
     setMode("clone");
-  }, [selectedItem]);
+  }, [selectedItem, repository, primaryKeyName]);
 
   const handleDelete = useCallback(async () => {
     if (!selectedItem) return;
@@ -159,7 +172,7 @@ export function useCrud<T extends object>({
       notify.error(t("notifications.invalidRepositoryConfig"));
       return;
     }
-    const valueToDelete = selectedItem[primaryKeyName as keyof T];
+    const valueToDelete = selectedItem[primaryKeyName as keyof TList];
     if (!valueToDelete) {
       notify.error(t("notifications.invalidPrimaryKey"), {
         description: t("notifications.missingPrimaryKeyValue"),

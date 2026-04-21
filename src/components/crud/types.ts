@@ -1,8 +1,5 @@
 import type { Repository } from "@/infra/interface/types";
 import type { Column } from "@/types";
-import { EdificacaoRepository } from "@/domain/edificacao";
-import { UhTipoRepository } from "@/domain/uhTipo/UhTipoRepository";
-import { CaracteristicaRepository } from "@/domain/caracteristica/CaracteristicaRepository";
 
 export type CrudPageTemplateProps = {
   title: string;
@@ -14,22 +11,23 @@ export type CrudPageTemplateProps = {
   showTable?: boolean;
 };
 
-export type CrudPageProps<T extends object> = {
+export type CrudPageProps<T extends object, TList extends object = T> = {
   title: string;
   pageDescription?: string;
-  tableColumns: Column<T>[];
+  tableColumns: Column<TList>[];
+  onModeChange?: (mode: CrudMode) => void;
   /** Formulário simples (CrudRegister). Ignorado se `tabs` for fornecido. */
   register?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
   /** Formulário em abas (CrudRegisterTabs). Tem prioridade sobre `register`. */
   tabs?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
   createNewItem?: () => T;
   onSaved?: () => Promise<void> | void;
-  dependencies: CrudRegisterDependencies<T>;
+  dependencies: CrudRegisterDependencies<T, TList>;
   validate?: (data: T) => boolean;
 };
 
-export type UseCrudOptions<T extends object> = Pick<
-  CrudPageProps<T>,
+export type UseCrudOptions<T extends object, TList extends object = T> = Pick<
+  CrudPageProps<T, TList>,
   "createNewItem" | "dependencies" | "validate"
 >;
 
@@ -39,16 +37,9 @@ export type CrudRegisterRenderProps<T extends object> = {
   onChange: <K extends keyof T>(field: K, value: T[K]) => void;
 };
 
-// export type CrudRepository<T> = {
-//   getAll: () => Promise<T[]>;
-//   save: (item: T) => Promise<void>;
-//   update: (item: T) => Promise<void>;
-//   delete?: (id: number) => Promise<void>;
-// };
-
-export type CrudRegisterDependencies<T> = {
-  repository: Repository<T>;
-  primaryKeyName: keyof T;
+export type CrudRegisterDependencies<T extends object, TList extends object = T> = {
+  repository: Repository<TList, T>;
+  primaryKeyName: keyof T & keyof TList;
 };
 
 export type CrudRegisterProps = {

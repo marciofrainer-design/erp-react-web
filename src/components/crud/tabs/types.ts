@@ -30,21 +30,21 @@ export type CrudRegisterTabsProps = {
 
 export type CrudDetailMode = "table" | "new" | "edit";
 
-export type UseCrudDetailOptions<T extends object> = {
-  repository: Repository<T>;
-  parentIdField: keyof T;
+export type UseCrudDetailOptions<T extends object, TList extends object = T> = {
+  repository: Repository<TList, T>;
+  parentIdField: keyof T & keyof TList;
   parentId: number | string;
-  primaryKeyName: keyof T;
+  primaryKeyName: keyof T & keyof TList;
   createBlankItem: (parentId: number | string) => T;
   validate?: (data: T) => boolean;
 };
 
-export type CrudDetailSectionProps<T extends object> = {
-  repository: Repository<T>;
-  columns: Column<T>[];
-  parentIdField: keyof T;
+export type CrudDetailSectionProps<T extends object, TList extends object = T> = {
+  repository: Repository<TList, T>;
+  columns: Column<TList>[];
+  parentIdField: keyof T & keyof TList;
   parentId: number | string;
-  primaryKeyName: keyof T;
+  primaryKeyName: keyof T & keyof TList;
   createBlankItem: (parentId: number | string) => T;
   validate?: (data: T) => boolean;
   register: (props: CrudDetailRegisterRenderProps<T>) => React.ReactNode;

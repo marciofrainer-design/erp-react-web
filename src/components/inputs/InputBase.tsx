@@ -1,5 +1,5 @@
 import { Input } from "@components/ui/input";
-import type { InputProps } from "./types";
+import type { InputProps } from "../types";
 
 const InputBase = ({ width, Icon, onClickIcon, ...props }: InputProps) => {
   const showTypeCursorClass = onClickIcon ? "cursor-pointer" : "cursor-default";

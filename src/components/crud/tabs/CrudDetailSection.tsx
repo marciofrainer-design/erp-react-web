@@ -7,7 +7,7 @@ import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { Loading } from "@/components/loading/Loading";
 import type { CrudDetailSectionProps } from "./types";
 
-function CrudDetailSection<T extends object>({
+function CrudDetailSection<T extends object, TList extends object = T>({
   repository,
   columns,
   parentIdField,
@@ -17,7 +17,7 @@ function CrudDetailSection<T extends object>({
   validate,
   register,
   emptyMessage,
-}: CrudDetailSectionProps<T>) {
+}: CrudDetailSectionProps<T, TList>) {
   const { t } = useAppTranslation("crud");
 
   const {
@@ -35,7 +35,7 @@ function CrudDetailSection<T extends object>({
     pageCount,
     totalRows,
     handlers,
-  } = useCrudDetail({
+  } = useCrudDetail<T, TList>({
     repository,
     parentIdField,
     parentId,

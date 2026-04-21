@@ -10,4 +10,4 @@ export const blankCaracteristica = <T extends Caracteristica>() =>
     idcaracteristica_emp: 0,
     flsituacao: 1,
     empresa_dsabreviatura: "",
-  }) as T;
+  }) as unknown as T;

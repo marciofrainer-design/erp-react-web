@@ -3,14 +3,14 @@ import { TableBase } from "../table/TableBase";
 import type { TableProps } from "../table/types";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 
-const CrudTable = <T extends object>({
+const CrudTable = <TList extends object>({
   rowsCount,
   totalRowsCount,
   currentPage = 1,
   totalPageCount = 1,
   onPageChange,
   ...props
-}: TableProps<T>) => {
+}: TableProps<TList>) => {
   const { t } = useAppTranslation("crud");
   const visibleRows = rowsCount ?? props.data.length;
   const totalRows = totalRowsCount ?? props.data.length;

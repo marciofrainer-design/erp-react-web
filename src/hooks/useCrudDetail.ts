@@ -5,14 +5,14 @@ import { getErrorMessage, normalizeSearchText, stringifyForSearch } from "@/util
 import { CRUD_DEFAULT_LIMIT, CRUD_DEFAULT_PAGE } from "@/components/crud/consts";
 import type { CrudDetailMode, UseCrudDetailOptions } from "@/components/crud/tabs/types";
 
-export function useCrudDetail<T extends object>({
+export function useCrudDetail<T extends object, TList extends object = T>({
   repository,
   parentIdField,
   parentId,
   primaryKeyName,
   createBlankItem,
   validate,
-}: UseCrudDetailOptions<T>) {
+}: UseCrudDetailOptions<T, TList>) {
   const { t } = useAppTranslation("crud");
   const notify = useNotify();
   const confirm = useConfirm();
@@ -22,7 +22,7 @@ export function useCrudDetail<T extends object>({
   const [searchValue, setSearchValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState<T>(() => createBlankItem(parentId));
-  const [data, setData] = useState<T[]>([]);
+  const [data, setData] = useState<TList[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(CRUD_DEFAULT_PAGE);
   const [pageCount, setPageCount] = useState(CRUD_DEFAULT_PAGE);
@@ -52,7 +52,7 @@ export function useCrudDetail<T extends object>({
       });
       // Filtra apenas registros do pai na resposta (se o backend não faz isso, filtra aqui)
       const filtered = result.data.filter(
-        (item) => String(item[parentIdField]) === String(parentId),
+        (item) => String(item[parentIdField as keyof TList]) === String(parentId),
       );
       setData(filtered);
       setPageCount(result.pageCount);
@@ -91,17 +91,24 @@ export function useCrudDetail<T extends object>({
     setSelectedIndex(null);
   }, []);
 
-  const handleRowClick = useCallback((_: T, index: number) => {
+  const handleRowClick = useCallback((_: TList, index: number) => {
     setSelectedIndex(index);
   }, []);
 
   const handleRowDblClick = useCallback(
-    (_: T, index: number) => {
+    async (_: TList, index: number) => {
       setSelectedIndex(index);
-      setFormData({ ...filteredData[index] });
+      const item = filteredData[index];
+      const id = item[primaryKeyName as keyof TList] as number;
+      try {
+        const fullItem = await repository.getById(id);
+        setFormData(fullItem);
+      } catch {
+        setFormData({ ...item } as unknown as T);
+      }
       setMode("edit");
     },
-    [filteredData],
+    [filteredData, primaryKeyName, repository],
   );
 
   const handleNew = useCallback(() => {
@@ -110,15 +117,21 @@ export function useCrudDetail<T extends object>({
     setMode("new");
   }, [createBlankItem, parentId]);
 
-  const handleEdit = useCallback(() => {
+  const handleEdit = useCallback(async () => {
     if (!selectedItem) return;
-    setFormData({ ...selectedItem });
+    const id = selectedItem[primaryKeyName as keyof TList] as number;
+    try {
+      const fullItem = await repository.getById(id);
+      setFormData(fullItem);
+    } catch {
+      setFormData({ ...selectedItem } as unknown as T);
+    }
     setMode("edit");
-  }, [selectedItem]);
+  }, [selectedItem, primaryKeyName, repository]);
 
   const handleDelete = useCallback(async () => {
     if (!selectedItem) return;
-    const pk = selectedItem[primaryKeyName];
+    const pk = selectedItem[primaryKeyName as keyof TList];
     if (!pk) {
       notify.error(t("notifications.invalidPrimaryKey"));
       return;

@@ -88,6 +88,13 @@ export function useSelectionList<T extends EntityBase>({
     setCheckedKeys(new Set());
   }, [value, checkedKeys, primaryKeyField, onChange]);
 
+  const handleRemoveRow = useCallback(
+    (key: string) => {
+      onChange(value.filter((item) => String(item[primaryKeyField]) !== key));
+    },
+    [value, primaryKeyField, onChange],
+  );
+
   return {
     loading,
     pendingValue,
@@ -101,5 +108,6 @@ export function useSelectionList<T extends EntityBase>({
     handleToggleCheck,
     handleToggleAll,
     handleRemoveChecked,
+    handleRemoveRow, // Added to support direct row removal
   };
 }

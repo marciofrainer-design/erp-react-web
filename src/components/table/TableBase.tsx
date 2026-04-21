@@ -15,11 +15,72 @@ const TableBase = <T extends object>({
   data,
   onRowClick,
   onRowDblClick,
+  onCellChange,
   indexSelected,
   leadingColumn,
+  lastColumn,
   getRowClassName,
   isDetailsTable = false,
 }: TableProps<T>) => {
+  const renderCellContent = (row: T, rowIndex: number, fieldColumn: TableProps<T>["columns"][number]) => {
+    if (fieldColumn.cellRenderer) {
+      return fieldColumn.cellRenderer(row, rowIndex);
+    }
+
+    if (fieldColumn.checkbox) {
+      const checkboxConfig = fieldColumn.checkbox;
+      const currentValue = row[fieldColumn.field];
+      const isChecked = checkboxConfig.isChecked
+        ? checkboxConfig.isChecked(currentValue, row, rowIndex)
+        : currentValue === checkboxConfig.checkedValue;
+      const handleCheckboxChange =
+        checkboxConfig.onChange ??
+        ((targetRow: T, value: T[keyof T], targetRowIndex: number) => {
+          onCellChange?.(targetRow, targetRowIndex, fieldColumn.field, value);
+        });
+      const ariaLabel =
+        typeof checkboxConfig.ariaLabel === "function"
+          ? checkboxConfig.ariaLabel(row, rowIndex)
+          : checkboxConfig.ariaLabel ?? `Alternar ${String(fieldColumn.field)}`;
+      const disabled =
+        typeof checkboxConfig.disabled === "function"
+          ? checkboxConfig.disabled(row, rowIndex)
+          : checkboxConfig.disabled ?? false;
+
+      return (
+        <input
+          type="checkbox"
+          checked={isChecked}
+          disabled={disabled}
+          readOnly={!handleCheckboxChange}
+          onClick={(event) => event.stopPropagation()}
+          onChange={(event) => {
+            event.stopPropagation();
+            handleCheckboxChange?.(
+              row,
+              event.target.checked
+                ? checkboxConfig.checkedValue
+                : checkboxConfig.uncheckedValue,
+              rowIndex,
+            );
+          }}
+          className="w-4 h-4 cursor-pointer accent-primary disabled:cursor-not-allowed"
+          aria-label={ariaLabel}
+        />
+      );
+    }
+
+    if (fieldColumn.type === FieldType.BOOLEAN) {
+      return row[fieldColumn.field] ? (
+        <Check className="w-6 h-6" />
+      ) : (
+        <ArrowDown className="w-6 h-6" />
+      );
+    }
+
+    return String(row[fieldColumn.field] ?? "");
+  };
+
   return (
     <div className="relative overflow-auto flex-1 max-h-97 no-scrollbar">
       <Table
@@ -52,6 +113,14 @@ const TableBase = <T extends object>({
                   {c.label}
                 </TableHead>
               ),
+            )}
+            {lastColumn && (
+              <TableHead
+                className={`sticky top-0 z-20 px-4 py-4 bg-surface-container-low/95 backdrop-blur-md ${lastColumn.width ?? "w-10"}`}
+                style={{ backgroundColor: "var(--color-table-header-bg)" }}
+              >
+                {lastColumn.footer}
+              </TableHead>
             )}
           </TableRow>
         </TableHeader>
@@ -97,17 +166,16 @@ const TableBase = <T extends object>({
                             : "var(--color-table-text)",
                       }}
                     >
-                      {c.type === FieldType.BOOLEAN ? (
-                        row[c.field] ? (
-                          <Check className="w-6 h-6" />
-                        ) : (
-                          <ArrowDown className="w-6 h-6" />
-                        )
-                      ) : (
-                        String(row[c.field])
-                      )}
+                      {renderCellContent(row, i, c)}
                     </TableCell>
                   ),
+                )}
+                {lastColumn && (
+                  <TableCell
+                    className={`px-4 py-4 ${lastColumn.width ?? "w-10"}`}
+                  >
+                    {lastColumn.cell(row, i)}
+                  </TableCell>
                 )}
               </TableRow>
             );
