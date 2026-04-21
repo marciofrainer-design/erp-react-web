@@ -1,0 +1,1 @@
+export type { UhCaracteristica } from "./types";

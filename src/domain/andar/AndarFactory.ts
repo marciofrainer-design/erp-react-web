@@ -1,16 +1,15 @@
-import { DataSnapAdapter } from "@/infra/api/service";
 import { AndarRepository } from "./AndarRepository";
-import type { Andar } from "./types";
+import type { Andar, AndarAll } from "./types";
 import type { CrudRegisterDependencies } from "@/components/crud/types";
 import { blankAndar } from "./consts";
+import { getAdapter } from "@/infra/factories/adapterFactory";
 
 export const AndarFactory = {
   createBlankAndar(): Andar {
     return blankAndar<Andar>();
   },
-  dependencies(): CrudRegisterDependencies<Andar> {
-    const adapter = new DataSnapAdapter();
-    const repository = new AndarRepository(adapter);
+  dependencies(): CrudRegisterDependencies<Andar, AndarAll> {
+    const repository = new AndarRepository(getAdapter());
     return { repository, primaryKeyName: "idandar" };
   }
 };

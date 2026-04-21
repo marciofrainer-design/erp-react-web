@@ -27,6 +27,7 @@ const ptBRTools = {
       records: "Cadastros",
       infrastructure: "Infraestrutura",
       floor: "Andar",
+      uh: "UH",
       apartment: "Apartamento",
       queries: "Consultas",
       reservations: "Reservas",

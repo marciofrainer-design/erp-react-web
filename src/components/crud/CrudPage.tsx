@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { CrudPageProps } from "@/components/crud/types";
 import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
@@ -6,19 +7,21 @@ import { CrudToolbar } from "./CrudToolbar";
 import { motion } from "motion/react";
 import { Loading } from "@/components/loading/Loading";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { useCrud } from "./useCrud";
+import { useCrud } from "@/hooks";
 import { TRANSITION_DURATION } from "./consts";
 import type { EntityBase } from "@/types";
 
-const CrudPage = <T extends EntityBase>({
+const CrudPage = <T extends EntityBase, TList extends EntityBase = T>({
   title,
   pageDescription,
   tableColumns,
   register,
+  tabs,
   createNewItem,
   dependencies,
   validate,
-}: CrudPageProps<T>) => {
+  onModeChange,
+}: CrudPageProps<T, TList>) => {
   const { t } = useAppTranslation("crud");
   const {
     mode,
@@ -27,6 +30,7 @@ const CrudPage = <T extends EntityBase>({
     setSearchValue,
     formData,
     loading,
+    loadingDetail,
     filteredTableData,
     selectedItem,
     showTable,
@@ -35,9 +39,13 @@ const CrudPage = <T extends EntityBase>({
     pageCount,
     totalRows,
     handlers,
-  } = useCrud({ createNewItem, dependencies, validate });
+  } = useCrud<T, TList>({ createNewItem, dependencies, validate });
 
-  if (loading) {
+  useEffect(() => {
+    onModeChange?.(mode);
+  }, [mode, onModeChange]);
+
+  if (loading || loadingDetail) {
     return (
       <Loading
         variant="page"
@@ -48,14 +56,15 @@ const CrudPage = <T extends EntityBase>({
     );
   }
 
-  const registerContent =
-    !showTable && register
-      ? register({
-          mode: mode as "view" | "new" | "clone",
-          data: formData,
-          onChange: handlers.registerChange,
-        })
-      : undefined;
+  const renderProps = {
+    mode: mode as "view" | "new" | "clone",
+    data: formData,
+    onChange: handlers.registerChange,
+  };
+
+  const registerContent = !showTable
+    ? (tabs?.(renderProps) ?? register?.(renderProps))
+    : undefined;
 
   const hiddenFormData = JSON.stringify({ mode, formData, selectedIndex });
 

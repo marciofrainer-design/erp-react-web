@@ -1,150 +1,31 @@
-import { useMemo, useState, useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "motion/react";
-import { getToolComponent } from "./toolConfig";
-import type { FormOption, ToolKey } from "./types";
-import { formOptions } from "./consts";
 import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 import ToolFooter from "./ToolFooter";
 import ToolSearch from "./ToolSearch";
-import { ToolPlaceholder } from "./ToolPlaceholder";
 import SelectEmpresa from "@/components/domain/selectEmpresa/SelectEmpresa";
-import { useEmpresa } from "@/context/empresa/useEmpresa";
-import { useAuth } from "@/context/auth/useAuth";
-import { useFooterMessages } from "./useFooterMessages";
-import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { useNotify } from "@/hooks";
-
-const TOOL_KEYS: ToolKey[] = [
-  "login",
-  "app45",
-  "reservas",
-  "config",
-  "relatorios",
-  "integracoes",
-];
-
-function isValidToolKey(value?: string): value is ToolKey {
-  return Boolean(value && TOOL_KEYS.includes(value as ToolKey));
-}
-
-function isValidFormOption(value?: string): value is FormOption {
-  return Boolean(value && formOptions.includes(value as FormOption));
-}
+import { useToolsPage } from "./useToolsPage";
 
 export function ToolsPage() {
-  const { t } = useAppTranslation(["tools", "common"]);
-  const navigate = useNavigate();
-  const { tool: routeTool, form: routeForm } = useParams<{
-    tool?: string;
-    form?: string;
-  }>();
-
-  const selectedTool: ToolKey = isValidToolKey(routeTool) ? routeTool : "login";
-  const selectedForm: FormOption | null = isValidFormOption(routeForm)
-    ? routeForm
-    : null;
-
-  const { setEmpresaId, empresaId } = useEmpresa();
-  const { isLoading, login } = useAuth();
-  const notify = useNotify();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { messages, isConnected, addMessage, dismiss } = useFooterMessages();
-
-  useEffect(() => {
-    if (!routeTool) {
-      return;
-    }
-
-    if (!isValidToolKey(routeTool)) {
-      navigate("/tools/login", { replace: true });
-      return;
-    }
-
-    if (routeTool === "app45" && routeForm && !isValidFormOption(routeForm)) {
-      navigate("/tools/app45", { replace: true });
-    }
-  }, [routeTool, routeForm, navigate]);
-
-  const renderedComponent = useMemo(() => {
-    if (selectedTool === "app45") {
-      if (!selectedForm) {
-        return null
-      }
-
-      if (!empresaId) {
-        return (
-          <ToolPlaceholder
-            label={t(`appSearch.tree.${selectedForm}`, { ns: "tools" })}
-            description={t("page.selectCompanyPrompt", { ns: "tools" })}
-          />
-        );
-      }
-    }
-
-    return getToolComponent({ tool: selectedTool, selectedForm: selectedForm ?? undefined });
-  }, [selectedTool, selectedForm, empresaId, t]);
-
-  const handleSelectForm = useCallback(
-    (value: FormOption) => {
-      navigate(`/tools/app45/${value}`);
-    },
-    [navigate],
-  );
-
-  const handleToolSelect = useCallback(
-    (tool: ToolKey) => {
-      if (tool === "login") {
-        navigate("/tools/login");
-      } else if (tool === "app45") {
-        navigate("/tools/app45");
-      } else {
-        navigate(`/tools/${tool}`);
-      }
-
-      setIsMenuOpen(false);
-    },
-    [navigate],
-  );
-
-  const handleOnLoginClick = useCallback(
-    async (loginValue: string, password: string) => {
-      try {
-        const user = await login(loginValue, password);
-        navigate("/tools/app45");
-        addMessage(
-          "success",
-          t("page.welcomeMessage", {
-            ns: "tools",
-            email: user?.login ?? loginValue,
-          }),
-        );
-      } catch {
-        notify.error(t("page.invalidCredentials", { ns: "tools" }));
-      }
-    },
-    [navigate, addMessage, notify, t, login],
-  );
-
-  const getToolTitle = () => {
-    switch (selectedTool) {
-      case "login":
-        return t("page.toolTitle.login", { ns: "tools" });
-      case "app45":
-        return t("page.toolTitle.app45", { ns: "tools" });
-      case "config":
-        return t("page.toolTitle.config", { ns: "tools" });
-      case "relatorios":
-        return t("page.toolTitle.relatorios", { ns: "tools" });
-      case "integracoes":
-        return t("page.toolTitle.integracoes", { ns: "tools" });
-      case "reservas":
-        return t("page.toolTitle.reservas", { ns: "tools" });
-      default:
-        return t("page.defaultTitle", { ns: "tools" });
-    }
-  };
+  const {
+    t,
+    isLoading,
+    selectedTool,
+    selectedForm,
+    empresaId,
+    setEmpresaId,
+    isMenuOpen,
+    setIsMenuOpen,
+    messages,
+    isConnected,
+    dismiss,
+    renderedComponent,
+    handleSelectForm,
+    handleToolSelect,
+    handleOnLoginClick,
+    toolTitle,
+    isEmpresaDisabled,
+  } = useToolsPage();
 
   return (
     <motion.div
@@ -167,9 +48,13 @@ export function ToolsPage() {
           showTitle={selectedTool !== "login"}
         />
         {selectedTool !== "login" && (
-          <div className="flex justify-between">
-            <div className="flex flex-row justify-center gap-6">
-              <SelectEmpresa onSelect={setEmpresaId} />
+          <div className="flex justify-between items-center mt-2">
+            <div className="flex flex-row justify-center gap-6 items-end">
+              <SelectEmpresa
+                onSelect={setEmpresaId}
+                value={empresaId}
+                disabled={isEmpresaDisabled}
+              />
               {selectedTool === "app45" && empresaId ? (
                 <ToolSearch
                   selectedForm={selectedForm}
@@ -177,7 +62,7 @@ export function ToolsPage() {
                 />
               ) : null}
             </div>
-            <div className="md:flex items-center gap-6 font-headline font-bold  text-xl">
+            <div className="md:flex items-center gap-6 font-headline font-bold text-xl">
               <a
                 className="text-primary mr-10 mt-2"
                 href="#"
@@ -186,7 +71,7 @@ export function ToolsPage() {
                   color: "var(--color-text-primary)",
                 }}
               >
-                {getToolTitle()}
+                {toolTitle}
               </a>
             </div>
           </div>
@@ -197,7 +82,7 @@ export function ToolsPage() {
           style={{ minHeight: "78vh" }}
         >
           <main
-            className="col-span-12 rounded-lg p-1 h-full min-h-[58vh] max-h-[88vh] "
+            className="col-span-12 rounded-lg p-1 h-full min-h-[58vh] max-h-[88vh]"
             style={{
               backgroundColor: "var(--color-bg-secondary)",
             }}

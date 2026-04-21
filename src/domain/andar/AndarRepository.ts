@@ -1,11 +1,11 @@
 import { RepositoryBase } from '@/infra/repository/repositoryBase';
-import { DataSnapAdapter } from '@infra/api/service';
-import type { Andar } from './types';
+import type { ApiAdapter } from '@/infra/interface';
+import type { Andar, AndarAll } from './types';
 import { ControllerPrefix, ControllerSuffix } from '@/consts';
 
 const typeName = 'Andar';
-export class AndarRepository extends RepositoryBase<Andar> {
-  constructor(api: DataSnapAdapter) {
+export class AndarRepository extends RepositoryBase<AndarAll, Andar> {
+  constructor(api: ApiAdapter) {
     super(api, `${ControllerPrefix}${typeName}${ControllerSuffix}`);
   }
 }

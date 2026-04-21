@@ -2,6 +2,14 @@ import { useState, useCallback, useEffect } from "react";
 import type { FooterMessage, FooterMessageType } from "./types";
 
 const AUTO_DISMISS_MS = 5000;
+const DATASNAP_ERROR_EVENT = "datasnap:error-message";
+const SHOW_DATASNAP_MESSAGE_IN_FOOTER =
+  import.meta.env.DEV &&
+  import.meta.env.VITE_SHOW_DATASNAP_MESSAGE_IN_TOOL_FOOTER === "true";
+
+type DataSnapErrorEventDetail = {
+  message?: unknown;
+};
 
 export function useFooterMessages() {
   const [messages, setMessages] = useState<FooterMessage[]>([]);
@@ -27,6 +35,35 @@ export function useFooterMessages() {
     },
     [],
   );
+
+  useEffect(() => {
+    if (!SHOW_DATASNAP_MESSAGE_IN_FOOTER) {
+      return;
+    }
+
+    const handleDataSnapError = (event: Event) => {
+      const customEvent = event as CustomEvent<DataSnapErrorEventDetail>;
+      const rawMessage = customEvent.detail?.message;
+
+      if (typeof rawMessage !== "string" || rawMessage.trim().length === 0) {
+        return;
+      }
+
+      addMessage("error", rawMessage, true);
+    };
+
+    window.addEventListener(
+      DATASNAP_ERROR_EVENT,
+      handleDataSnapError as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        DATASNAP_ERROR_EVENT,
+        handleDataSnapError as EventListener,
+      );
+    };
+  }, [addMessage]);
 
   useEffect(() => {
     const handleOnline = () => {

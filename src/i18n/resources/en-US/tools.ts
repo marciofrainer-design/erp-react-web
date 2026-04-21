@@ -27,6 +27,7 @@ const enUSTools = {
       records: "Records",
       infrastructure: "Infrastructure",
       floor: "Floor",
+      uh: "UH",
       apartment: "Apartment",
       queries: "Queries",
       reservations: "Reservations",
