@@ -1,5 +1,5 @@
 import { EmpresaRepository } from "@/domain/empresa/EmpresaRepository";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { getAdapter } from "@/infra/factories/adapterFactory";
 import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
@@ -19,10 +19,9 @@ import { useFetchAll } from "@/hooks/useFetchAll";
 
 const createDefaultRepository = () => new EmpresaRepository(getAdapter());
 
-const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
+const SelectEmpresa = ({ onSelect, value, disabled = false, repository }: SelectEmpresaProps) => {
   const { t } = useAppTranslation(["components", "crud"]);
   const notify = useNotify();
-  const [value, setValue] = useState<string>("");
 
   const repo = useMemo(
     () => repository ?? createDefaultRepository(),
@@ -49,17 +48,19 @@ const SelectEmpresa = ({ onSelect, repository }: SelectEmpresaProps) => {
     );
   }
 
+  const selectedValue = value ?? "";
+
   const selectedLabel = empresaData.find(
-    (e) => e.idempresa.toString() === value,
+    (e) => e.idempresa.toString() === selectedValue,
   )?.nmfantasia;
 
   return (
     <SelectBase
       label={t("selects.labelCompany", { ns: "components" })}
       Icon={Building2}
-      value={value}
+      value={selectedValue}
+      disabled={disabled}
       onValueChange={(v: string) => {
-        setValue(v);
         onSelect(v);
       }}
     >

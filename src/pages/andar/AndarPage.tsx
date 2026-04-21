@@ -1,25 +1,26 @@
 import { AndarColumns } from "@/domain/andar/types";
 import type { Andar, AndarAll } from "@/domain/andar/types";
-import { CrudPage } from "@/components/crud";
+import { CrudPageBase } from "@/components/crud";
+import type { CrudMode } from "@/components/crud/types";
 import { AndarRegister } from "@/pages/andar/AndarRegister";
 import AndarFactory from "@/domain/andar/AndarFactory";
 import { andarRegisterSchema } from "@/domain/andar/validation";
-import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { useTranslatedColumns } from "@/hooks";
 
-export function AndarPage() {
-  const { t } = useAppTranslation("andar");
-  const tableColumns = useTranslatedColumns("andar", AndarColumns);
+type AndarPageProps = {
+  onModeChange?: (mode: CrudMode) => void;
+};
+
+export function AndarPage({ onModeChange }: AndarPageProps) {
   const dependencies = AndarFactory.dependencies();
 
   return (
-    <CrudPage<Andar, AndarAll>
-      title={t("crud.title")}
-      pageDescription={t("crud.subtitle")}
-      tableColumns={tableColumns}
+    <CrudPageBase<Andar, AndarAll>
+      namespace="andar"
+      columns={AndarColumns}
       createNewItem={() => AndarFactory.createBlankAndar()}
       dependencies={dependencies}
       validate={(data) => andarRegisterSchema.safeParse(data).success}
+      onModeChange={onModeChange}
       register={({ mode, data, onChange }) => (
         <AndarRegister mode={mode} data={data} onChange={onChange} />
       )}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { CrudPageProps } from "@/components/crud/types";
 import { CrudPageTemplate } from "./CrudPageTemplate";
 import { CrudSearch } from "./CrudSearch";
@@ -19,6 +20,7 @@ const CrudPage = <T extends EntityBase, TList extends EntityBase = T>({
   createNewItem,
   dependencies,
   validate,
+  onModeChange,
 }: CrudPageProps<T, TList>) => {
   const { t } = useAppTranslation("crud");
   const {
@@ -38,6 +40,10 @@ const CrudPage = <T extends EntityBase, TList extends EntityBase = T>({
     totalRows,
     handlers,
   } = useCrud<T, TList>({ createNewItem, dependencies, validate });
+
+  useEffect(() => {
+    onModeChange?.(mode);
+  }, [mode, onModeChange]);
 
   if (loading || loadingDetail) {
     return (

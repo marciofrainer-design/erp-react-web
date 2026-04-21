@@ -15,14 +15,14 @@ export function formLabels(value: FormOption) {
 export function getToolComponent(
   params: ToolComponentParams,
 ) {
-  const { tool, selectedForm } = params;
+  const { tool, selectedForm, onCrudModeChange } = params;
 
   if (tool === "app45") {
     switch (selectedForm) {
       case "floor":
-        return <AndarPage />;
+        return <AndarPage onModeChange={onCrudModeChange} />;
       case "uh":
-        return <UhPage />;
+        return <UhPage onModeChange={onCrudModeChange} />;
       default:
         return <ToolPlaceholder label={toolLabels[tool]} />;
     }

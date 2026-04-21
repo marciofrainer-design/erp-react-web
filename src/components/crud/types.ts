@@ -15,6 +15,7 @@ export type CrudPageProps<T extends object, TList extends object = T> = {
   title: string;
   pageDescription?: string;
   tableColumns: Column<TList>[];
+  onModeChange?: (mode: CrudMode) => void;
   /** Formulário simples (CrudRegister). Ignorado se `tabs` for fornecido. */
   register?: (props: CrudRegisterRenderProps<T>) => React.ReactNode;
   /** Formulário em abas (CrudRegisterTabs). Tem prioridade sobre `register`. */

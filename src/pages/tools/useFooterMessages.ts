@@ -49,7 +49,7 @@ export function useFooterMessages() {
         return;
       }
 
-      addMessage("error", rawMessage, false);
+      addMessage("error", rawMessage, true);
     };
 
     window.addEventListener(
