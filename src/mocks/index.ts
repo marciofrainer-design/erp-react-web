@@ -7,6 +7,9 @@ import { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 import { mockEdificacaoRoutes } from "./edificacao/edificacaoMocks";
 import { mockUHClassificacaoRoutes } from "./uhclassificacao/uhclassificacaoMocks";
 import { mockCaracteristicaRoutes } from "./caracteristica/caracteristicaMocks";
+import { mockHospedeRoutes } from "./hospede/hospedeMocks";
+import { mockReservaRoutes } from "./reserva/reservaMocks";
+import { mockCheckinRoutes } from "./checkin/checkinMocks";
 
 export const mockAdapter = new MockAdapter({
   TAuthController: {
@@ -40,6 +43,18 @@ export const mockAdapter = new MockAdapter({
     GetAll: (params) => mockCaracteristicaRoutes.GetAll(params),
     GetById: (params) => mockCaracteristicaRoutes.GetById(params),
   },
+  THospedeController: {
+    GetAll: (params) => mockHospedeRoutes.GetAll(params),
+    GetById: (params) => mockHospedeRoutes.GetById(params),
+  },
+  TReservaController: {
+    GetAll: (params) => mockReservaRoutes.GetAll(params),
+    GetById: (params) => mockReservaRoutes.GetById(params),
+  },
+  TCheckinController: {
+    GetAll: (params) => mockCheckinRoutes.GetAll(params),
+    GetById: (params) => mockCheckinRoutes.GetById(params),
+  },
 });
 
 export { MockAdapter } from "./MockAdapter";
@@ -51,4 +66,7 @@ export { mockUhTipoRoutes } from "./uhTipo/uhTipoMocks";
 export { mockEdificacaoRoutes } from "./edificacao/edificacaoMocks";
 export { mockUHClassificacaoRoutes } from "./uhclassificacao/uhclassificacaoMocks";
 export { mockCaracteristicaRoutes } from "./caracteristica/caracteristicaMocks";
+export { mockHospedeRoutes } from "./hospede/hospedeMocks";
+export { mockReservaRoutes } from "./reserva/reservaMocks";
+export { mockCheckinRoutes } from "./checkin/checkinMocks";
 export { MOCK_AUTH_USERS, MOCK_AUTH_CREDENTIALS } from "./auth/authMocks";
