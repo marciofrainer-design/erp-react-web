@@ -1,0 +1,5 @@
+node_modules/
+dist/
+src/database/*.sqlite3
+src/database/*.sqlite3-wal
+src/database/*.sqlite3-shm
