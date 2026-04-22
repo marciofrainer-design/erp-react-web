@@ -17,9 +17,34 @@ const APP_REGISTER_NODE = (): AppServiceNode => ({
       enabled: true,
     },
     {
-      id: "records-apartment",
-      labelKey: "appSearch.tree.apartment",
-      enabled: false,
+      id: "records-edificacao",
+      labelKey: "appSearch.tree.edificacao",
+      formOption: "edificacao",
+      enabled: true,
+    },
+    {
+      id: "records-uhclassificacao",
+      labelKey: "appSearch.tree.uhclassificacao",
+      formOption: "uhclassificacao",
+      enabled: true,
+    },
+    {
+      id: "records-hospedes",
+      labelKey: "appSearch.tree.hospedes",
+      formOption: "hospedes",
+      enabled: true,
+    },
+    {
+      id: "records-reservas",
+      labelKey: "appSearch.tree.reservas",
+      formOption: "reservas",
+      enabled: true,
+    },
+    {
+      id: "records-checkin",
+      labelKey: "appSearch.tree.checkin",
+      formOption: "checkin",
+      enabled: true,
     },
   ],
 });

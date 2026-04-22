@@ -1,6 +1,6 @@
-import { Label } from "@components/ui/label";
+import { Label } from "../../ui/label";
 import type { InputProps } from "../../types";
-import InputBase from "@components/inputs/InputBase";
+import InputBase from "../InputBase";
 import { InputGroupBase } from "../group/InputGroupBase";
 import {useEffect, useState} from "react";
 import { SpanError } from "../SpanError";

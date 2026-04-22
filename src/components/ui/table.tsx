@@ -1,8 +1,14 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+interface TableProps extends React.ComponentProps<"table"> {
+  currentPage?: number
+  totalPages?: number
+  onPageChange?: (page: number) => void
+}
+
+function Table({ className, currentPage, totalPages, onPageChange, ...props }: TableProps) {
   return (
     <div
       data-slot="table-container"
@@ -13,6 +19,25 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
         className={cn("w-full caption-bottom text-sm", className)}
         {...props}
       />
+      {currentPage && totalPages && onPageChange && (
+        <div className="pagination-controls">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   )
 }

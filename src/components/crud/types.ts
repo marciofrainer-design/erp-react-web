@@ -47,6 +47,7 @@ export type CrudRegisterProps = {
   title?: string;
   description?: string;
   showTitle?: boolean;
+  helpPanel?: React.ReactNode;
 };
 
 export type ViewMode = "list" | "edit";

@@ -1,4 +1,4 @@
-import { useTheme } from "@/context";
+import { useTheme } from "../../context/theme/useTheme";
 import { Sun, Moon } from "lucide-react";
 
 const ToolButtonToggleTheme: React.FC = () => {

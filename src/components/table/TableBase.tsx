@@ -1,6 +1,6 @@
 import type { TableProps } from "./types";
 import { ArrowDown, Check } from "lucide-react";
-import { FieldType } from "@/types";
+import { FieldType } from "../../types";
 import {
   Table,
   TableBody,

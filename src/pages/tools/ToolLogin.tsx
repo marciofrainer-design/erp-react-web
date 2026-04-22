@@ -1,6 +1,6 @@
-import { ButtonBase } from "@/components/button/ButtonBase";
-import { InputStringBase } from "@/components/inputs/string/InputStringBase";
-import { useAppTranslation } from "@/i18n/useAppTranslation";
+import { ButtonBase } from "../../components/button/ButtonBase";
+import { InputStringBase } from "../../components/inputs/string/InputStringBase";
+import { useAppTranslation } from "../../i18n/useAppTranslation";
 import { Mail, Building2, EyeOff, Eye } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
