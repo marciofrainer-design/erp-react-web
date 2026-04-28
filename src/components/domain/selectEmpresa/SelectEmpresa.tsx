@@ -1,5 +1,5 @@
 import { EmpresaRepository } from "@/domain/empresa/EmpresaRepository";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getAdapter } from "@/infra/factories/adapterFactory";
 import type { Empresa } from "@/domain/empresa/types";
 import SelectBase from "@/components/select/SelectBase";
@@ -15,7 +15,6 @@ import type { SelectEmpresaProps } from "./types";
 import { Loading } from "@/components/loading/Loading";
 import { useNotify } from "@/hooks";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
-import { useFetchAll } from "@/hooks/useFetchAll";
 
 const createDefaultRepository = () => new EmpresaRepository(getAdapter());
 
@@ -28,13 +27,28 @@ const SelectEmpresa = ({ onSelect, value, disabled = false, repository }: Select
     [repository],
   );
 
-  const { data: empresaData, loading, error } = useFetchAll<Empresa>(repo);
+  const [empresaData, setEmpresaData] = useState<Empresa[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (error) {
-      notify.error(t("notifications.loadingDataError", { ns: "crud" }));
-    }
-  }, [error, notify, t]);
+    let cancelled = false;
+    setLoading(true);
+    repo
+      .getAll({ page: 1, pageCount: 100, limit: 100 })
+      .then((result) => {
+        if (!cancelled) setEmpresaData(result.data);
+      })
+      .catch(() => {
+        if (!cancelled)
+          notify.error(t("notifications.loadingDataError", { ns: "crud" }));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [repo, notify, t]);
 
   if (loading) {
     return (

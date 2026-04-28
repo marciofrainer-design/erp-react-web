@@ -1,5 +1,5 @@
-import { ToolsPage } from "@/pages/tools/ToolsPage";
-import { useAuth } from "@/context/auth/useAuth";
+import { ToolsPage } from "../../pages/tools/ToolsPage";
+import { useAuth } from "../../context/auth/useAuth";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 function HomeRedirect() {

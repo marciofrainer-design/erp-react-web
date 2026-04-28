@@ -47,6 +47,7 @@ export type CrudRegisterProps = {
   title?: string;
   description?: string;
   showTitle?: boolean;
+  helpPanel?: React.ReactNode;
 };
 
 export type ViewMode = "list" | "edit";
@@ -72,4 +73,16 @@ export type CrudSearchProps = {
   onChange: (v: string) => void;
   onSearch: () => void;
   onClear: () => void;
+};
+
+export type HelpField = {
+  fieldName: string;
+  title: string;
+  description: string;
+  example?: string;
+};
+
+export type HelpPanelProps = {
+  fields: HelpField[];
+  activeField?: string;
 };

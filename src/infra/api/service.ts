@@ -4,6 +4,8 @@ import type { ApiCallOptions } from "../api/types";
 
 import { apiClient } from "./client";
 import { getSelectedEmpresaId } from "@/context/empresa/empresaSelection";
+import { gql } from "@apollo/client";
+import { graphqlClient } from "./client";
 
 function buildEndpoint(controller: string, method: string) {
   const sanitizedController = controller.replace(/^\/+|\/+$/g, "");
@@ -14,24 +16,20 @@ function buildEndpoint(controller: string, method: string) {
     : `/${sanitizedController}/`;
 }
 
-function hasEmpresaIdField(value: unknown): value is { idempresa: unknown } {
-  return typeof value === "object" && value !== null && "idempresa" in value;
+// Ensure headers are correctly set
+function buildHeaders(empresaId: string | null) {
+  return empresaId ? { empresas: empresaId } : undefined;
 }
 
+// Ensure `idempresa` is injected correctly
 function applyEmpresaContextToBody(body: unknown, empresaId: string | null) {
-  if (!empresaId || !hasEmpresaIdField(body)) {
-    return body;
-  }
-
-  const parsedEmpresaId = Number(empresaId);
-
-  if (Number.isNaN(parsedEmpresaId)) {
+  if (!empresaId || typeof body !== "object" || body === null) {
     return body;
   }
 
   return {
     ...body,
-    idempresa: parsedEmpresaId,
+    idempresa: empresaId ? Number(empresaId) : undefined,
   };
 }
 
@@ -59,11 +57,7 @@ export class DataSnapAdapter implements ApiAdapter {
       options.body,
       empresaId,
     );
-    const headers = empresaId
-      ? {
-          "empresas": empresaId,
-        }
-      : undefined;
+    const headers = buildHeaders(empresaId);
 
     try {
       let response;
@@ -96,6 +90,24 @@ export class DataSnapAdapter implements ApiAdapter {
 
       throw error;
     }
+  }
+}
+
+export class GraphQLAdapter {
+  async query<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
+    const response = await graphqlClient.query({
+      query: gql(query),
+      variables,
+    });
+    return response.data as T;
+  }
+
+  async mutate<T>(mutation: string, variables?: Record<string, unknown>): Promise<T> {
+    const response = await graphqlClient.mutate({
+      mutation: gql(mutation),
+      variables,
+    });
+    return response.data as T;
   }
 }
 

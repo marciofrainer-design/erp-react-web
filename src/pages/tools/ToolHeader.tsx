@@ -5,7 +5,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { motion } from "motion/react";
 import type { ToolHeaderProps } from "./types";
 import { ToolMenuModal } from "./ToolMenuModal";
-import { useAuth } from "@/context/auth/useAuth";
+import { useAuth } from "../../context/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const ToolHeader = ({

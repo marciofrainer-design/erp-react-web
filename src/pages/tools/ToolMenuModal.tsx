@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { toolIcons, toolLabels } from "./consts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { cn } from "../../lib/utils";
 import type { ToolKey } from "./types";
 
 type ToolMenuModalProps = {

@@ -1,9 +1,12 @@
 import type { UseFetchAllResult } from "./types";
-import type { Repository } from "@/infra/interface/types";
+import { GraphQLAdapter } from "@/infra/api/service";
 import { useEffect, useState } from "react";
 
+const graphqlAdapter = new GraphQLAdapter();
+
 export function useFetchAll<T>(
-  repository: Repository<T>,
+  query: string,
+  variables?: Record<string, unknown>,
   enabled = true,
 ): UseFetchAllResult<T> {
   const [data, setData] = useState<T[]>([]);
@@ -14,8 +17,8 @@ export function useFetchAll<T>(
     if (!enabled) return;
     let cancelled = false;
     setLoading(true);
-    repository
-      .getAll({ page: 1, pageCount: 1, limit: -1 })
+    graphqlAdapter
+      .query<{ data: T[] }>(query, variables)
       .then((result) => {
         if (!cancelled) setData(result.data);
       })
@@ -29,7 +32,7 @@ export function useFetchAll<T>(
     return () => {
       cancelled = true;
     };
-  }, [repository, enabled]);
+  }, [query, variables, enabled]);
 
   return { data, loading, error };
 }

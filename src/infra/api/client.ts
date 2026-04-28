@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_BASE_PATH, API_TIMEOUT } from './consts';
 import { clearStoredAuthSession, getStoredAccessToken } from '@/context/auth/storage';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
 const SHOW_DATASNAP_MESSAGE_IN_FOOTER =
   import.meta.env.DEV &&
@@ -60,3 +61,15 @@ apiClient.interceptors.response.use(
     });
   }
 );
+
+const httpLink = createHttpLink({
+  uri: `${API_BASE_PATH}/graphql`,
+  headers: {
+    Authorization: `Bearer ${getStoredAccessToken()}`,
+  },
+});
+
+export const graphqlClient = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+});

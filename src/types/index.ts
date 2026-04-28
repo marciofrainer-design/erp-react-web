@@ -30,6 +30,8 @@ type Column<T extends object> = {
   field: keyof T
   width?: string
   type?: FieldType
+  visible?: boolean
+  sortable?: boolean
   useDetails?: boolean
   cellRenderer?: (row: T, rowIndex: number) => ReactNode
   checkbox?: ColumnCheckboxConfig<T>

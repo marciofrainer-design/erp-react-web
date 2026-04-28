@@ -1,4 +1,4 @@
-import { Input } from "@components/ui/input";
+import { Input } from "../ui/input";
 import type { InputProps } from "../types";
 
 const InputBase = ({ width, Icon, onClickIcon, ...props }: InputProps) => {
