@@ -74,3 +74,15 @@ export type CrudSearchProps = {
   onSearch: () => void;
   onClear: () => void;
 };
+
+export type HelpField = {
+  fieldName: string;
+  title: string;
+  description: string;
+  example?: string;
+};
+
+export type HelpPanelProps = {
+  fields: HelpField[];
+  activeField?: string;
+};

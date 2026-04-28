@@ -1,5 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
-import { useFetchAll } from "@/hooks/useFetchAll";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { normalizeSearchText } from "@/utils";
 import type { EntityBase } from "@/types";
 import type { SelectionListProps } from "./types";
@@ -18,7 +17,20 @@ export function useSelectionList<T extends EntityBase>({
   onChange,
   allowDuplicates = false,
 }: UseSelectionListOptions<T>) {
-  const { data: allItems, loading } = useFetchAll<T>(repository);
+  const [allItems, setAllItems] = useState<T[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    repository
+      .getAll({ page: 1, pageCount: 1, limit: 9999 })
+      .then((result) => { if (!cancelled) setAllItems(result.data); })
+      .catch(() => { if (!cancelled) setAllItems([]); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [repository]);
+
   const [pendingValue, setPendingValue] = useState("");
   const [checkedKeys, setCheckedKeys] = useState<Set<string>>(new Set());
 

@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from "motion/react";
-import ToolHeader from "./ToolHeader";
 import ToolLogin from "./ToolLogin";
 import ToolFooter from "./ToolFooter";
 import ToolSearch from "./ToolSearch";
@@ -161,20 +160,16 @@ function AppSidebar({
 /* ─── Main page ─────────────────────────────────────────────── */
 export function ToolsPage() {
   const {
-    t,
     isLoading,
     selectedTool,
     selectedForm,
     empresaId,
     setEmpresaId,
-    isMenuOpen,
-    setIsMenuOpen,
     messages,
     isConnected,
     dismiss,
     renderedComponent,
     handleSelectForm,
-    handleToolSelect,
     handleOnLoginClick,
     toolTitle,
     isEmpresaDisabled,

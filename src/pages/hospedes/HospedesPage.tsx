@@ -14,7 +14,6 @@ type HospedesPageProps = {
 };
 
 function HospedesRegister({
-  mode,
   data,
   onChange,
 }: {

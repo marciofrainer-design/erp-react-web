@@ -1,5 +1,4 @@
 import { useMemo, useState, useEffect } from "react";
-import { useFetchAll } from "@/hooks/useFetchAll";
 import { useNotify } from "@/hooks";
 import { useAppTranslation } from "@/i18n/useAppTranslation";
 import { normalizeSearchText } from "@/utils";
@@ -18,8 +17,23 @@ export function useSelectRepository<T>({
   const notify = useNotify();
   const [search, setSearch] = useState("");
   const [enabled, setEnabled] = useState(!lazy);
+  const [data, setData] = useState<T[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const { data, loading, error } = useFetchAll<T>(repository, enabled);
+  useEffect(() => {
+    if (!enabled) return;
+    let cancelled = false;
+    setLoading(true);
+    repository
+      .getAll({ page: 1, pageCount: 1, limit: 9999 })
+      .then((result) => { if (!cancelled) setData(result.data); })
+      .catch((err: unknown) => {
+        if (!cancelled) setError(err instanceof Error ? err.message : String(err));
+      })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [enabled, repository]);
 
   useEffect(() => {
     if (error) {

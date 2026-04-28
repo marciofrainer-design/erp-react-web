@@ -1,18 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-
-export type HelpField = {
-  fieldName: string;
-  title: string;
-  description: string;
-  example?: string;
-};
-
-type HelpPanelProps = {
-  fields: HelpField[];
-  activeField?: string;
-};
+import type { HelpField, HelpPanelProps } from "./types";
 
 function HelpPanelItem({ field, isActive }: { field: HelpField; isActive: boolean }) {
   const [expanded, setExpanded] = useState(false);
